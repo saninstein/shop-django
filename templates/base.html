@@ -1,0 +1,109 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width">
+	<meta charset="utf-8">
+    <link rel="shortcut icon" href="{% static  "res/img/favicon.ico" %}" type="image/x-icon">
+	<link rel="stylesheet" href="{% static "res/css/font-awesome.min.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "res/css/style.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "res/css/styles-carousel.css" %}">
+	<script src="{% static "res/js/jquery-3.0.0.min.js" %}"></script>
+  	<script src="{% static "res/js/jquery.slides.min.js" %}"></script>
+	<title>Главная</title>
+</head>
+<body>
+<div id="search-list">
+            <div class="search-labe">Смартфоны</div>
+            <div><a href="">IPhone 5G</a></div>
+</div>
+<div id="header">
+	<div id="header-menu">
+		<ul>
+			<li><a href="">Оплата</a></li>
+			<li><a href="">Доставка</a></li>
+			<li><a href="">Гарантия</a></li>
+		</ul>
+	</div>
+	<div id="head-up">
+		<div id="emb">
+			<a href="{% url 'general' %}"><img src="{% static "res/img/logo1.png" %}" width="200px"></a>
+		</div>
+		<div id="search-panel">
+			<span><a>Хочеш техніку купить - заходи в Elektroswit!</a></span>
+			<input id="search" type="text" placeholder="HP Compaq 43..." name="">
+		</div>
+		<div id="basket">
+			<img src="{% static "res/img/shopping-cart-full.png" %}" width="50px">
+			<a href="#">Заказ <strong><u>2863 грн.</u></strong></a>
+		</div>
+	</div>
+	<div id="menu">
+		<ul>
+			<li>
+				<a href="{% url 'phones' %}">Смартфоны</a>
+			</li>
+			<li>
+				<a href="#">Ноутбуки</a>
+			</li>
+			<li>
+				<a href="#">Планшеты</a>
+			</li>
+		</ul>
+	</div>
+</div>
+{% block content %}{% endblock %}
+<div id="footer">
+	<div class="row1">
+		<img id="logo" src="{% static "res/img/logo.png" %}" width="100px">
+		<div>
+			Интернет-магазин<br>
+			электроники<br>
+			© 2016
+		</div>
+	</div>
+	<div class="row2">
+		<div>
+			<h3>Каталог</h3>
+			<br>
+			<a href="">Планшеты</a><br>
+			<a href="">Ноутбуки</a><br>
+			<a href="">Смартфоны</a>
+		</div>
+	</div>
+	<div class="row2">
+		<div>
+			<h3>Клиентам</h3>
+			<br>
+			<a href="">Оплата и доставка</a><br>
+			<a href="">Контактная информация</a><br>
+			<a href="">Гарантия</a>
+		</div>
+	</div>
+	<div class="row1">
+		<div>
+			<h3>Контактная информация</h3>
+			
+			<div>
+				<p><i class="fa yellow fa-phone-square" aria-hidden="true"></i>&nbsp;&nbsp;(063) 123-456-85</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(063) 123-456-85</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(063) 123-456-85</p>
+			</div>
+			<div>
+				<p><i class="fa fa-envelope yellow" aria-hidden="true"></i>&nbsp;&nbsp;<a href="">mail@mail.com</a></p>
+			</div>
+		</div>
+		
+	</div>
+	<div id="site-maker">
+		 		<p>Сайт разработан</p>
+		 		<a href=""><img src="{% static "res/img/mainlogo.png" %}" width="120px" alt=""></a>
+		 	</div>	 	
+</div>
+
+<script src="{% static "res/js/slides.js" %}"></script>
+<script src="{% static "res/js/carousel.js" %}"></script>
+<script src="{% static "res/js/search.js" %}"></script>
+
+</body>
+</html>
