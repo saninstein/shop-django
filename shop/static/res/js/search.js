@@ -24,6 +24,13 @@ $(document).ready(function(){
             }
 
     });
+    $("#search").keydown(function(){
+        if(event.keyCode == 13){
+            if($(this).val().length){
+                document.location.replace('search/' + $(this).val());
+            }
+        };
+    });
 });
 
 

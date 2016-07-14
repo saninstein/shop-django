@@ -9,6 +9,19 @@ def search(req, search_str):
     return render_to_response("search/index.html", args)
 
 
+def all_search(req, search_str):
+    args = dict()
+    args["items"] = Phone.objects.filter(name__icontains=search_str)
+    args["search_str"] = search_str
+    return render_to_response("items/index.html", args)
+
+
+def phones_search(req, search_str):
+    args = dict()
+    args['items'] = Phone.objects.filter(name__icontains=search_str)
+    return render_to_response("phones/index.html", args)
+
+
 def general(req):
     args = dict()
     args['slides'] = Slide.objects.all()

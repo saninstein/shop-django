@@ -4,6 +4,8 @@
 {% block content %}
     <script>
         document.title = "Смартфоны";
+        var redirect = '/phones/';
+        history.pushState('', '', redirect);
     </script>
 <div id="body">
 	<div class="cont1 gray">
@@ -173,5 +175,6 @@
 		</div>
 	</div>
 </div>
+<div style="height:40px; width:100%;background-color: #ededed;"></div>
 
 {% endblock %}
