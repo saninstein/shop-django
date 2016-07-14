@@ -4,7 +4,9 @@ from shop.models import Slide, Phone
 
 
 def search(req, search_str):
-    print(search_str)
+    args = dict()
+    args["phones"] = Phone.objects.filter(name__icontains=search_str)
+    return render_to_response("search/index.html", args)
 
 
 def general(req):

@@ -5,8 +5,22 @@
 $(document).ready(function(){
     $("#search").keyup(function(){
         var value = $(this).val();
-            if(value.length >= 3){
-                alert(value);
+            if(value.length >= 2){
+                var search_str = '/ajax_search/' + value;
+                $("#search-list").load(search_str, function(){
+                    $(this).show(function(){
+                        $("#search").focusout(function(){
+                            $("#search-list").hide(function(){
+                            $(this).html("");
+                            });
+                        });
+                    });
+                });
+
+            } else{
+                $("#search-list").hide(function(){
+                    $(this).html("");
+                });
             }
 
     });

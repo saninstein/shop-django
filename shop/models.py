@@ -98,11 +98,12 @@ class Item(models.Model):
             compress_img(self.photo.path, (250, 250))
 
             compress_img(self.photo.path, (800, 600))
-            compress_img(self.photo1.path, (800, 600))
-            compress_img(self.photo2.path, (800, 600))
-            compress_img(self.photo3.path, (800, 600))
-            compress_img(self.photo4.path, (800, 600))
-            compress_img(self.photo5.path, (800, 600))
+            photos = [self.photo1, self.photo2,
+                      self.photo3, self.photo4,
+                      self.photo5]
+            for photo in photos:
+                if photo != '':
+                    compress_img(photo.path, (800, 600))
         except BaseException as e:
             f = open(ERROR_LOG, 'a')
             f.write(e)

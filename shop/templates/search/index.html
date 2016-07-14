@@ -1,0 +1,6 @@
+{% if phones.count %}
+    <div class="search-labe">Смартфоны</div>
+    {% for phone in phones %}
+        <div><a href="{% url 'item_phone' phone.id %}">{{ phone.name }}</a></div>
+    {% endfor %}
+{% endif %}
