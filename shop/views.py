@@ -14,7 +14,7 @@ def phone_filter(req, filter_str=""):
         "d3": lambda: (Q(diagonal__gte=4.5) & Q(diagonal__lte=5)),
         "d4": lambda: (Q(diagonal__gte=5.1) & Q(diagonal__lte=5.5)),
         "d5": lambda: (Q(diagonal__gte=5.55) & Q(diagonal__lte=6)),
-        "d5": lambda: Q(diagonal__gte=6)
+        "d6": lambda: Q(diagonal__gte=6)
     }
 
     q_objs = None
