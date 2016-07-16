@@ -15,4 +15,14 @@ $(":checkbox").change(function(){
         i--;
     }
     $(".wrp").empty();
+    $("#loading-img").show();
+    var filter_str = "/ajax_phone_filter/";
+    for(var i = 0; i < arr.length; i++){
+        filter_str += arr[i] + "-";
+    }
+    alert(filter_str);
+
+    $(".wrp").load(filter_str, function(){
+        $("#loading-img").hide();
+    });
 });

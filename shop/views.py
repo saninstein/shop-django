@@ -1,22 +1,27 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from shop.models import Slide, Phone
 
 
-def search(req, search_str):
+def phone_filter(req, filter_str=""):
+    return HttpResponse(filter_str)
+
+
+def search(req, search_str=""):
     args = dict()
     args["phones"] = Phone.objects.filter(name__icontains=search_str)
     return render_to_response("search/index.html", args)
 
 
-def all_search(req, search_str):
+def all_search(req, search_str=""):
     args = dict()
     args["items"] = Phone.objects.filter(name__icontains=search_str)
     args["search_str"] = search_str
     return render_to_response("items/index.html", args)
 
 
-def phones_search(req, search_str):
+def phones_search(req, search_str=""):
     args = dict()
     args['items'] = Phone.objects.filter(name__icontains=search_str)
     return render_to_response("phones/index.html", args)

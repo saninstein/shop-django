@@ -791,3 +791,11 @@ html{
 #search-list div:last-of-type{
 	border-bottom: none;
 }
+
+#loading-img{
+	display: none;
+	margin: 10px auto;
+	width: 84%;
+	background-color: white;
+	text-align: center;
+}
