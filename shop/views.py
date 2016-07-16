@@ -7,12 +7,25 @@ from shop.models import Slide, Phone
 
 def phone_filter(req, filter_str=""):
     filter_str = filter_str.split('-')
+    print(filter_str)
     filters = {
-        "d1" : lambda : Q(),
-
-
-
+        "d1": lambda: Q(diagonal__lte=4),
+        "d2": lambda: (Q(diagonal__gte=4.1) & Q(diagonal__lt=4.5)),
+        "d3": lambda: (Q(diagonal__gte=4.5) & Q(diagonal__lte=5)),
+        "d4": lambda: (Q(diagonal__gte=5.1) & Q(diagonal__lte=5.5)),
+        "d5": lambda: (Q(diagonal__gte=5.55) & Q(diagonal__lte=6)),
+        "d5": lambda: Q(diagonal__gte=6)
     }
+
+    q_objs = None
+    filters_keys = list(filters.keys())
+    for f in filter_str:
+        if f in filters_keys:
+            if q_objs == None:
+                q_objs = filters[f]()
+            else:
+                q_objs.add(filters[f](), Q.OR)
+
     return HttpResponse(filter_str)
 
 
