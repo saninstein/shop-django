@@ -3,13 +3,14 @@
  */
 
 var arr = [];
+var price = [];
 var i = 0;
-$(":checkbox").change(function(){
-    if(this.checked){
-        arr[i] = $(this).prop("name");
+var filt = function(){
+    if($(':checkbox').checked){
+        arr[i] = $(':checkbox').prop("name");
         i++;
     }else{
-        var val = $(this).prop("name");
+        var val = $(':checkbox').prop("name");
         var index = arr.indexOf(val);
         arr.splice(index, 1);
         i--;
@@ -25,9 +26,12 @@ $(":checkbox").change(function(){
                 filter_str += "-";
             }
         });
+        filter_str += 'p' + price[0] + '+' + price[1];
         filter_str += '/';
     } else{
         var filter_str = "/ajax_phone_filter/";
+        filter_str += 'p' + price[0] + '+' + price[1];
+        filter_str += '/';
     }
 
 
@@ -37,6 +41,26 @@ $(":checkbox").change(function(){
         });
     }, 500);
 
-});
+};
 
-$("#price_slider").ionRangeSlider();
+$(":checkbox").change(filt());
+
+
+
+
+$("#price_slider").ionRangeSlider({
+    onFinish: function(data){
+        price[0] = data['from'];
+        price[1] = data['to'];
+        filt();
+    },
+    onStart: function(data){
+        price[0] = data['from'];
+        price[1] = data['to'];
+    },
+    onChange: function(data){
+        price[0] = data['from'];
+        price[1] = data['to'];
+    }
+
+});

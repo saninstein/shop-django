@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone
-
+import re
 
 def phone_filter(req, filter_str=""):
     if filter_str == "":
@@ -49,6 +49,7 @@ def phone_filter(req, filter_str=""):
 
         "f1": lambda: Q(availability__exact="is"),
         "f2": lambda: Q(availability__exact="c"),
+        "p": lambda min_p, max_p: (Q(price__gte=min_p) & Q(price__lte=max_p))
     }
 
     q_objs_d = Q()
@@ -57,6 +58,7 @@ def phone_filter(req, filter_str=""):
     q_objs_m = Q()
     q_objs_c = Q()
     q_objs_f = Q()
+    q_objs_p = Q()
     filters_keys = list(filters.keys())
     for f in filter_str:
         if f in filters_keys:
@@ -72,8 +74,14 @@ def phone_filter(req, filter_str=""):
                 q_objs_c.add(filters[f](), Q.OR)
             elif f[0] == 'f':
                 q_objs_f.add(filters[f](), Q.OR)
+            elif f[0] == 'p':
+                s = f[1:]
+                s = s.split('+')
+                q_objs_p.add(filters['p'](int(s[0], int(s[1]))))
 
-    q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f]
+
+
+    q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f, q_objs_p]
     q = Q()
     for f in q_l:
         q.add(f, Q.AND)
