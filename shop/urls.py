@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^search/(?P<search_str>[\w\-]+)/$', views.all_search),
     url(r'^phones/search/(?P<search_str>[\w\-]+)/$', views.phones_search),
     url(r'^ajax_search/(?P<search_str>[\w\-]+)/$', views.search),
-    url(r'^ajax_phone_filter//(?P<filter_str>[\w\-]+)/$', views.phone_filter),
+    url(r'^ajax_phone_filter/(?P<filter_str>[\w\-]+)/$', views.phone_filter),
 ]

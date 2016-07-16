@@ -1,10 +1,18 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse
+from django.db.models import Q
 from django.template.loader import render_to_string
 from shop.models import Slide, Phone
 
 
 def phone_filter(req, filter_str=""):
+    filter_str = filter_str.split('-')
+    filters = {
+        "d1" : lambda : Q(),
+
+
+
+    }
     return HttpResponse(filter_str)
 
 
