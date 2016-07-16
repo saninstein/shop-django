@@ -16,6 +16,7 @@ $(":checkbox").change(function(){
     }
     $(".wrp").empty();
     $("#loading-img").show();
+
     var filter_str = "/ajax_phone_filter/";
     if(arr.length){
         arr.forEach(function(item, i, arr){
@@ -30,8 +31,10 @@ $(":checkbox").change(function(){
     }
 
 
+    setTimeout(function () {
+        $(".wrp").load(filter_str, function(){
+            $("#loading-img").hide();
+        });
+    }, 500);
 
-    $(".wrp").load(filter_str, function(){
-        $("#loading-img").hide();
-    });
 });

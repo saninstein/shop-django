@@ -45,6 +45,7 @@ class Category(models.Model):
 class Item(models.Model):
     class Meta:
         abstract = True
+        ordering = ["-id"]
 
     name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
     availability = models.CharField(max_length=100, verbose_name='Наличие', choices=available, default=available[0])

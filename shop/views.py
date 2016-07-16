@@ -121,7 +121,7 @@ def phones(req):
 
 
 def get_items(type):
-    items = type.objects.all().order_by("-date")
+    items = type.objects.all()
     return items
 
 
