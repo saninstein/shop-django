@@ -160,7 +160,22 @@
         <div id="loading-img">
             <img src="{% static "res/img/loading.gif" %}" alt="">
         </div>
-		{% block content %}{% endblock %}
+		<div class="wrp">
+            {% for item in items %}
+                <div class="carousel-block bord">
+                    <a href="{% url 'item_phone' item.id %}"><img src="{{ item.get_thumb }}"/></a>
+                    <div class="item-name">
+                        <a href="{% url 'item_phone' item.id %}">{{ item.name }}</a>
+                    </div>
+                    <div class="price">
+                        <a href="">{{ item.price }}</a>
+                    </div>
+                    <div class="btn">
+                        <a href="#">Купить</a>
+                    </div>
+                </div>
+            {% endfor %}
+		</div>
 	</div>
 </div>
 <div style="height:40px; width:100%;background-color: #ededed;"></div>

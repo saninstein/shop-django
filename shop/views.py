@@ -26,7 +26,9 @@ def phone_filter(req, filter_str=""):
             else:
                 q_objs.add(filters[f](), Q.OR)
 
-    return HttpResponse(filter_str)
+    args = dict()
+    args["items"] = Phone.objects.filter(q_objs)
+    return render_to_response("filter_items/index.html", args)
 
 
 def search(req, search_str=""):
