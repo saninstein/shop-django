@@ -5,6 +5,7 @@ from shop.models import Slide, Phone
 import re
 
 def phone_filter(req, filter_str=""):
+    print(filter_str)
     if filter_str == "":
         args = dict()
         args["items"] = get_items(Phone)
@@ -12,6 +13,7 @@ def phone_filter(req, filter_str=""):
 
     filter_str = filter_str.split('-')
     filter_str.sort()
+    print(filter_str)
     filters = {
         "d1": lambda: Q(diagonal__lte=4),
         "d2": lambda: (Q(diagonal__gte=4.1) & Q(diagonal__lt=4.5)),
@@ -61,6 +63,12 @@ def phone_filter(req, filter_str=""):
     q_objs_p = Q()
     filters_keys = list(filters.keys())
     for f in filter_str:
+        if f[0] == 'p':
+            s = f[1:]
+            print(s)
+            s = s.split('p')
+            print(s)
+            q_objs_p.add(filters['p'](int(s[0]), int(s[1])+1), Q.OR)
         if f in filters_keys:
             if f[0] == 'd':
                 q_objs_d.add(filters[f](), Q.OR)
@@ -74,10 +82,8 @@ def phone_filter(req, filter_str=""):
                 q_objs_c.add(filters[f](), Q.OR)
             elif f[0] == 'f':
                 q_objs_f.add(filters[f](), Q.OR)
-            elif f[0] == 'p':
-                s = f[1:]
-                s = s.split('+')
-                q_objs_p.add(filters['p'](int(s[0], int(s[1]))))
+
+
 
 
 
