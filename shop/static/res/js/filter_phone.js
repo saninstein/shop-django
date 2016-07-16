@@ -25,7 +25,7 @@ $(":checkbox").change(function(){
             }
         });
     } else{
-        alert("!");
+        var filter_str = "/ajax_phone_filter/";
     }
 
 

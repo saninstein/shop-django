@@ -57,10 +57,10 @@ class Item(models.Model):
     video = models.URLField(verbose_name='Видеообзор', blank=True)
     description = models.TextField(verbose_name='Описание', max_length=1500, blank=True)
     date = models.DateField(default=timezone.now(), editable=False)
-    price = models.DecimalField(verbose_name='Цена в розницу', max_digits=6, decimal_places=2)
-    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=6, decimal_places=2)
+    price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2)
+    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2)
 
-    diagonal = models.DecimalField(verbose_name='Диагональ', default=0, max_digits=6, decimal_places=2, blank=True)
+    diagonal = models.DecimalField(verbose_name='Диагональ', default=0, max_digits=20, decimal_places=2, blank=True)
     resolution = models.CharField(verbose_name='Разрешение экрана', max_length=50, blank=True)
     display_other = models.CharField(verbose_name='Дисплей дополнительно', max_length=200, blank=True)
 
