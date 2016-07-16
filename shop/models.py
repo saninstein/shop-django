@@ -56,7 +56,7 @@ class Item(models.Model):
     photo5 = models.ImageField(verbose_name='Фото 5', upload_to=upload_path, blank=True)
     video = models.URLField(verbose_name='Видеообзор', blank=True)
     description = models.TextField(verbose_name='Описание', max_length=1500, blank=True)
-    date = models.DateField(default=timezone.now(), editable=False)
+    date = models.DateTimeField(default=timezone.now(), editable=False)
     price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2)
     price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2)
 
