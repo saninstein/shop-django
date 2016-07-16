@@ -35,12 +35,28 @@ def phone_filter(req, filter_str=""):
         "n4": lambda: Q(count_core__exact=8),
         "n5": lambda: Q(count_core__gt=8),
 
+        "m1": lambda: Q(ram__lt=1024),
+        "m2": lambda: (Q(ram__gte=1024) & Q(ram__lt=2048)),
+        "m3": lambda: Q(ram__exact=2048),
+        "m4": lambda: Q(ram__exact=3072),
+        "m5": lambda: Q(ram__exact=4096),
+        "m6": lambda: Q(ram__gt=4096),
+
+        "c1": lambda: Q(camera__lte=2),
+        "c2": lambda: (Q(camera__gt=2) & Q(camera__lte=7)),
+        "c3": lambda: (Q(camera__gte=8) & Q(camera__lte=12)),
+        "c4": lambda: Q(camera__gte=13),
+
+        "f1": lambda: Q(availability__exact="is"),
+        "f2": lambda: Q(availability__exact="c"),
     }
 
     q_objs_d = Q()
     q_objs_r = Q()
     q_objs_n = Q()
     q_objs_m = Q()
+    q_objs_c = Q()
+    q_objs_f = Q()
     filters_keys = list(filters.keys())
     for f in filter_str:
         if f in filters_keys:
@@ -52,15 +68,15 @@ def phone_filter(req, filter_str=""):
                 q_objs_n.add(filters[f](), Q.OR)
             elif f[0] == 'm':
                 q_objs_m.add(filters[f](), Q.OR)
-            elif f[0] == 'm':
-                q_objs_m.add(filters[f](), Q.OR)
+            elif f[0] == 'c':
+                q_objs_c.add(filters[f](), Q.OR)
+            elif f[0] == 'f':
+                q_objs_f.add(filters[f](), Q.OR)
 
-
-    q_l = [q_objs_d, q_objs_r]
+    q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f]
     q = Q()
     for f in q_l:
-        if f != None:
-            q.add(f, Q.AND)
+        q.add(f, Q.AND)
 
 
 
