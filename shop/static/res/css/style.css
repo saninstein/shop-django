@@ -503,6 +503,16 @@ html{
 	margin-top: 5px;
 }
 
+.bord:first-of-type{
+	border-top: none;
+	border-left: 3px solid white;
+}
+
+.bord:nth-of-type(5n+0){
+	border-top: none;
+	border-left: 3px solid white;
+}
+
 .cont1{
 	margin-top: 25px;
 	overflow:hidden;
