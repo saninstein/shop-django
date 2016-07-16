@@ -17,14 +17,17 @@ $(":checkbox").change(function(){
     $(".wrp").empty();
     $("#loading-img").show();
     var filter_str = "/ajax_phone_filter/";
-    arr.forEach(function(item, i, arr){
-        filter_str += item;
+    if(arr.length){
+        arr.forEach(function(item, i, arr){
+            filter_str += item;
+            if(i != arr.length - 1){
+                filter_str += "-";
+            }
+        });
+    } else{
+        alert("!");
+    }
 
-        if(i != arr.length - 1){
-            filter_str += "-";
-        }
-
-    });
 
 
     $(".wrp").load(filter_str, function(){

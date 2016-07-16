@@ -1,4 +1,5 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.db.models import Q
 from django.template.loader import render_to_string
@@ -6,6 +7,9 @@ from shop.models import Slide, Phone
 
 
 def phone_filter(req, filter_str=""):
+    if filter_str == "":
+        return redirect(reverse("phones"))
+
     filter_str = filter_str.split('-')
     print(filter_str)
     filters = {
