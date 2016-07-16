@@ -38,3 +38,5 @@ $(":checkbox").change(function(){
     }, 500);
 
 });
+
+$("#price_slider").ionRangeSlider();

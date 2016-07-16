@@ -3,6 +3,9 @@
 
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static "res/css/blocks.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "res/css/normalize.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "res/css/ion.rangeSlider.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "res/css/ion.rangeSlider.skinFlat.css" %}">
     <script>
         document.title = "Смартфоны";
         var redirect = '/phones/';
@@ -16,12 +19,10 @@
 				<p>Цена</p>
 				<br>
 				<hr>
-				<br>
-				<input type="number" name="price-min"> &mdash;
-				<input type="number" name="price-max">
-				<br>
-				<input type="submit" value="OK">
-			</div>
+				<div>
+				    <input type="text" id="price_slider" name="example_name" value="" data-min="{{ price_min }}" data-max="{{ price_max }}" data-from="{{ price_min }}" data-to="{{ price_max }}" data-type="double" data-prefix="грн " data-grid="true" data-grid-num="4"/>
+                </div>
+            </div>
 			<div class="panel-screen">
 				<p>Диагональ</p>
 				<br>
@@ -180,5 +181,7 @@
 	</div>
 </div>
 <div style="height:40px; width:100%;background-color: #ededed;"></div>
-<script src="{% static "res/js/filter_phone.js" %}"></script>
+
+<script src="{% static "res/js/ion.rangeSlider.min.js" %}"></script>
+    <script src="{% static "res/js/filter_phone.js" %}"></script>
 {% endblock %}

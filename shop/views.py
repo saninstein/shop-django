@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
-from django.db.models import Q
+from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone
 
 
@@ -116,7 +116,10 @@ def general(req):
 
 def phones(req):
     args = dict()
+    a = Phone.objects.aggregate(Max('price'), Min('price'))
     args['items'] = get_items(Phone)
+    args['price_max'] = int(a['price__max'])
+    args['price_min'] = int(a['price__min'])
     return render_to_response("phones/index.html", args)
 
 
