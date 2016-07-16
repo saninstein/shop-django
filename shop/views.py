@@ -11,27 +11,64 @@ def phone_filter(req, filter_str=""):
         return render_to_response("filter_items/index.html", args)
 
     filter_str = filter_str.split('-')
-    print(filter_str)
+    filter_str.sort()
     filters = {
         "d1": lambda: Q(diagonal__lte=4),
         "d2": lambda: (Q(diagonal__gte=4.1) & Q(diagonal__lt=4.5)),
         "d3": lambda: (Q(diagonal__gte=4.5) & Q(diagonal__lte=5)),
         "d4": lambda: (Q(diagonal__gte=5.1) & Q(diagonal__lte=5.5)),
         "d5": lambda: (Q(diagonal__gte=5.55) & Q(diagonal__lte=6)),
-        "d6": lambda: Q(diagonal__gte=6)
+        "d6": lambda: Q(diagonal__gte=6),
+
+        "r1": lambda: Q(resolution__iexact="2560х1440"),
+        "r2": lambda: Q(resolution__iexact="1920x1080"),
+        "r3": lambda: Q(resolution__iexact="800х400"),
+        "r5": lambda: Q(resolution__iexact="1280x720"),
+        "r5": lambda: Q(resolution__iexact="1136x640"),
+        "r6": lambda: Q(resolution__iexact="960x540"),
+        "r7": lambda: Q(resolution__iexact="854х480"),
+        "r8": lambda: Q(resolution__iexact="3840x2160"),
+
+        "n1": lambda: Q(count_core__exact=1),
+        "n2": lambda: Q(count_core__exact=2),
+        "n3": lambda: Q(count_core__exact=4),
+        "n4": lambda: Q(count_core__exact=8),
+        "n5": lambda: Q(count_core__gt=8),
+
     }
 
-    q_objs = None
+    q_objs_d = Q()
+    q_objs_r = Q()
+    q_objs_n = Q()
+    q_objs_m = Q()
     filters_keys = list(filters.keys())
     for f in filter_str:
         if f in filters_keys:
-            if q_objs == None:
-                q_objs = filters[f]()
-            else:
-                q_objs.add(filters[f](), Q.OR)
+            if f[0] == 'd':
+                q_objs_d.add(filters[f](), Q.OR)
+            elif f[0] == 'r':
+                q_objs_r.add(filters[f](), Q.OR)
+            elif f[0] == 'n':
+                q_objs_n.add(filters[f](), Q.OR)
+            elif f[0] == 'm':
+                q_objs_m.add(filters[f](), Q.OR)
+            elif f[0] == 'm':
+                q_objs_m.add(filters[f](), Q.OR)
+
+
+    q_l = [q_objs_d, q_objs_r]
+    q = Q()
+    for f in q_l:
+        if f != None:
+            q.add(f, Q.AND)
+
+
+
+
 
     args = dict()
-    args["items"] = Phone.objects.filter(q_objs)
+    print(Phone.objects.filter(q).query)
+    args["items"] = Phone.objects.filter(q)
     return render_to_response("filter_items/index.html", args)
 
 
