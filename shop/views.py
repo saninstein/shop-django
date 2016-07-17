@@ -1,8 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.core.urlresolvers import reverse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone
-import re
+
 
 def phone_filter(req, filter_str=""):
     print(filter_str)
@@ -13,7 +12,6 @@ def phone_filter(req, filter_str=""):
 
     filter_str = filter_str.split('-')
     filter_str.sort()
-    print(filter_str)
     filters = {
         "d1": lambda: Q(diagonal__lte=4),
         "d2": lambda: (Q(diagonal__gte=4.1) & Q(diagonal__lt=4.5)),
@@ -82,22 +80,11 @@ def phone_filter(req, filter_str=""):
                 q_objs_c.add(filters[f](), Q.OR)
             elif f[0] == 'f':
                 q_objs_f.add(filters[f](), Q.OR)
-
-
-
-
-
     q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f, q_objs_p]
     q = Q()
     for f in q_l:
         q.add(f, Q.AND)
-
-
-
-
-
     args = dict()
-    print(Phone.objects.filter(q).query)
     args["items"] = Phone.objects.filter(q)
     return render_to_response("filter_items/index.html", args)
 
@@ -132,8 +119,12 @@ def phones(req):
     args = dict()
     a = Phone.objects.aggregate(Max('price'), Min('price'))
     args['items'] = get_items(Phone)
-    args['price_max'] = int(a['price__max'])
-    args['price_min'] = int(a['price__min'])
+    try:
+        args['price_max'] = int(a['price__max'])
+        args['price_min'] = int(a['price__min'])
+    except TypeError:
+        args['price_max'] = 0
+        args['price_min'] = 0
     return render_to_response("phones/index.html", args)
 
 
