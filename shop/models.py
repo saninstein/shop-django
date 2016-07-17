@@ -41,6 +41,9 @@ def upload_path(instance, filename):
 class Category(models.Model):
     name = models.CharField(default='Категория', max_length=100, verbose_name="Название", null=False, blank=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Item(models.Model):
     class Meta:
@@ -126,6 +129,8 @@ class Phone(Item):
 class Tablet(Phone):
     pass
 
+class Notebook(Item):
+    pass
 
 class Slide(models.Model):
     img = models.ImageField(upload_to=get_uniq_name, blank=True)
