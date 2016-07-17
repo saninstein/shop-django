@@ -85,7 +85,6 @@ class Item(models.Model):
     memory_other = models.CharField(verbose_name='Память дополнительно', max_length=200, blank=True)
 
     other = models.CharField(verbose_name='Дополнительно', max_length=200, blank=True)
-    link_category = models.ForeignKey(Category)
 
     def __str__(self):
         return self.name
@@ -121,16 +120,20 @@ class Phone(Item):
     front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
     sim_count = models.IntegerField(verbose_name='Количество сим', default=0, blank=True)
-
-    def __str__(self):
-        return self.name
+    link_category = models.ForeignKey(Category, default=1, editable=False)
 
 
-class Tablet(Phone):
-    pass
+class Tablet(Item):
+    standards = models.CharField(verbose_name='Стандарты и техгологии', max_length=100, blank=True)
+    front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)
+    front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
+    sim_count = models.IntegerField(verbose_name='Количество сим', default=0, blank=True)
+    link_category = models.ForeignKey(Category, default=2, editable=False)
+
 
 class Notebook(Item):
-    pass
+    link_category = models.ForeignKey(Category, default=3, editable=False)
+
 
 class Slide(models.Model):
     img = models.ImageField(upload_to=get_uniq_name, blank=True)
