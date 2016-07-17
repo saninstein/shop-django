@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop',
-    'sorl.thumbnail',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -124,5 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-ERROR_LOG = BASE_DIR + '\\error.log'
+ERROR_LOG = BASE_DIR + '\error.log'
 MEDIA_URL = '/media/'
