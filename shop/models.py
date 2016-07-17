@@ -4,7 +4,7 @@ import string
 from os import remove
 from django.db import models
 from django.utils import timezone
-from  elektroswit.settings import ERROR_LOG
+from elektroswit.settings import ERROR_LOG
 
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
