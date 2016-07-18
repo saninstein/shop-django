@@ -9,7 +9,7 @@
     <script src="{% static "res/fotorama/fotorama.js" %}"></script>
     <div id="body">
 	    <div class="cont-item">
-		    <h1>{{ item.name }}</h1>
+		    <h1>{{ item.name }} <i class="fa fa-heart" aria-hidden="true"></i></h1>
 			<div id="gallery">
 				<br>
 				<div class="fotorama" data-nav="thumbs" data-minheight="300" data-maxheight="70%">
@@ -152,5 +152,5 @@
 			</div>
 	    </div>
     </div>
-
+<script src="{% static "res/js" %}"></script>
 {% endblock %}
