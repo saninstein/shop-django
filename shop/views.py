@@ -30,7 +30,6 @@ def phone_filter(req, filter_str=""):
         return render_to_response("filter_items/index.html", args)
     filter_str = filter_str.split('-')
     filter_str.sort()
-    print(filter_str)
     filters = {
         "d1": lambda: Q(diagonal__lte=4),
         "d2": lambda: (Q(diagonal__gte=4.1) & Q(diagonal__lt=4.5)),
@@ -100,13 +99,10 @@ def phone_filter(req, filter_str=""):
             elif f[0] == 'f':
                 q_objs_f.add(filters[f](), Q.OR)
     q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f, q_objs_p]
-    print(q_l)
     q = Q()
     for f in q_l:
         q.add(f, Q.AND)
     args = dict()
-    print(q)
-    print(Phone.objects.filter(q).query)
     args["items"] = Phone.objects.filter(q)
     return render_to_response("filter_items/index.html", args)
 
@@ -168,7 +164,5 @@ def like(req, item=''):
         item.save()
         req.session.set_expiry(100)
         req.session['like'] = True
-        print("liked")
         return HttpResponse(True)
-    print("not liked")
     return HttpResponse(False)
