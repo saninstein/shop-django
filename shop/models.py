@@ -171,6 +171,8 @@ class Tablet(Item):
 
 
 class Notebook(Item):
+    gpu = models.CharField(verbose_name='Видеокарта', max_length=300, blank=True, default='')
+    opitical_privod = models.CharField(verbose_name='Оптический привод', max_length=300, blank=True, default='')
     link_category = models.ForeignKey(Category, default=3, editable=False)
 
 

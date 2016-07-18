@@ -58,99 +58,101 @@
 				</div>
 
 			</div>
-			<div class="chark">
-				<a>Характеристики</a>
-                {% if item.diagonal %}
-                    <div>
-                        <div class="chark-name">Диагональ</div>
-                        <div class="chark-value">{{ item.diagonal }} "</div>
-                    </div>
-                {% endif %}
-                {% if item.resolution != '' %}
-                    <div>
-                        <div class="chark-name">Разрешение экрана</div>
-                        <div class="chark-value">{{ item.resolution }}</div>
-                    </div>
-                {% endif %}
-                {% if item.display_other != '' %}
-                    <div>
-                        <div class="chark-name">Дисплей дополнительно</div>
-                        <div class="chark-value">{{ item.display_other }}</div>
-                    </div>
-                {% endif %}
-                {% if item.wireless != '' %}
-                    <div>
-                        <div class="chark-name">Беспроводные возможности</div>
-                        <div class="chark-value">{{ item.wireless }}</div>
-                    </div>
-                {% endif %}
-                {% if item.interfaces != '' %}
-                    <div>
-                        <div class="chark-name">Интерфейсы и подключения</div>
-                        <div class="chark-value">{{ item.interfaces }}</div>
-                    </div>
-                {% endif %}
-                {% if item.camera %}
-                    <div>
-                        <div class="chark-name">Размер камеры</div>
-                        <div class="chark-value">{{ item.camera }} МП</div>
-                    </div>
-                {% endif %}
-                {% if item.camera_other != '' %}
-                    <div>
-                        <div class="chark-name">Камера дополнительно</div>
-                        <div class="chark-value">{{ item.camera_other }}</div>
-                    </div>
-                {% endif %}
-                {% if item.osystem != '' %}
-                    <div>
-                        <div class="chark-name">Операционная система</div>
-                        <div class="chark-value">{{ item.osystem }}</div>
-                    </div>
-                {% endif %}
-                {% if item.core_other != '' %}
-                    <div>
-                        <div class="chark-name">Процессор</div>
-                        <div class="chark-value">{{ item.core_other }}</div>
-                    </div>
-                {% endif %}
-                {% if item.count_core %}
-                    <div>
-                        <div class="chark-name">Количесво ядер</div>
-                        <div class="chark-value">{{ item.count_core }}</div>
-                    </div>
-                {% endif %}
-                {% if item.ram %}
-                    <div>
-                        <div class="chark-name">Оперативная память</div>
-                        <div class="chark-value">{{ item.ram }} МБ</div>
-                    </div>
-                {% endif %}
-                {% if item.memory %}
-                    <div>
-                        <div class="chark-name">Внутреняя память</div>
-                        <div class="chark-value">{{ item.memory }} ГБ</div>
-                    </div>
-                {% endif %}
-                {% if item.memory_other != '' %}
-                    <div>
-                        <div class="chark-name">Память дополнительно</div>
-                        <div class="chark-value">{{ item.memory_other }}</div>
-                    </div>
-                {% endif %}
-                {% if item.battery %}
-                    <div>
-                        <div class="chark-name">Ёмкость батареи</div>
-                        <div class="chark-value">{{ item.battery }} mAh</div>
-                    </div>
-                {% endif %}
-                {% if item.other != '' %}
-                    <div>
-                        <div class="chark-name">Дополнительно</div>
-                        <div class="chark-value">{{ item.other }}</div>
-                    </div>
-                {% endif %}
-			</div>
+            {% if item.link_items_id == 1 %}
+                <div class="chark">
+                    <a>Характеристики</a>
+                    {% if item.diagonal %}
+                        <div>
+                            <div class="chark-name">Диагональ</div>
+                            <div class="chark-value">{{ item.diagonal }} "</div>
+                        </div>
+                    {% endif %}
+                    {% if item.resolution != '' %}
+                        <div>
+                            <div class="chark-name">Разрешение экрана</div>
+                            <div class="chark-value">{{ item.resolution }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.display_other != '' %}
+                        <div>
+                            <div class="chark-name">Дисплей дополнительно</div>
+                            <div class="chark-value">{{ item.display_other }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.wireless != '' %}
+                        <div>
+                            <div class="chark-name">Беспроводные возможности</div>
+                            <div class="chark-value">{{ item.wireless }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.interfaces != '' %}
+                        <div>
+                            <div class="chark-name">Интерфейсы и подключения</div>
+                            <div class="chark-value">{{ item.interfaces }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.camera %}
+                        <div>
+                            <div class="chark-name">Размер камеры</div>
+                            <div class="chark-value">{{ item.camera }} МП</div>
+                        </div>
+                    {% endif %}
+                    {% if item.camera_other != '' %}
+                        <div>
+                            <div class="chark-name">Камера дополнительно</div>
+                            <div class="chark-value">{{ item.camera_other }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.osystem != '' %}
+                        <div>
+                            <div class="chark-name">Операционная система</div>
+                            <div class="chark-value">{{ item.osystem }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.core_other != '' %}
+                        <div>
+                            <div class="chark-name">Процессор</div>
+                            <div class="chark-value">{{ item.core_other }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.count_core %}
+                        <div>
+                            <div class="chark-name">Количесво ядер</div>
+                            <div class="chark-value">{{ item.count_core }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.ram %}
+                        <div>
+                            <div class="chark-name">Оперативная память</div>
+                            <div class="chark-value">{{ item.ram }} МБ</div>
+                        </div>
+                    {% endif %}
+                    {% if item.memory %}
+                        <div>
+                            <div class="chark-name">Внутреняя память</div>
+                            <div class="chark-value">{{ item.memory }} ГБ</div>
+                        </div>
+                    {% endif %}
+                    {% if item.memory_other != '' %}
+                        <div>
+                            <div class="chark-name">Память дополнительно</div>
+                            <div class="chark-value">{{ item.memory_other }}</div>
+                        </div>
+                    {% endif %}
+                    {% if item.battery %}
+                        <div>
+                            <div class="chark-name">Ёмкость батареи</div>
+                            <div class="chark-value">{{ item.battery }} mAh</div>
+                        </div>
+                    {% endif %}
+                    {% if item.other != '' %}
+                        <div>
+                            <div class="chark-name">Дополнительно</div>
+                            <div class="chark-value">{{ item.other }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
 	    </div>
     </div>
 {% endblock %}
