@@ -55,6 +55,17 @@ def get_inv():
 class Items(models.Model):
     name = models.CharField(max_length=200, default='')
 
+    def get_linked_items(self, count=''):
+        q = Items.objects.get(pk=pk)
+        links = [rel.get_accessor_name() for rel in q._meta.get_all_related_objects()]
+        l = list()
+        for link in links:
+            if count != '':
+                l.append(getattr(q, link).all()[:count])
+            else:
+                l.append(l.append(getattr(q, link).all()))
+        return l
+
     def __str__(self):
         return self.name
 
