@@ -3,8 +3,8 @@ import random
 import string
 from os import remove
 from django.db import models
-from django.utils import timezone
 from elektroswit.settings import ERROR_LOG
+from django.db.models import Max
 
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
@@ -36,6 +36,24 @@ def get_uniq_name(instance, filename):
 
 def upload_path(instance, filename):
     return '{0}/{1}/{2}'.format(instance.link_category.id, instance.name, get_uniq_name(instance, filename))
+
+
+def get_inv():
+    item = Items.objects.get(pk=1)
+    a = [item.phone_set, item.tablet_set, item.notebook_set]
+    num = []
+    for i in a:
+        agr = i.aggregate(max=Max('inv'))
+        if agr['max'] != None:
+            num.append(agr['max'])
+    if not len(num):
+        return max(num) + 1
+    else:
+        return 1
+
+
+class Items(models.Model):
+    name = models.CharField(max_length=200, default='')
 
 
 class Category(models.Model):
@@ -85,6 +103,8 @@ class Item(models.Model):
     memory_other = models.CharField(verbose_name='Память дополнительно', max_length=200, blank=True)
 
     other = models.CharField(verbose_name='Дополнительно', max_length=200, blank=True)
+    link_items = models.ForeignKey(Items, default=1, editable=False)
+    inv = models.IntegerField(editable=False, default=get_inv)
 
     def __str__(self):
         return self.name
@@ -113,6 +133,10 @@ class Item(models.Model):
             f.close()
         finally:
             pass
+        
+
+
+
 
 
 class Phone(Item):
