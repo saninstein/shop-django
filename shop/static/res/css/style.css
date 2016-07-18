@@ -380,12 +380,12 @@ html{
 	float: right;
 }
 .btn:hover{
-	background-color: #f5bf16;
+	background-color: #ffd506;
 }
 
 
 .btns[class*='notselected-btn']:hover{
-	background-color: #f5bf16;
+	background-color: #ffd506;
 }
 
 .wrapper{
@@ -855,4 +855,8 @@ html{
 	font-family: RobotoCondensedR;
 	font-size: 1.25rem;
 	text-align: left;
+}
+
+.fa-heart{
+	color: #BBBBBB;
 }

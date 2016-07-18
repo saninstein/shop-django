@@ -162,11 +162,13 @@ def item_phone(req, item='1'):
 
 
 def like(req, item=''):
-    if 'liked' not in req.session:
+    if 'like' not in req.session:
         item = get_item(item)
         item.likes += 1
         item.save()
-        req.session.set_expiry(60)
-        req.session['liked'] = True
+        req.session.set_expiry(100)
+        req.session['like'] = True
+        print("liked")
         return HttpResponse(True)
+    print("not liked")
     return HttpResponse(False)

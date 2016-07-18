@@ -5,6 +5,7 @@
     <script>
         document.title = "Купить {{ item.name }} - Фото, характеристики, отзывы - ElektroSwit";
     </script>
+    <script src="{% static "res/js/like.js" %}"></script>
     <link rel="stylesheet" type="text/css"  href="{% static "res/fotorama/fotorama.css" %}">
     <script src="{% static "res/fotorama/fotorama.js" %}"></script>
     <div id="body">
@@ -35,7 +36,7 @@
 				</div>
 				<br>
 			</div>
-			<div id="buy">
+			<div id="buy" data-item="{{ item.inv }}">
 				<h2>{{ item.price }} <span>грн.</span></h2>
                 {% if item.price_opt %}
                     <h4>Оптом: {{ item.price_opt }} <span>грн.</span></h4>
@@ -152,5 +153,4 @@
 			</div>
 	    </div>
     </div>
-<script src="{% static "res/js/like.js" %}"></script>
 {% endblock %}
