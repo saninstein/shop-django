@@ -46,7 +46,7 @@ def get_inv():
         agr = i.aggregate(max=Max('inv'))
         if agr['max'] != None:
             num.append(agr['max'])
-    if not len(num):
+    if len(num):
         return max(num) + 1
     else:
         return 1
@@ -134,7 +134,8 @@ class Item(models.Model):
         finally:
             pass
         
-
+    def get_item(self):
+        return '/item/' + str(self.inv)
 
 
 
