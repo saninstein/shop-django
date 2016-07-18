@@ -10,6 +10,17 @@ available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
 
 
+def get_linked_items(class_name, pk=1, count=''):
+    q = class_name.objects.get(pk=pk)
+    links = [rel.get_accessor_name() for rel in q._meta.get_fields() if type(rel) == models.ManyToOneRel]
+    l = list()
+    for link in links:
+        if count != '':
+            l.append(getattr(q, link).all()[:count])
+        else:
+            l.append(getattr(q, link).all())
+    return l
+
 def compress_img(path, size):
     img = PIL.Image.open(path)
     img.thumbnail(size, PIL.Image.ANTIALIAS)
@@ -54,17 +65,6 @@ def get_inv():
 
 class Items(models.Model):
     name = models.CharField(max_length=200, default='')
-
-    def get_linked_items(self, count=''):
-        q = Items.objects.get(pk=pk)
-        links = [rel.get_accessor_name() for rel in q._meta.get_all_related_objects()]
-        l = list()
-        for link in links:
-            if count != '':
-                l.append(getattr(q, link).all()[:count])
-            else:
-                l.append(l.append(getattr(q, link).all()))
-        return l
 
     def __str__(self):
         return self.name

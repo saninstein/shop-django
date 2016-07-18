@@ -6,6 +6,7 @@ from shop.models import Slide, Phone, Tablet, Notebook, Items
 
 def get_item(item_inv):
     q = Items.objects.get(pk=1)
+    q._meta.get_fields()
     a = [q.phone_set, q.tablet_set, q.notebook_set]
     for i in a:
         try:
