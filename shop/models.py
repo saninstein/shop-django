@@ -80,7 +80,7 @@ class Item(models.Model):
     description = models.TextField(verbose_name='Описание', max_length=1500, blank=True)
     date = models.DateTimeField(auto_now_add=True, editable=False)
     price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2)
-    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2)
+    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2, default=0)
 
     diagonal = models.DecimalField(verbose_name='Диагональ', default=0, max_digits=20, decimal_places=2, blank=True)
     resolution = models.CharField(verbose_name='Разрешение экрана', max_length=50, blank=True)
