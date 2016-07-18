@@ -1,6 +1,23 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.db.models import Q, Max, Min
-from shop.models import Slide, Phone
+from shop.models import Slide, Phone, Tablet, Notebook, Items
+
+def item(req, item=''):
+    q = Items.objects.get(pk=1)
+    args = dict(item=None)
+    a = [q.phone_set, q.tablet_set, q.notebook_set]
+    for i in a:
+        try:
+           args['item'] = i.get(inv=item)
+        except (Phone.DoesNotExist, Tablet.DoesNotExist, Notebook.DoesNotExist):
+            continue
+    if args['item']:
+        return render_to_response('item_phone/index.html', args)
+    else:
+        return redirect('general')
+
+
+
 
 
 def phone_filter(req, filter_str=""):

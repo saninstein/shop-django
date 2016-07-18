@@ -36,7 +36,10 @@
 				<br>
 			</div>
 			<div id="buy">
-				<h2>{{ item.price }} грн.</h2>
+				<h2>{{ item.price }} <span>грн.</span></h2>
+                {% if item.price_opt %}
+                    <h4>Оптом: {{ item.price_opt }} <span>грн.</span></h4>
+                {% endif %}
 				<div id="buy-btn">
 					<a href="#">Купить</a>
 				</div>
@@ -145,9 +148,7 @@
                     </div>
                 {% endif %}
 			</div>
-
-
-	</div>
+	    </div>
     </div>
 
 {% endblock %}

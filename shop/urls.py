@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^ajax_search/(?P<search_str>[\w\-]+)/$', views.search),
     url(r'^ajax_phone_filter/(?P<filter_str>[\w\-]+)/$', views.phone_filter),
     url(r'^ajax_phone_filter/$', views.phone_filter),
+    url(r'^item/(?P<item>\d+)/$', views.item, name='item_phone'),
 ]

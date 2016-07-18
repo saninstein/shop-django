@@ -138,8 +138,6 @@ class Item(models.Model):
         return '/item/' + str(self.inv)
 
 
-
-
 class Phone(Item):
     standards = models.CharField(verbose_name='Стандарты и техгологии', max_length=100, blank=True)
     front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)

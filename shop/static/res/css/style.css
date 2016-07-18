@@ -657,6 +657,24 @@ html{
 	border-bottom: 0.5px solid #EDEDED;
 }
 
+#buy h4{
+	text-align: center;
+	font-size: 2rem;
+	font-family: RobotoCondensedL;
+	text-align: center;
+	color: #444444;
+}
+
+#buy h2 span{
+	font-size: 2rem;
+}
+
+#buy h4 span{
+	font-size: 1.2rem;
+	font-family: RobotoCondensedL;
+	text-align: center;
+}
+
 #buy-btn{
 	position: relative;
 	z-index: 2;
