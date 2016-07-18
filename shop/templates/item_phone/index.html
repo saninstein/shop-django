@@ -45,6 +45,8 @@
 				</div>
                 {% if item.availability == 'is'%}
 				    <h3 id="in-order">Есть в наличии<i class="fa fa-check" aria-hidden="true"></i></h3>
+                {% else %}
+                    <h3 id="custom">Под заказ <i class="fa fa-truck" aria-hidden="true"></i></h3>
                 {% endif %}
 			</div>
 			<div class="descript">
