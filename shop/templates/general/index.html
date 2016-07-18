@@ -29,14 +29,14 @@
                    <div class="carousel-items">
                        {% for new_item in new_items%}
                           <div class="carousel-block">
-                              <img src="{{ new_item.get_thumb }}">
+                              <a href="{{ new_item.get_item }}"><img src="{{ new_item.get_thumb }}"></a>
 
 
                                 <div class="item-name">
-                                    <a href="">{{ new_item.name }}</a>
+                                    <a href="{{ new_item.get_item }}">{{ new_item.name }}</a>
                                 </div>
                                 <div class="price">
-                                    <a href="">{{ new_item.price }} грн.</a>
+                                    <a href="{{ new_item.get_item }}">{{ new_item.price }} <span>грн.</span></a>
                                 </div>
                                 <div class="btn">
                                     <a href="#">Купить</a>

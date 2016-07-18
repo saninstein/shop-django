@@ -341,6 +341,10 @@ html{
 	font-size: 1.35rem;
 }
 
+.price a span{
+	font-size: 1rem;
+}
+
 .hd{
 	width: 30%;
 	margin-left: auto;
