@@ -1,6 +1,18 @@
 {% if phones.count %}
     <div class="search-labe">Смартфоны</div>
     {% for phone in phones %}
-        <div><a href="{% url 'item_phone' phone.id %}">{{ phone.name }}</a></div>
+        <div><a href="{{ phone.get_item }}">{{ phone.name }}</a></div>
+    {% endfor %}
+{% endif %}
+{% if tablets.count %}
+    <div class="search-labe">Планшеты</div>
+    {% for phone in tablets %}
+        <div><a href="{{ phone.get_item }}">{{ phone.name }}</a></div>
+    {% endfor %}
+{% endif %}
+{% if note.count %}
+    <div class="search-labe">Ноутбуки</div>
+    {% for phone in note %}
+        <div><a href="{{ phone.get_item }}">{{ phone.name }}</a></div>
     {% endfor %}
 {% endif %}

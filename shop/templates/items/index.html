@@ -4,6 +4,8 @@
 {% block content %}
     <script>
         document.title = "Результаты поиска: {{ search_str }}";
+    var redirect = '/';
+        history.pushState('', '', redirect);
     </script>
 <div id="body">
 	<div class="cont1 gray">

@@ -5,15 +5,12 @@ from shop.models import Slide, Phone, Tablet, Notebook, Items
 
 
 def get_item(item_inv):
-    q = Items.objects.get(pk=1)
-    a = [q.phone_set, q.tablet_set, q.notebook_set]
-    for i in a:
-        try:
-            item = i.get(inv=item_inv)
-        except (Phone.DoesNotExist, Tablet.DoesNotExist, Notebook.DoesNotExist):
-            return None
-        else:
-            return item
+    l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook)]
+    item = list()
+    for x in l:
+        item += x
+    del l
+    return item[0]
 
 
 def item(req, item=''):
@@ -110,13 +107,20 @@ def phone_filter(req, filter_str=""):
 
 def search(req, search_str=""):
     args = dict()
-    args["phones"] = Phone.objects.filter(name__icontains=search_str)
+    args['phones'] = Phone.objects.filter(name__icontains=search_str)
+    args['tablets'] = Tablet.objects.filter(name__icontains=search_str)
+    args['note'] = Notebook.objects.filter(name__icontains=search_str)
     return render_to_response("search/index.html", args)
 
 
 def all_search(req, search_str=""):
     args = dict()
-    args["items"] = Phone.objects.filter(name__icontains=search_str)
+    l = [list(x.objects.filter(name__icontains=search_str)) for x in (Phone, Tablet, Notebook)]
+    res = list()
+    for x in l:
+        res += x
+    del l
+    args["items"] = res
     args["search_str"] = search_str
     return render_to_response("items/index.html", args)
 

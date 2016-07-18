@@ -384,9 +384,7 @@ html{
 }
 
 
-.btns[class*='notselected-btn']:hover{
-	background-color: #ffd506;
-}
+
 
 .wrapper{
 	text-align: center;
