@@ -6,11 +6,20 @@
     <link rel="stylesheet" type="text/css" href="{% static "res/css/normalize.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "res/css/ion.rangeSlider.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "res/css/ion.rangeSlider.skinFlat.css" %}">
-    <script>
-        document.title = "Смартфоны";
-        var redirect = '/phones/';
-        history.pushState('', '', redirect);
-    </script>
+    {% if category == 1 %}
+        <script>
+            document.title = "Смартфоны";
+            var redirect = '/phones/';
+            history.pushState('', '', redirect);
+        </script>
+    {% endif %}
+    {% if category == 2 %}
+        <script>
+            document.title = "Планшеты";
+            var redirect = '/tablets/';
+            history.pushState('', '', redirect);
+        </script>
+    {% endif %}
 <div id="body">
 	<div class="cont1 gray">
 		<div style="height:40px; width:100%"></div>

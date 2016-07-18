@@ -154,7 +154,8 @@ def general(req):
 def phones(req):
     args = dict()
     a = Phone.objects.aggregate(Max('price'), Min('price'))
-    args['items'] = get_items(Phone)
+    args['items'] = Phone.objects.all()
+    args['category'] = 1
     try:
         args['price_max'] = int(a['price__max'])
         args['price_min'] = int(a['price__min'])
@@ -164,9 +165,21 @@ def phones(req):
     return render_to_response("phones/index.html", args)
 
 
-def get_items(type):
-    items = type.objects.all()
-    return items
+def tablets(req):
+    args = dict()
+    a = Tablet.objects.aggregate(Max('price'), Min('price'))
+    args['items'] = Tablet.objects.all()
+    args['category'] = 2
+    try:
+        args['price_max'] = int(a['price__max'])
+        args['price_min'] = int(a['price__min'])
+    except TypeError:
+        args['price_max'] = 0
+        args['price_min'] = 0
+    return render_to_response("phones/index.html", args)
+
+
+
 
 
 def item_phone(req, item='1'):
