@@ -15,16 +15,15 @@ $('.btn-popular').click(function(){
 });
 
 function switcher(){
-    alert(key)
   if(key == 'new'){
       $('#pop').hide();
-      $('.btn-popular').addClass('notselected-btn');
       $('#news').show();
-      $('.btn-new').removeClass('notselected-btn');
+      $('.btn-popular').css('background-color', 'white');
+      $('.btn-new').css('background-color', '#ffd506');
   } else if(key == 'pop'){
       $('#news').hide();
-      $('.btn-new').addClass('notselected-btn');
       $('#pop').show();
-      $('.btn-popular').removeClass('notselected-btn');
+      $('.btn-new').css('background-color', 'white');
+      $('.btn-popular').css('background-color', '#ffd506');
   }
 };
