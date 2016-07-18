@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render_to_response, get_object_or_404, redirect, render
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone, Tablet, Notebook, Items
@@ -6,7 +6,6 @@ from shop.models import Slide, Phone, Tablet, Notebook, Items
 
 def get_item(item_inv):
     q = Items.objects.get(pk=1)
-    q._meta.get_fields()
     a = [q.phone_set, q.tablet_set, q.notebook_set]
     for i in a:
         try:
@@ -131,8 +130,21 @@ def phones_search(req, search_str=""):
 def general(req):
     args = dict()
     args['slides'] = Slide.objects.all()
-    args['new_items'] = Phone.objects.all()[:8]
-    return render_to_response("general/index.html", args)
+    l = [list(x.objects.order_by('-date')[:4]) for x in (Phone, Tablet, Notebook)]
+    news = list()
+    for x in l:
+        news += x
+    del l
+    news.sort(key=lambda i: i.date, reverse=True)
+    args['new_items'] = news
+    del news
+    l = [list(x.objects.order_by('-likes')[:4]) for x in (Phone, Tablet, Notebook)]
+    populars = list()
+    for x in l:
+        populars += x
+    populars.sort(key=lambda i: i.likes, reverse=True)
+    args["pop_items"] = populars
+    return render_to_response('general/index.html', args)
 
 
 def phones(req):

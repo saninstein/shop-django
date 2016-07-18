@@ -21,8 +21,35 @@
 		 </div>
 	 </div>
 	 <br>
-        {% if new_items.count %}
+        {% if new_items %}
             <div class="carousel gray">
+              <div class="carousel-button-left"><a href="#"></a></div>
+              <div class="carousel-button-right"><a href="#"></a></div>
+                <div class="carousel-wrapper">
+                   <div class="carousel-items">
+                       {% for new_item in new_items%}
+                          <div class="carousel-block">
+                              <a href="{{ new_item.get_item }}"><img src="{{ new_item.get_thumb }}"></a>
+
+
+                                <div class="item-name">
+                                    <a href="{{ new_item.get_item }}">{{ new_item.name }}</a>
+                                </div>
+                                <div class="price">
+                                    <a href="{{ new_item.get_item }}">{{ new_item.price }} <span>грн.</span></a>
+                                </div>
+                                <div class="btn">
+                                    <a href="#">Купить</a>
+                                </div>
+                          </div>
+                       {% endfor %}
+
+                   </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if pop_items %}
+            <div class="carousel gray new-items">
               <div class="carousel-button-left"><a href="#"></a></div>
               <div class="carousel-button-right"><a href="#"></a></div>
                 <div class="carousel-wrapper">

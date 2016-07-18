@@ -21,6 +21,7 @@ def get_linked_items(class_name, pk=1, count=''):
             l.append(getattr(q, link).all())
     return l
 
+
 def compress_img(path, size):
     img = PIL.Image.open(path)
     img.thumbnail(size, PIL.Image.ANTIALIAS)
