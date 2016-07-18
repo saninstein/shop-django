@@ -1,16 +1,22 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone, Tablet, Notebook, Items
 
-def item(req, item=''):
+def get_item(item_inv):
     q = Items.objects.get(pk=1)
-    args = dict(item=None)
     a = [q.phone_set, q.tablet_set, q.notebook_set]
     for i in a:
         try:
-           args['item'] = i.get(inv=item)
+            item = i.get(inv=item_inv)
         except (Phone.DoesNotExist, Tablet.DoesNotExist, Notebook.DoesNotExist):
-            continue
+            return None
+        else:
+            return item
+
+
+def item(req, item=''):
+    args = dict(item=get_item(item))
     if args['item']:
         return render_to_response('item_phone/index.html', args)
     else:
@@ -153,3 +159,14 @@ def item_phone(req, item='1'):
     args = dict()
     args["item"] = get_object_or_404(Phone, pk=item)
     return render_to_response("item_phone/index.html", args)
+
+
+def like(req, item=''):
+    if 'liked' not in req.session:
+        item = get_item(item)
+        item.likes += 1
+        item.save()
+        req.session.set_expiry(60)
+        req.session['liked'] = True
+        return HttpResponse(True)
+    return HttpResponse(False)

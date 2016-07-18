@@ -105,6 +105,7 @@ class Item(models.Model):
     other = models.CharField(verbose_name='Дополнительно', max_length=200, blank=True)
     link_items = models.ForeignKey(Items, default=1, editable=False)
     inv = models.IntegerField(editable=False, default=get_inv)
+    likes = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
         return self.name
