@@ -73,6 +73,14 @@
                             <div class="chark-value">{{ item.resolution }}</div>
                         </div>
                     {% endif %}
+                    {% if item.link_category_id == 3 %}
+                        {% if item.gpu != '' %}
+                            <div>
+                                <div class="chark-name">Разрешение экрана</div>
+                                <div class="chark-value">{{ item.gpu }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
                     {% if item.display_other != '' %}
                         <div>
                             <div class="chark-name">Дисплей дополнительно</div>
@@ -84,6 +92,14 @@
                             <div class="chark-name">Беспроводные возможности</div>
                             <div class="chark-value">{{ item.wireless }}</div>
                         </div>
+                    {% endif %}
+                    {% if item.link_category_id == 3 %}
+                        {% if item.optical_privod != '' %}
+                            <div>
+                                <div class="chark-name">Разрешение экрана</div>
+                                <div class="chark-value">{{ item.optical_privod }}</div>
+                            </div>
+                        {% endif %}
                     {% endif %}
                     {% if item.interfaces != '' %}
                         <div>
