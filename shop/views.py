@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone, Tablet, Notebook, Items
 
+
 def get_item(item_inv):
     q = Items.objects.get(pk=1)
     a = [q.phone_set, q.tablet_set, q.notebook_set]

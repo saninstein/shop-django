@@ -55,6 +55,9 @@ def get_inv():
 class Items(models.Model):
     name = models.CharField(max_length=200, default='')
 
+    def __str__(self):
+        return self.name
+
 
 class Category(models.Model):
     name = models.CharField(default='Категория', max_length=100, verbose_name="Название", null=False, blank=False)
