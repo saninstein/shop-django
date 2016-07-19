@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <div id="body">
+        <div class="a-cont">
+            <div id="a-cont-first" class="a-cont-tittle">Новый</div>
+            <form action="/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input class="btns" type="submit" value="Войти">
+            </form>
+        </div>
+    </div>
+{% endblock %}

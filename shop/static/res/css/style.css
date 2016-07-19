@@ -896,3 +896,52 @@ html{
 	font-size: 1.2rem;
 	text-align: center;
 }
+
+.a-cont{
+	width: 84%;
+	position: relative;
+	margin: 0 auto;
+	background-color: white;
+	z-index: 2;
+	-webkit-box-shadow: 0px 4px 7px -2px rgba(105,105,105,0.85);
+    -moz-box-shadow: 0px 4px 7px -2px rgba(105,105,105,0.85);
+    box-shadow: 0px 4px 7px -2px rgba(105,105,105,0.85);
+	height: 200px;
+	font-family: RobotoCondensedR;
+}
+
+#a-cont-first{
+	margin-top: 60px;
+	width: 100%;
+	text-align: center;
+	font-size: 2rem;
+	border-bottom: 3px solid #ffd506;
+}
+
+.a-cont ul{
+	display: block;
+	font-size: 1.5rem;
+	width: 80%;
+	margin: 10px auto;
+
+}
+
+.a-cont ul li{
+	list-style-type: none;
+	text-decoration: none;
+	border: 0.3px solid darkgrey;
+}
+
+.a-cont-link{
+	color: black;
+	text-decoration: none;
+	display: inline-block;
+	margin-left: 15%;
+	text-align: right;
+	width: 80%;
+}
+
+.a-cont ul li i{
+	display: inline-block;
+	margin-left: 1%;
+}

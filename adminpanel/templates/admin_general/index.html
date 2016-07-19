@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <div id="body">
+        <div class="a-cont">
+            <div id="a-cont-first" class="a-cont-tittle">Товары</div>
+            <ul>
+                <li><a href="{% url 'new_item' 'phone' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Смартфоны</a></li>
+                <li><a href=""><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Планшеты</a></li>
+                <li><a href=""><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Ноутбуки</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
