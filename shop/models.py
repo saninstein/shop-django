@@ -1,9 +1,9 @@
 import PIL
 import random
 import string
-from os import remove
+from os import remove, path, listdir, rmdir
 from django.db import models
-from elektroswit.settings import ERROR_LOG
+from elektroswit.settings import ERROR_LOG, MEDIA_ROOT
 from django.db.models import Max
 
 available = (('is', "В наличии"), ('c', "Под заказ"))
@@ -22,18 +22,20 @@ def get_linked_items(class_name, pk=1, count=''):
     return l
 
 
-def compress_img(path, size):
-    img = PIL.Image.open(path)
+def compress_img(path_img, size):
+    img = PIL.Image.open(path_img)
     img.thumbnail(size, PIL.Image.ANTIALIAS)
     bg = PIL.Image.new('RGB', size, (255, 255, 255))
     bg.paste(img, ((size[0] - img.size[0]) // 2, (size[1] - img.size[1]) // 2))
     if size == (250, 250):
-        thumb_path = path.split('.')
+        thumb_path = path_img.split('.')
         thumb_path = thumb_path[0] + '_thumb.' + thumb_path[1]
-        bg.save(thumb_path)
+        if not path.isfile(thumb_path):
+            bg.save(thumb_path)
+
     else:
-        remove(path)
-        bg.save(path)
+        remove(path_img)
+        bg.save(path_img)
 
 
 def get_uniq_name(instance, filename):
@@ -135,7 +137,6 @@ class Item(models.Model):
         super(Item, self).save(*args, **kwargs)
         try:
             compress_img(self.photo.path, (250, 250))
-
             compress_img(self.photo.path, (800, 600))
             photos = [self.photo1, self.photo2,
                       self.photo3, self.photo4,
@@ -149,7 +150,8 @@ class Item(models.Model):
             f.close()
         finally:
             pass
-        
+
+
     def get_item(self):
         return '/item/' + str(self.inv)
 
@@ -160,6 +162,24 @@ class Phone(Item):
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
     sim_count = models.IntegerField(verbose_name='Количество сим', default=0, blank=True)
     link_category = models.ForeignKey(Category, default=1, editable=False)
+
+    def delete(self, *args, **kwargs):
+        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
+        print(path)
+        try:
+            for file in listdir(path):
+                remove(path + file)
+            rmdir(path)
+        except BaseException:
+            pass
+        # remove(self.photo.path)
+        # photos = [self.photo1, self.photo2,
+        #           self.photo3, self.photo4,
+        #           self.photo5]
+        # for photo in photos:
+        #     if photo:
+        #         remove(photo.path)
+        super(Phone, self).delete(*args, **kwargs)
 
 
 class Tablet(Item):

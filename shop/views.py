@@ -10,6 +10,8 @@ def get_item(item_inv):
     for x in l:
         item += x
     del l
+    if not item:
+        return False
     return item[0]
 
 
@@ -24,7 +26,7 @@ def item(req, item=''):
 def phone_filter(req, filter_str=""):
     if filter_str == "":
         args = dict()
-        args["items"] = get_items(Phone)
+        args["items"] = Phone.objects.all()
         return render_to_response("filter_items/index.html", args)
     filter_str = filter_str.split('-')
     filter_str.sort()
