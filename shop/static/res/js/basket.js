@@ -11,10 +11,14 @@ $(document).ready(function(){
     });
 
     function updateBasketPrice(){
+        var basket = JSON.parse($.cookie('basket-price'));
+        var newprice = 0;
+        for(var i in basket.item){
+            newprice += basket.price[i] * basket.count[i];
+        }
         $('#basket-empty').hide();
         $('#basket-full').show();
-        var newprice = $.cookie('basket-price');
-        newprice += ' грн.';
+        newprice = String(newprice) + ' грн.';
         $('#basket a u').html(newprice);
         $('#basket a').css({'visibility': 'visible'});
     }

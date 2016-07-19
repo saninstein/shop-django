@@ -1,12 +1,12 @@
 $(document).ready(function(){
    $('#buy-btn').click(function(){
-       var count = Math.abs($('#buy-count').val())
+       var count = Math.abs($('#buy-count').val());
        if(!count){
            count = 1;
        }
        var price;
        if(count > 1){
-           if($('#buy-btn').data('price_opt')){
+           if(parseFloat($('#buy-btn').data('price_opt'))){
                price = parseFloat($('#buy-btn').data('price_opt'));
            } else{
                price = parseFloat($('#buy-btn').data('price'));
@@ -14,21 +14,32 @@ $(document).ready(function(){
        } else{
            price = parseFloat($('#buy-btn').data('price'));
        }
-
-       var basket_price = $.cookie('basket-price');
-       if(basket_price){
-            basket_price += count * parseFloat($('#buy-btn').data('price'));
-            $.cookie('basket-price', basket_price,{
-                expire: 30,
-                path: '/',
-            });
-       } else{
-           var basket = {
-
-           };
-           $.cookie('basket-price', "",{
+       var item = parseInt($('#buy').data('item'));
+       var basket = $.cookie('basket-price');
+       if(basket){
+           basket = JSON.parse(basket);
+           if(basket.item.indexOf(item) != -1){
+               var pos = basket.item.indexOf(item);
+               basket.count[pos] = count;
+               basket.price[pos] = price;
+           } else{
+               basket.item.push(item);
+               basket.count.push(count);
+               basket.price.push(price);
+           }
+           $.cookie('basket-price', JSON.stringify(basket),{
                expire: 30,
-               path: '/',
+               path: '/'
+           });
+       } else{
+           basket = {
+               item: [item],
+               count: [count],
+               price: [price]
+           };
+           $.cookie('basket-price', JSON.stringify(basket),{
+               expire: 30,
+               path: '/'
            });
        }
        $(document).trigger('cookieUpdate');
