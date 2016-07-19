@@ -285,9 +285,18 @@ html{
     	text-decoration: none;
     	display: block;
     	font-size: 1.2rem;
+		height: 23px;
     	color: #383838;
     	margin-left: 43%;
+		visibility: hidden;
     }
+
+
+#basket-full{
+	display: none;
+}
+
+
 
 .gray{
 	background-color: #EDEDED;
@@ -689,6 +698,7 @@ html{
     background-color: #ffd506;
 	border-radius: 30px;
 	text-align: center;
+	cursor: pointer;
 }
 
 #buy-btn a{
@@ -696,6 +706,7 @@ html{
 	font-family: RobotoCondensedR;
 	font-size: 2.5rem;
 	color: black;
+	cursor: pointer;
 }
 
 #buy-btn:hover{

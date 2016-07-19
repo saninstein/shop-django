@@ -6,6 +6,7 @@
         document.title = "Купить {{ item.name }} - Фото, характеристики, отзывы - ElektroSwit";
     </script>
     <script src="{% static "res/js/like.js" %}"></script>
+    <script src="{% static "res/js/buy.js" %}"></script>
     <link rel="stylesheet" type="text/css"  href="{% static "res/fotorama/fotorama.css" %}">
     <script src="{% static "res/fotorama/fotorama.js" %}"></script>
     <div id="body">
@@ -41,8 +42,8 @@
                 {% if item.price_opt %}
                     <h4>Оптом: {{ item.price_opt }} <span>грн.</span></h4>
                 {% endif %}
-				<div id="buy-btn">
-					<a href="#">Купить</a>
+				<div id="buy-btn" data-price="{{ item.price }}">
+					<a>Купить</a>
 				</div>
                 {% if item.availability == 'is'%}
 				    <h3 id="in-order">Есть в наличии<i class="fa fa-check" aria-hidden="true"></i></h3>

@@ -11,6 +11,8 @@
 	<script src="{% static "res/js/jquery-3.0.0.min.js" %}"></script>
     <script src="{% static "res/js/jquery.cookie.js" %}"></script>
   	<script src="{% static "res/js/jquery.slides.min.js" %}"></script>
+    <script src="{% static "res/js/basket.js" %}"></script>
+
 	<title>ElektroSwit - Интернет-магазин современных гаджетов</title>
 </head>
 <body>
@@ -34,8 +36,9 @@
 			<input id="search" type="text" placeholder="HP Compaq 43..." name="">
 		</div>
 		<div id="basket">
-			<img src="{% static "res/img/shopping-cart-full.png" %}" width="50px">
-			<a href="#">Заказ <strong><u>2863 грн.</u></strong></a>
+			<img id="basket-full" src="{% static "res/img/shopping-cart-full.png" %}" width="50px">
+            <img id="basket-empty" src="{% static "res/img/shopping-cart.png" %}" width="50px">
+			<a href="#">Заказ <strong><u></u></strong></a>
 		</div>
 	</div>
 	<div id="menu">
