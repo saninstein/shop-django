@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect, render
-
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone, Tablet, Notebook, Items
@@ -200,3 +200,14 @@ def like(req, item=''):
         req.session['like'] = True
         return HttpResponse(True)
     return HttpResponse(False)
+
+
+@csrf_exempt
+def add_basket(req):
+    if req.method == 'POST':
+        new_item = req.POST['item']
+        if not ('basket' in req.session):
+            req.session['basket'] = ()
+        req.session['basket'] += (int(new_item),)
+        print(req.session['basket'])
+    return HttpResponse()

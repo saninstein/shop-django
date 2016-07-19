@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^ajax_phone_filter/(?P<filter_str>[\w\-]+)/$', views.phone_filter),
     url(r'^ajax_phone_filter/$', views.phone_filter),
     url(r'^ajax_like/(?P<item>\d+)/$', views.like),
-    url(r'^ajax_addbasket/$', views.addbasket),
+    url(r'^ajax_addbasket/$', views.add_basket),
 
 ]
