@@ -205,9 +205,21 @@ def like(req, item=''):
 @csrf_exempt
 def add_basket(req):
     if req.method == 'POST':
-        new_item = req.POST['item']
+        new_item = int(req.POST['item'])
+        item_count = int(req.POST['count'])
+        print(new_item, item_count)
         if not ('basket' in req.session):
             req.session['basket'] = ()
-        req.session['basket'] += (int(new_item),)
+            req.session['item_count'] = ()
+        if new_item not in req.session['basket']:
+            req.session['basket'] += (new_item,)
+            req.session['item_count'] += (item_count,)
+        else:
+            pos = req.session['basket'].index(new_item)
+            a = req.session['item_count']
+            a = list(a)
+            a[pos] = item_count
+            req.session['item_count'] = tuple(a)
         print(req.session['basket'])
+        print(req.session['item_count'])
     return HttpResponse()

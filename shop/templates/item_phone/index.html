@@ -42,6 +42,7 @@
                 {% if item.price_opt %}
                     <h4>Оптом: {{ item.price_opt }} <span>грн.</span></h4>
                 {% endif %}
+                <div id="count-panel">Кол-во: <input type="number" min="1" value="1" id="buy-count"></div>
 				<div id="buy-btn" data-price="{{ item.price }}">
 					<a>Купить</a>
 				</div>

@@ -695,6 +695,7 @@ html{
 	height: 4rem;
 	width: 40%;
 	margin: 40px auto;
+	margin-top: 5px;
     background-color: #ffd506;
 	border-radius: 30px;
 	text-align: center;
@@ -872,4 +873,25 @@ html{
 
 #pop{
 	display: none;
+}
+
+#buy-count{
+	font-family: RobotoCondensedR;
+	outline: none; /*убираем стандартную обводку браузера*/
+    border: 3px solid #ffd506;
+    -moz-border-radius: 20px; /*закругляем углы для Mozilla*/
+    -webkit-border-radius: 20px; /*закругляем углы для Chrome, Safari*/
+    border-radius: 20px; /*закругляем углы для остальных браузеров*/
+    padding-left: 10px; /*отступ слева от ввода, чтобы текст не был на картинке(выбирать по размеру картинки)*/
+    height: 20px; /*высота строки ввода*/
+    font-size: 16px; /*размер шрифта*/
+    width: 10%;
+
+}
+
+#count-panel{
+	margin-top: 10px;
+	font-family: RobotoCondensedR;
+	font-size: 1.2rem;
+	text-align: center;
 }
