@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import user_passes_test, permission_required
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from adminpanel.form import PhoneForm, TabletForm, NotebookForm
-from django.http import HttpResponse
 
 
 def is_su(user):
