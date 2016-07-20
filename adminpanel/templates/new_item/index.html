@@ -7,7 +7,7 @@
         <div class="a-cont">
 
             <div id="a-cont-first" class="a-cont-tittle">Новый</div>
-                <form action="{% url 'new_item' category=category %}" method="post">
+                <form enctype="multipart/form-data" action="{{ url }}" method="post">
                     {% csrf_token %}
                     {% for field in form %}
                         <div class="form">
@@ -17,8 +17,10 @@
                                 </div>
                                 {{ field }}
                                 <br>
-                                {{ field.errors }}
                                 <div class="help_text">{{ field.help_text }}</div>
+
+                                    {{ field.errors }}
+
                             </div>
 
                         </div>

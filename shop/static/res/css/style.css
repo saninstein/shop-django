@@ -979,7 +979,6 @@ html{
 	font-family: RobotoCondensedR;
 	font-size: 1.5rem;
 	width: 80%;
-
 	margin: 0 auto;
 	outline: none; /*убираем стандартную обводку браузера*/
     border: 2px solid #f5bf16;
@@ -993,6 +992,23 @@ html{
 	text-align: right;
 	color: #7f7f7f;;
 	width: 80%;
+}
+
+.errorlist{
+	color: #ed5565;
+	font-family: RobotoCondensedB;
+
+}
+
+.errorlist li{
+	display: block;
+	width: 50%;
+	text-align: center;
+}
+
+.errorlist li{
+	border: 0.5px #ed5565;
+	border-radius: 20px;
 }
 .new-cont-textinput:focus::-webkit-input-placeholder {color: transparent}
 .new-cont-textinput:focus::-moz-placeholder          {color: transparent}
