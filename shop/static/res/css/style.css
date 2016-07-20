@@ -906,7 +906,6 @@ html{
 	-webkit-box-shadow: 0px 4px 7px -2px rgba(105,105,105,0.85);
     -moz-box-shadow: 0px 4px 7px -2px rgba(105,105,105,0.85);
     box-shadow: 0px 4px 7px -2px rgba(105,105,105,0.85);
-	height: 200px;
 	font-family: RobotoCondensedR;
 }
 
@@ -945,3 +944,57 @@ html{
 	display: inline-block;
 	margin-left: 1%;
 }
+
+.form{
+	border-bottom: 1px solid deepskyblue;
+}
+
+.field{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+
+}
+
+.field-l{
+	font-size: 1.5rem;
+}
+
+.new-cont-textinput{
+	font-family: RobotoCondensedR;
+	font-size: 1.5rem;
+	width: 80%;
+	height: 2rem;
+	margin: 0 auto;
+	outline: none; /*убираем стандартную обводку браузера*/
+    border: 2px solid #f5bf16;
+    -moz-border-radius: 15px; /*закругляем углы для Mozilla*/
+    -webkit-border-radius: 15px; /*закругляем углы для Chrome, Safari*/
+    border-radius: 15px; /*закругляем углы для остальных браузеров*/
+	padding-left: 10px;
+
+}
+
+.new-cont-textarea{
+	font-family: RobotoCondensedR;
+	font-size: 1.5rem;
+	width: 80%;
+
+	margin: 0 auto;
+	outline: none; /*убираем стандартную обводку браузера*/
+    border: 2px solid #f5bf16;
+    -moz-border-radius: 15px; /*закругляем углы для Mozilla*/
+    -webkit-border-radius: 15px; /*закругляем углы для Chrome, Safari*/
+    border-radius: 15px; /*закругляем углы для остальных браузеров*/
+	padding-left: 10px;
+}
+
+.help_text{
+	text-align: right;
+	color: #7f7f7f;;
+	width: 80%;
+}
+.new-cont-textinput:focus::-webkit-input-placeholder {color: transparent}
+.new-cont-textinput:focus::-moz-placeholder          {color: transparent}
+.new-cont-textinput:focus:-moz-placeholder           {color: transparent}
+.new-cont-textinput:focus:-ms-input-placeholder      {color: transparent}

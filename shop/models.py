@@ -87,36 +87,36 @@ class Item(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
     availability = models.CharField(max_length=100, verbose_name='Наличие', choices=available, default=available[0])
-    photo = models.ImageField(verbose_name='Главное фото', upload_to=upload_path, blank=False)
+    photo = models.ImageField(verbose_name='Главное фото', upload_to=upload_path, blank=False, help_text='Обязательное поле')
     photo1 = models.ImageField(verbose_name='Фото 1', upload_to=upload_path, blank=True)
     photo2 = models.ImageField(verbose_name='Фото 2', upload_to=upload_path, blank=True)
     photo3 = models.ImageField(verbose_name='Фото 3', upload_to=upload_path, blank=True)
     photo4 = models.ImageField(verbose_name='Фото 4', upload_to=upload_path, blank=True)
     photo5 = models.ImageField(verbose_name='Фото 5', upload_to=upload_path, blank=True)
-    video = models.URLField(verbose_name='Видеообзор', blank=True)
+    video = models.URLField(verbose_name='Видеообзор', blank=True, help_text='Введите адрес YouTube видео')
     description = models.TextField(verbose_name='Описание', max_length=1500, blank=True)
     date = models.DateTimeField(auto_now_add=True, editable=False)
-    price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2)
-    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2, default=0)
+    price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2, help_text='Обязательное поле')
+    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2, default=0, help_text='Если не надо - оставить нулём')
 
-    diagonal = models.DecimalField(verbose_name='Диагональ', default=0, max_digits=20, decimal_places=2, blank=True)
-    resolution = models.CharField(verbose_name='Разрешение экрана', max_length=50, blank=True)
+    diagonal = models.DecimalField(verbose_name='Диагональ', default=0, max_digits=20, decimal_places=2, blank=True, help_text='Диагональ в дюймах')
+    resolution = models.CharField(verbose_name='Разрешение экрана', max_length=50, blank=True, help_text='Вводить через англискую букву \'x\'')
     display_other = models.CharField(verbose_name='Дисплей дополнительно', max_length=200, blank=True)
 
     wireless = models.CharField(verbose_name='Беспроводные возможности', max_length=500, blank=True)
 
     interfaces = models.CharField(verbose_name='Интерфейсы и подключения', max_length=500, blank=True)
 
-    battery = models.IntegerField(verbose_name='Ёмкость батареи', default=0, blank=True)
+    battery = models.IntegerField(verbose_name='Ёмкость батареи', default=0, blank=True, help_text='Ёмкость батареи в mah')
 
-    camera = models.IntegerField(verbose_name='Размер камеры', default=0, blank=True)
+    camera = models.IntegerField(verbose_name='Размер камеры', default=0, blank=True, help_text='Размер камеры в МП')
     camera_other = models.CharField(verbose_name='Камера дополнительно', max_length=100, blank=True)
 
     osystem = models.CharField(verbose_name='Операционная система', max_length=500, blank=True)
     count_core = models.IntegerField(verbose_name='Количесво ядер', choices=cores, default=cores[0])
     core_other = models.CharField(verbose_name='Процессор', max_length=200, blank=True)
-    ram = models.IntegerField(verbose_name='Оперативная память', default=0, blank=True)
-    memory = models.IntegerField(verbose_name='Внутреняя память', default=0, blank=True)
+    ram = models.IntegerField(verbose_name='Оперативная память', default=0, blank=True, help_text='Размер в МБ')
+    memory = models.IntegerField(verbose_name='Внутреняя память', default=0, blank=True, help_text='Размер в ГБ')
     memory_other = models.CharField(verbose_name='Память дополнительно', max_length=200, blank=True)
 
     other = models.CharField(verbose_name='Дополнительно', max_length=200, blank=True)
@@ -157,10 +157,10 @@ class Item(models.Model):
 
 
 class Phone(Item):
-    standards = models.CharField(verbose_name='Стандарты и техгологии', max_length=100, blank=True)
+    standards = models.CharField(verbose_name='Стандарты и технологии', max_length=500, blank=True)
     front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
-    sim_count = models.IntegerField(verbose_name='Количество сим', default=0, blank=True)
+    sim_count = models.IntegerField(verbose_name='Количество сим', default=1, blank=True)
     link_category = models.ForeignKey(Category, default=1, editable=False)
 
     def delete(self, *args, **kwargs):
