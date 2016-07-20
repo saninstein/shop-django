@@ -198,7 +198,7 @@ class Notebook(Item):
 
 class Slide(models.Model):
     img = models.ImageField(upload_to=get_uniq_name, blank=True)
-
+    link = models.URLField(blank=False, default='')
     def save(self, *args, **kwargs):
         super(Slide, self).save(*args, **kwargs)
         try:
