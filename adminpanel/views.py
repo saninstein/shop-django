@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect
-from django.contrib.auth import login, logout, authenticate
+from django.contrib import auth
 from django.contrib.auth.decorators import user_passes_test, permission_required
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
@@ -11,15 +11,17 @@ def is_su(user):
     return user.is_superuser
 
 
-@user_passes_test(is_su, login_url=reverse('login'))
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def general(req):
     args = dict()
+    args['user'] = req.user
     return render_to_response('admin_general/index.html', args)
 
 
-@user_passes_test(is_su, login_url=reverse('login'))
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def new_item(req, category=''):
     args = dict()
+    args['user'] = req.user
     args.update(csrf(req))
     if req.method == 'POST':
         if category == 'phone':
@@ -62,15 +64,21 @@ def new_item(req, category=''):
 def login(req):
     args = {}
     args.update(csrf(req))
+    args['user'] = req.user
     if req.POST:
         username = req.POST.get('username', '')
         password = req.POST.get('password', '')
-        user = authenticate(username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
         if user is not None:
-            login(req, user)
-            return redirect('general')
+            auth.login(req, user)
+            return redirect('/adminpanel/')
         else:
             args['login_error'] = "Пользователь не найден"
             return render_to_response('login/index.html', args)
     else:
         return render_to_response('login/index.html', args)
+
+
+def logout(req):
+    auth.logout(req)
+    return redirect('/')

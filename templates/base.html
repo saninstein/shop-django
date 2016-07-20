@@ -25,7 +25,11 @@
 			<li><a href="">Оплата</a></li>
 			<li><a href="">Доставка</a></li>
 			<li><a href="">Гарантия</a></li>
-            <li><a href="/adminpanel/"><u>Админка</u></a></li>
+            {% if user.is_superuser %}
+                <li><a href="/adminpanel/"><u>Админка</u></a></li>
+                <li><a href={% url 'logout' %}><u>Выйти</u></a></li>
+            {% endif %}
+
 		</ul>
 	</div>
 	<div id="head-up">
