@@ -54,7 +54,7 @@ def upload_path(instance, filename):
 
 
 def get_inv():
-    a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects]
+    a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects, ForMaster.objects, ForHome.objects]
     num = []
     for i in a:
         agr = i.aggregate(max=Max('inv'))
