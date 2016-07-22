@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^login/', views.login, name='login'),
     url(r'^logout/', views.logout, name='logout'),
     url(r'edit_slide/(?P<num>\d+)/$', views.slide_edit, name='slide_edit'),
-    url(r'^show/(?P<category>[\w\-]+)/$', views.new_item, name='show'),
+    url(r'^show/(?P<category>[\w\-]+)/$', views.show_items, name='show'),
 ]

@@ -131,6 +131,7 @@ def show_items(req, category=''):
         args['items'] = Notebook.objects.all()
     else:
         return redirect('admingeneral')
+    args['category'] = args['items'][0].link_category.name
     return render_to_response('show_all/index.html', args)
 
 
