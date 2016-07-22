@@ -9,7 +9,6 @@ from django.db.models import Max
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
 
-
 def get_linked_items(class_name, pk=1, count=''):
     q = class_name.objects.get(pk=pk)
     links = [rel.get_accessor_name() for rel in q._meta.get_fields() if type(rel) == models.ManyToOneRel]
@@ -53,8 +52,7 @@ def upload_path(instance, filename):
 
 
 def get_inv():
-    item = Items.objects.get(pk=1)
-    a = [item.phone_set, item.tablet_set, item.notebook_set]
+    a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects]
     num = []
     for i in a:
         agr = i.aggregate(max=Max('inv'))
@@ -75,16 +73,69 @@ class Items(models.Model):
 
 class Category(models.Model):
     name = models.CharField(default='Категория', max_length=100, verbose_name="Название", null=False, blank=False)
+    is_accessor = models.BooleanField(default=False, blank=False)
 
     def __str__(self):
         return self.name
+
+
+class Other(models.Model):
+    class Meta:
+        abstract = True
+        ordering = ["-date"]
+    name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
+    availability = models.CharField(max_length=100, verbose_name='Наличие', choices=available, default=available[0])
+    photo = models.ImageField(verbose_name='Главное фото', upload_to=upload_path, blank=False,
+                              help_text='Обязательное поле')
+    photo1 = models.ImageField(verbose_name='Фото 1', upload_to=upload_path, blank=True)
+    photo2 = models.ImageField(verbose_name='Фото 2', upload_to=upload_path, blank=True)
+    photo3 = models.ImageField(verbose_name='Фото 3', upload_to=upload_path, blank=True)
+    photo4 = models.ImageField(verbose_name='Фото 4', upload_to=upload_path, blank=True)
+    photo5 = models.ImageField(verbose_name='Фото 5', upload_to=upload_path, blank=True)
+    video = models.URLField(verbose_name='Видеообзор', blank=True, help_text='Введите адрес YouTube видео')
+    description = models.TextField(verbose_name='Описание', max_length=1500, blank=True)
+    date = models.DateTimeField(auto_now_add=True, editable=False)
+    price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2,
+                                help_text='Обязательное поле')
+    price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2, default=0, help_text='Если не надо - оставить нулём')
+    inv = models.IntegerField(editable=False, default=get_inv)
+    likes = models.IntegerField(editable=False, default=0)
+
+    def __str__(self):
+        return self.name
+
+    def get_thumb(self):
+        url = self.photo.url
+        url = url.split('.')
+        thumb_url = url[0] + '_thumb.' + url[1]
+        return thumb_url
+
+    def save(self, *args, **kwargs):
+        super(Other, self).save(*args, **kwargs)
+        try:
+            compress_img(self.photo.path, (250, 250))
+            compress_img(self.photo.path, (800, 600))
+            photos = [self.photo1, self.photo2,
+                      self.photo3, self.photo4,
+                      self.photo5]
+            for photo in photos:
+                if photo != '':
+                    compress_img(photo.path, (800, 600))
+        except BaseException as e:
+            f = open(ERROR_LOG, 'a')
+            f.write(e)
+            f.close()
+        finally:
+            pass
+
+    def get_item(self):
+        return '/item/' + str(self.inv)
 
 
 class Item(models.Model):
     class Meta:
         abstract = True
         ordering = ["-date"]
-
     name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
     availability = models.CharField(max_length=100, verbose_name='Наличие', choices=available, default=available[0])
     photo = models.ImageField(verbose_name='Главное фото', upload_to=upload_path, blank=False, help_text='Обязательное поле')
@@ -171,13 +222,6 @@ class Phone(Item):
             rmdir(path)
         except BaseException:
             pass
-        # remove(self.photo.path)
-        # photos = [self.photo1, self.photo2,
-        #           self.photo3, self.photo4,
-        #           self.photo5]
-        # for photo in photos:
-        #     if photo:
-        #         remove(photo.path)
         super(Phone, self).delete(*args, **kwargs)
 
 
@@ -194,10 +238,37 @@ class Notebook(Item):
     optical_privod = models.CharField(verbose_name='Оптический привод', max_length=300, blank=True, default='')
     link_category = models.ForeignKey(Category, default=3, editable=False)
 
+    def delete(self, *args, **kwargs):
+        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
+        print(path)
+        try:
+            for file in listdir(path):
+                remove(path + file)
+            rmdir(path)
+        except BaseException:
+            pass
+        super(Notebook, self).delete(*args, **kwargs)
+
+
+class Accessories(Other):
+    link_category = models.ForeignKey(Category, limit_choices_to={'is_accessor': True})
+
+    def delete(self, *args, **kwargs):
+        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
+        print(path)
+        try:
+            for file in listdir(path):
+                remove(path + file)
+            rmdir(path)
+        except BaseException:
+            pass
+        super(Accessories, self).delete(*args, **kwargs)
+
 
 class Slide(models.Model):
     img = models.ImageField(upload_to=get_uniq_name, blank=True, verbose_name='Изображение слайда')
     link = models.URLField(verbose_name='Ссылка', blank=True, default='', help_text='Если ссылка не нужна оставить пустым')
+
     def save(self, *args, **kwargs):
         super(Slide, self).save(*args, **kwargs)
         try:
