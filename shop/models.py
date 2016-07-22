@@ -157,7 +157,7 @@ class Item(models.Model):
 
 class Phone(Item):
     standards = models.CharField(verbose_name='Стандарты и технологии', max_length=500, blank=True)
-    front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)
+    front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True, help_text='Размер камеры в МП')
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
     sim_count = models.IntegerField(verbose_name='Количество сим', default=1, blank=True)
     link_category = models.ForeignKey(Category, default=1, editable=False)
@@ -196,8 +196,8 @@ class Notebook(Item):
 
 
 class Slide(models.Model):
-    img = models.ImageField(upload_to=get_uniq_name, blank=True)
-    link = models.URLField(blank=False, default='')
+    img = models.ImageField(upload_to=get_uniq_name, blank=True, verbose_name='Изображение слайда')
+    link = models.URLField(verbose_name='Ссылка', blank=True, default='', help_text='Если ссылка не нужна оставить пустым')
     def save(self, *args, **kwargs):
         super(Slide, self).save(*args, **kwargs)
         try:

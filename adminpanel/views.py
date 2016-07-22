@@ -1,10 +1,11 @@
 from django.shortcuts import render, render_to_response, redirect
 from shop.views import get_item
 from django.contrib import auth
-from django.contrib.auth.decorators import user_passes_test, permission_required
+from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
-from adminpanel.form import PhoneForm, TabletForm, NotebookForm
+from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm
+from shop.models import Slide, Phone, Tablet, Notebook
 
 
 def is_su(user):
@@ -89,30 +90,56 @@ def new_item(req, category='', inv=''):
     return render_to_response('new_item/index.html', args)
 
 
-# @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
-# def edit_item(req, item=''):
-#
-#     args = dict()
-#     args.update(csrf(req))
-#     if item:
-#         e_item = get_item(item)
-#         if e_item:
-#             category_id = e_item.link_category_id
-#             if category_id == 1:
-#                 args['form'] = PhoneForm()
-#                 args['url'] = reverse('new_item', kwargs={'category': 'phone'})
-#             elif category_id == 2:
-#                 args['form'] = TabletForm(instance=e_item)
-#                 args['url'] = reverse('new_item', kwargs={'category': 'tablet'})
-#             elif category_id == 3:
-#                 args['form'] = NotebookForm(instance=e_item)
-#                 args['url'] = reverse('new_item', kwargs={'category': 'notebook'})
-#             return render_to_response('new_item/index.html', args)
-#     return redirect('/')
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
+def slide_edit(req, num=''):
+    args = dict()
+    args.update(csrf(req))
+    slides = ['1', '2', '3', '4']
+    if num in slides:
+        try:
+            slide = Slide.objects.get(pk=num)
+        except Slide.DoesNotExist:
+            return redirect('general')
+        if req.method == 'POST':
+
+            form = SlideForm(req.POST, req.FILES, instance=slide)
+            if form.is_valid():
+                form.save()
+                return redirect('/')
+            else:
+                args['form'] = form
+                args['url'] = reverse('slide_edit', kwargs={'num': num})
+                return render_to_response('new_item/index.html', args)
+        else:
+            args['form'] = SlideForm(instance=slide)
+            args['url'] = reverse('slide_edit', kwargs={'num': num})
+            return render_to_response('new_item/index.html', args)
+    else:
+        return redirect('general')
+
+
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
+def show_items(req, category=''):
+    print(category)
+    args = dict()
+    args.update(csrf(req))
+    if category == 'phone':
+        args['items'] = Phone.objects.all()
+    elif category == 'tablet':
+        args['items'] = Tablet.objects.all()
+    elif category == 'notebook':
+        args['items'] = Notebook.objects.all()
+    else:
+        return redirect('admingeneral')
+    return render_to_response('show_all/index.html', args)
+
+
+
+
 
 
 def login(req):
-    args = {}
+    args = dict()
     args.update(csrf(req))
     args['user'] = req.user
     if req.POST:

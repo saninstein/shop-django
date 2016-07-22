@@ -11,6 +11,13 @@
                 <li><a href="{% url 'add_item' 'tablet' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Планшеты</a></li>
                 <li><a href="{% url 'add_item' 'notebook' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Ноутбуки</a></li>
             </ul>
+            <div id="a-cont-first" class="a-cont-tittle">Слайды</div>
+            <ul>
+                <li><a href="{% url 'slide_edit' '1' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="a-cont-link" href="">Слайд 1</a></li>
+                <li><a href="{% url 'slide_edit' '2' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="a-cont-link" href="">Слайд 2</a></li>
+                <li><a href="{% url 'slide_edit' '3' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="a-cont-link" href="">Слайд 3</a></li>
+                <li><a href="{% url 'slide_edit' '4' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a><a class="a-cont-link" href="">Слайд 4</a></li>
+            </ul>
         </div>
     </div>
 {% endblock %}

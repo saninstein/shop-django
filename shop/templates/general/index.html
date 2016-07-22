@@ -4,11 +4,12 @@
 
 {% block content %}
     <script src="{% static 'res/js/carousel_loggles.js' %}"></script>
+    <script src="{% static 'res/js/slide_link.js' %}"></script>
     <div id="body">
 	<div class="container">
 		<div id="slides">
             {% for slide in slides %}
-                <img src="{{ slide.img.url }}">
+                <img data-link="{{ slide.link }}" src="{{ slide.img.url }}" alt="Интернет-магазин ElektroSwit">
             {% endfor %}
 		 </div>
 	 </div>

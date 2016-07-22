@@ -1,5 +1,17 @@
-from django.forms import ModelForm, TextInput, Textarea, ChoiceField, NumberInput
-from shop.models import Phone, Tablet, Notebook
+from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput
+from shop.models import Phone, Tablet, Notebook, Slide
+
+
+class SlideForm(ModelForm):
+    class Meta:
+        model = Slide
+        exclude = []
+        widgets = {
+            'link': TextInput(attrs={
+                'placeholder': 'Страница сайта',
+                'class': 'new-cont-textinput',
+            })
+        }
 
 
 class PhoneForm(ModelForm):
