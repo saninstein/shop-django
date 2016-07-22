@@ -6,14 +6,16 @@ from shop.models import Slide, Phone, Tablet, Notebook, Items
 
 
 def get_item(item_inv):
-    l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook)]
-    item = list()
-    for x in l:
-        item += x
-    del l
-    if not item:
+    if item_inv.isdigit:
+        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook)]
+        item = list()
+        for x in l:
+            item += x
+        if item:
+            return item[0]
         return False
-    return item[0]
+    return False
+
 
 
 def item(req, item=''):
@@ -163,6 +165,7 @@ def general(req):
 
 def phones(req):
     args = dict()
+    args['user'] = req.user
     a = Phone.objects.aggregate(Max('price'), Min('price'))
     args['items'] = Phone.objects.all()
     args['category'] = 1
@@ -189,12 +192,10 @@ def tablets(req):
     return render_to_response("phones/index.html", args)
 
 
-
-
-
 def item_phone(req, item='1'):
     args = dict()
     args["item"] = get_object_or_404(Phone, pk=item)
+    args['user'] = req.user
     return render_to_response("item_phone/index.html", args)
 
 

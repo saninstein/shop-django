@@ -151,7 +151,6 @@ class Item(models.Model):
         finally:
             pass
 
-
     def get_item(self):
         return '/item/' + str(self.inv)
 
