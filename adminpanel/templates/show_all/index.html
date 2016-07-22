@@ -16,7 +16,7 @@
                         <th>Цена оптом</th>
                         <th>Удалить/редактировать</th>
                     </tr>
-                    {% csrf_token %}
+
                     {% for item in items %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
@@ -24,7 +24,7 @@
                             <td>{{ item.inv }}</td>
                             <td>{{ item.price }}</td>
                             <td>{% if item.price_opt %} {{ item.price_opt }} {% else %} - {% endif %}</td>
-                            <td><i data-item="{{ item.inv }}" class="fa fa-times" aria-hidden="true"></i><a href="{% url 'edit_item' item.inv %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                            <td><i data-csrf='{{ csrf_token }}' data-item="{{ item.inv }}" class="fa fa-times" aria-hidden="true"></i><a href="{% url 'edit_item' item.inv %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
                         </tr>
                     {% endfor %}
 
