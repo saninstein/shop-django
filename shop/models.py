@@ -8,6 +8,8 @@ from django.db.models import Max
 
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
+modes = ((0, 'Гаджеты'), (1, 'Акссесуары'), (2, 'Для Мастера'), (3, 'Для Дома'))
+
 
 def get_linked_items(class_name, pk=1, count=''):
     q = class_name.objects.get(pk=pk)
@@ -73,7 +75,7 @@ class Items(models.Model):
 
 class Category(models.Model):
     name = models.CharField(default='Категория', max_length=100, verbose_name="Название", null=False, blank=False)
-    is_accessor = models.BooleanField(default=False, blank=False)
+    variant = models.IntegerField(default=modes[0], choices=modes)
 
     def __str__(self):
         return self.name
@@ -109,6 +111,17 @@ class Other(models.Model):
         url = url.split('.')
         thumb_url = url[0] + '_thumb.' + url[1]
         return thumb_url
+
+    def delete(self, *args, **kwargs):
+        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
+        print(path)
+        try:
+            for file in listdir(path):
+                remove(path + file)
+            rmdir(path)
+        except BaseException:
+            pass
+        super(Other, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         super(Other, self).save(*args, **kwargs)
@@ -184,6 +197,17 @@ class Item(models.Model):
         thumb_url = url[0] + '_thumb.' + url[1]
         return thumb_url
 
+    def delete(self, *args, **kwargs):
+        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
+        print(path)
+        try:
+            for file in listdir(path):
+                remove(path + file)
+            rmdir(path)
+        except BaseException:
+            pass
+        super(Item, self).delete(*args, **kwargs)
+
     def save(self, *args, **kwargs):
         super(Item, self).save(*args, **kwargs)
         try:
@@ -213,17 +237,6 @@ class Phone(Item):
     sim_count = models.IntegerField(verbose_name='Количество сим', default=1, blank=True)
     link_category = models.ForeignKey(Category, default=1, editable=False)
 
-    def delete(self, *args, **kwargs):
-        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
-        print(path)
-        try:
-            for file in listdir(path):
-                remove(path + file)
-            rmdir(path)
-        except BaseException:
-            pass
-        super(Phone, self).delete(*args, **kwargs)
-
 
 class Tablet(Item):
     standards = models.CharField(verbose_name='Стандарты и техгологии', max_length=100, blank=True)
@@ -238,31 +251,19 @@ class Notebook(Item):
     optical_privod = models.CharField(verbose_name='Оптический привод', max_length=300, blank=True, default='')
     link_category = models.ForeignKey(Category, default=3, editable=False)
 
-    def delete(self, *args, **kwargs):
-        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
-        print(path)
-        try:
-            for file in listdir(path):
-                remove(path + file)
-            rmdir(path)
-        except BaseException:
-            pass
-        super(Notebook, self).delete(*args, **kwargs)
-
 
 class Accessories(Other):
-    link_category = models.ForeignKey(Category, limit_choices_to={'is_accessor': True})
+    link_category = models.ForeignKey(Category, limit_choices_to={'variant': 1})
 
-    def delete(self, *args, **kwargs):
-        path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
-        print(path)
-        try:
-            for file in listdir(path):
-                remove(path + file)
-            rmdir(path)
-        except BaseException:
-            pass
-        super(Accessories, self).delete(*args, **kwargs)
+
+class ForMaster(Other):
+    link_category = models.ForeignKey(Category, limit_choices_to={'variant': 2})
+
+
+class ForHome(Other):
+    link_category = models.ForeignKey(Category, limit_choices_to={'variant': 3})
+
+
 
 
 class Slide(models.Model):
