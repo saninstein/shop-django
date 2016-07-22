@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect
+from django.http import HttpResponse
 from shop.views import get_item
 from django.contrib import auth
 from django.contrib.auth.decorators import user_passes_test
@@ -120,7 +121,6 @@ def slide_edit(req, num=''):
 
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def show_items(req, category=''):
-    print(category)
     args = dict()
     args.update(csrf(req))
     if category == 'phone':
@@ -131,12 +131,21 @@ def show_items(req, category=''):
         args['items'] = Notebook.objects.all()
     else:
         return redirect('admingeneral')
-    args['category'] = args['items'][0].link_category.name
+
+    if not args['items']:
+        return redirect('admingeneral')
+    else:
+        args['category'] = args['items'][0].link_category.name
+    args['user'] = req.user
     return render_to_response('show_all/index.html', args)
 
 
-
-
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
+def delete_item(req):
+    if req.method == 'POST':
+        item = get_item(req.POST['item'])
+        item.delete()
+    return HttpResponse()
 
 
 def login(req):

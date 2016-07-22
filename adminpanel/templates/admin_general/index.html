@@ -7,9 +7,9 @@
         <div class="a-cont">
             <div id="a-cont-first" class="a-cont-tittle">Товары</div>
             <ul>
-                <li><a href="{% url 'add_item' 'phone' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Смартфоны</a></li>
-                <li><a href="{% url 'add_item' 'tablet' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Планшеты</a></li>
-                <li><a href="{% url 'add_item' 'notebook' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="">Ноутбуки</a></li>
+                <li><a href="{% url 'add_item' 'phone' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="{% url 'show' 'phone' %}">Смартфоны</a></li>
+                <li><a href="{% url 'add_item' 'tablet' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="{% url 'show' 'tablet' %}">Планшеты</a></li>
+                <li><a href="{% url 'add_item' 'notebook' %}"><i class="fa fa-plus-square" aria-hidden="true"></i></a><a class="a-cont-link" href="{% url 'show' 'notebook' %}">Ноутбуки</a></li>
             </ul>
             <div id="a-cont-first" class="a-cont-tittle">Слайды</div>
             <ul>

@@ -3,12 +3,12 @@
  */
 $(document).ready(function(){
     $('.fa-times').click(function(){
-        var item = alert($(this).data('item'));
-        var csrf = alert($(this).data('csrf'));
+        var item = $(this).data('item');
+        var csrf = $('input[name=csrfmiddlewaretoken]').val()
 
-        
+
         $.post(
-            "/adminpanel/delete/",
+            "/adminpanel/ajax_delete/",
             {
                 item: item,
                 csrfmiddlewaretoken: csrf

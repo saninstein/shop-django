@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^logout/', views.logout, name='logout'),
     url(r'edit_slide/(?P<num>\d+)/$', views.slide_edit, name='slide_edit'),
     url(r'^show/(?P<category>[\w\-]+)/$', views.show_items, name='show'),
+    url(r'^ajax_delete/$', views.delete_item),
 ]
