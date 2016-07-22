@@ -33,6 +33,7 @@ def new_item(req, category='', inv=''):
         item_inv = False
     if req.method == 'POST':
         if category == 'phone':
+            args['category'] = 'Смартфон'
             form = PhoneForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
@@ -43,6 +44,7 @@ def new_item(req, category='', inv=''):
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'phone'})
         elif category == 'notebook':
+            args['category'] = 'Ноутбук'
             form = NotebookForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
@@ -53,6 +55,7 @@ def new_item(req, category='', inv=''):
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'notebook'})
         elif category == 'tablet':
+            args['category'] = 'Планшет'
             form = TabletForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
@@ -63,6 +66,7 @@ def new_item(req, category='', inv=''):
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'tablet'})
         args['form'] = form
+        args['user'] = req.user
         return render_to_response('new_item/index.html', args)
     else:
         if item:
@@ -70,12 +74,14 @@ def new_item(req, category='', inv=''):
         else:
             catg = False
         if category == 'phone' or catg == 1:
+            args['category'] = 'Смартфон'
             args['form'] = PhoneForm(instance=item or None)
             if item_inv:
                 args['url'] = reverse('new_item', kwargs={'category': 'phone', 'inv': item_inv})
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'phone'})
         elif category == 'notebook' or catg == 3:
+            args['category'] = 'Ноутбук'
             args['form'] = NotebookForm(instance=item or None)
             if item_inv:
                 args['url'] = reverse('new_item', kwargs={'category': 'notebook', 'inv': item_inv})
@@ -83,11 +89,12 @@ def new_item(req, category='', inv=''):
                 args['url'] = reverse('add_item', kwargs={'category': 'notebook'})
         elif category == 'tablet' or catg == 2:
             args['form'] = TabletForm(instance=item or None)
+            args['category'] = 'Планшет'
             if item_inv:
                 args['url'] = reverse('new_item', kwargs={'category': 'tablet', 'inv': item_inv})
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'tablet'})
-
+    args['user'] = req.user
     return render_to_response('new_item/index.html', args)
 
 
@@ -102,16 +109,19 @@ def slide_edit(req, num=''):
         except Slide.DoesNotExist:
             return redirect('general')
         if req.method == 'POST':
-
             form = SlideForm(req.POST, req.FILES, instance=slide)
             if form.is_valid():
                 form.save()
                 return redirect('/')
             else:
+                args['category'] = 'Слайд ' + str(slide.id)
                 args['form'] = form
+                args['user'] = req.user
                 args['url'] = reverse('slide_edit', kwargs={'num': num})
                 return render_to_response('new_item/index.html', args)
         else:
+            args['category'] = 'Слайд ' + str(slide.id)
+            args['user'] = req.user
             args['form'] = SlideForm(instance=slide)
             args['url'] = reverse('slide_edit', kwargs={'num': num})
             return render_to_response('new_item/index.html', args)

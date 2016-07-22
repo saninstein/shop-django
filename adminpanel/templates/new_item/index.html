@@ -6,7 +6,7 @@
     <div id="body">
         <div class="a-cont">
 
-            <div id="a-cont-first" class="a-cont-tittle">Новый</div>
+            <div id="a-cont-first" class="a-cont-tittle">{{ category }}</div>
                 <form enctype="multipart/form-data" action="{{ url }}" method="post">
                     {% csrf_token %}
                     {% for field in form %}
