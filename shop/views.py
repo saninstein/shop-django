@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404, redirect, render
+from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
@@ -20,9 +20,8 @@ def get_item(item_inv):
 
 def item(req, item=''):
     args = dict(item=get_item(item))
-    args['user'] = req.user
     if args['item']:
-        return render_to_response('item_phone/index.html', args)
+        return render_to_response('item_phone/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
 
@@ -30,9 +29,8 @@ def item(req, item=''):
 def phone_filter(req, filter_str=""):
     if filter_str == "":
         args = dict()
-        args['user'] = req.user
         args["items"] = Phone.objects.all()
-        return render_to_response("filter_items/index.html", args)
+        return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
     filter_str = filter_str.split('-')
     filter_str.sort()
     filters = {
@@ -109,22 +107,19 @@ def phone_filter(req, filter_str=""):
         q.add(f, Q.AND)
     args = dict()
     args["items"] = Phone.objects.filter(q)
-    args['user'] = req.user
-    return render_to_response("filter_items/index.html", args)
+    return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
 
 
 def search(req, search_str=""):
     args = dict()
-    args['user'] = req.user
     args['phones'] = Phone.objects.filter(name__icontains=search_str)
     args['tablets'] = Tablet.objects.filter(name__icontains=search_str)
     args['note'] = Notebook.objects.filter(name__icontains=search_str)
-    return render_to_response("search/index.html", args)
+    return render_to_response("search/index.html", args, context_instance=RequestContext(req))
 
 
 def all_search(req, search_str=""):
     args = dict()
-    args['user'] = req.user
     l = [list(x.objects.filter(name__icontains=search_str)) for x in (Phone, Tablet, Notebook)]
     res = list()
     for x in l:
@@ -132,20 +127,18 @@ def all_search(req, search_str=""):
     del l
     args["items"] = res
     args["search_str"] = search_str
-    return render_to_response("items/index.html", args)
+    return render_to_response("items/index.html", args, context_instance=RequestContext(req))
 
 
 def phones_search(req, search_str=""):
     args = dict()
-    args['user'] = req.user
     args['items'] = Phone.objects.filter(name__icontains=search_str)
-    return render_to_response("phones/index.html", args)
+    return render_to_response("phones/index.html", args, context_instance=RequestContext(req))
 
 
 def general(req):
     args = dict()
     args['slides'] = Slide.objects.all()
-    args['user'] = req.user
     l = [list(x.objects.order_by('-date')[:4]) for x in (Phone, Tablet, Notebook)]
     news = list()
     for x in l:
@@ -160,12 +153,11 @@ def general(req):
         populars += x
     populars.sort(key=lambda i: i.likes, reverse=True)
     args["pop_items"] = populars
-    return render_to_response('general/index.html', args)
+    return render_to_response('general/index.html', args, context_instance=RequestContext(req))
 
 
 def phones(req):
     args = dict()
-    args['user'] = req.user
     a = Phone.objects.aggregate(Max('price'), Min('price'))
     args['items'] = Phone.objects.all()
     args['category'] = 1
@@ -175,7 +167,7 @@ def phones(req):
     except TypeError:
         args['price_max'] = 0
         args['price_min'] = 0
-    return render_to_response("phones/index.html", args)
+    return render_to_response("phones/index.html", args, context_instance=RequestContext(req))
 
 
 def tablets(req):
@@ -189,14 +181,13 @@ def tablets(req):
     except TypeError:
         args['price_max'] = 0
         args['price_min'] = 0
-    return render_to_response("phones/index.html", args)
+    return render_to_response("phones/index.html", args, context_instance=RequestContext(req))
 
 
 def item_phone(req, item='1'):
     args = dict()
     args["item"] = get_object_or_404(Phone, pk=item)
-    args['user'] = req.user
-    return render_to_response("item_phone/index.html", args)
+    return render_to_response("item_phone/index.html", args, context_instance=RequestContext(req))
 
 
 def like(req, item=''):

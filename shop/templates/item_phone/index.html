@@ -11,7 +11,7 @@
     <script src="{% static "res/fotorama/fotorama.js" %}"></script>
     <div id="body">
 	    <div class="cont-item">
-		    <h1>{% if user.is_superuser %}<a href="{% url 'edit_item' item.inv %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}{{ item.name }} <i class="fa fa-heart" aria-hidden="true"></i></h1>
+		    <h1>{% if request.user.is_superuser %}<a href="{% url 'edit_item' item.inv %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endif %}{{ item.name }} <i class="fa fa-heart" aria-hidden="true"></i></h1>
 			<div id="gallery">
 				<br>
 				<div class="fotorama" data-nav="thumbs" data-minheight="300" data-maxheight="70%">

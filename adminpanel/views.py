@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, RequestContext
 from django.http import HttpResponse
 from shop.views import get_item
 from django.contrib import auth
@@ -16,14 +16,12 @@ def is_su(user):
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def general(req):
     args = dict()
-    args['user'] = req.user
-    return render_to_response('admin_general/index.html', args)
+    return render_to_response('admin_general/index.html', args, context_instance=RequestContext(req))
 
 
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def new_item(req, category='', inv=''):
     args = dict()
-    args['user'] = req.user
     args.update(csrf(req))
     if inv:
         item = get_item(inv)
@@ -66,8 +64,7 @@ def new_item(req, category='', inv=''):
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'tablet'})
         args['form'] = form
-        args['user'] = req.user
-        return render_to_response('new_item/index.html', args)
+        return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
     else:
         if item:
             catg = item.link_category_id
@@ -94,8 +91,7 @@ def new_item(req, category='', inv=''):
                 args['url'] = reverse('new_item', kwargs={'category': 'tablet', 'inv': item_inv})
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'tablet'})
-    args['user'] = req.user
-    return render_to_response('new_item/index.html', args)
+    return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
 
 
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
@@ -116,15 +112,13 @@ def slide_edit(req, num=''):
             else:
                 args['category'] = 'Слайд ' + str(slide.id)
                 args['form'] = form
-                args['user'] = req.user
                 args['url'] = reverse('slide_edit', kwargs={'num': num})
-                return render_to_response('new_item/index.html', args)
+                return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
         else:
             args['category'] = 'Слайд ' + str(slide.id)
-            args['user'] = req.user
             args['form'] = SlideForm(instance=slide)
             args['url'] = reverse('slide_edit', kwargs={'num': num})
-            return render_to_response('new_item/index.html', args)
+            return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
 
@@ -146,8 +140,7 @@ def show_items(req, category=''):
         return redirect('admingeneral')
     else:
         args['category'] = args['items'][0].link_category.name
-    args['user'] = req.user
-    return render_to_response('show_all/index.html', args)
+    return render_to_response('show_all/index.html', args, context_instance=RequestContext(req))
 
 
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
@@ -161,7 +154,6 @@ def delete_item(req):
 def login(req):
     args = dict()
     args.update(csrf(req))
-    args['user'] = req.user
     if req.POST:
         username = req.POST.get('username', '')
         password = req.POST.get('password', '')
@@ -171,9 +163,9 @@ def login(req):
             return redirect('/adminpanel/')
         else:
             args['login_error'] = "Пользователь не найден"
-            return render_to_response('login/index.html', args)
+            return render_to_response('login/index.html', args, context_instance=RequestContext(req))
     else:
-        return render_to_response('login/index.html', args)
+        return render_to_response('login/index.html', args, context_instance=RequestContext(req))
 
 
 def logout(req):
