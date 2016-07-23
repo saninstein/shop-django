@@ -69,25 +69,28 @@
 <div id="pod-menu">
     <ul>
         <li id="pd1">
-            <a href="">Акссесуары для Смартфонов</a>
+            <a href="{% url 'other_subcategory' 'accessories' '4' %}">Всё для Смартфонов</a>
         </li>
         <li id="pd2">
-            <a href="">Акссесуары для Планшетов</a>
+            <a href="{% url 'other_subcategory' 'accessories' '5' %}">Всё для Планшетов</a>
         </li>
         <li id="pd3">
-            <a href="">Акссесуары для Ноутбуков</a>
+            <a href="{% url 'other_subcategory' 'accessories' '6' %}">Всё для Ноутбуков</a>
         </li>
         <li id="pd4">
             <div class="in-list">
                 <ul>
                     <li>
-                        <a href="">Пылесосы</a>
+                        <a href="{% url 'other_subcategory' 'appliances' '10' %}">Утюги</a>
                     </li>
                     <li>
-                        <a href="">Электрочайники</a>
+                        <a href="{% url 'other_subcategory' 'appliances' '11' %}">Пылесосы</a>
                     </li>
                     <li>
-                        <a href="">Прочее</a>
+                        <a href="{% url 'other_subcategory' 'appliances' '12' %}">Электрочайники</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'other_subcategory' 'appliances' '13' %}">Прочее</a>
                     </li>
                 </ul>
             </div>
@@ -96,13 +99,13 @@
             <div class="in-list">
                 <ul>
                     <li>
-                        <a href="">Паяльные станции</a>
+                        <a href="{% url 'other_subcategory' 'master-tools' '7' %}">Паяльные станции</a>
                     </li>
                     <li>
-                        <a href="">Электроинструменты</a>
+                        <a href="{% url 'other_subcategory' 'master-tools' '8' %}">Электроинструменты</a>
                     </li>
                     <li>
-                        <a href="">Прочее</a>
+                        <a href="{% url 'other_subcategory' 'master-tools' '9' %}">Прочее</a>
                     </li>
                 </ul>
             </div>

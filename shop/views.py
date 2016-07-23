@@ -159,6 +159,19 @@ def other_category(req, category='', subcategory=''):
                 args['category'] = 'Всё для мастера'
             args['subcategory'] = Category.objects.filter(variant=2)
             args['cat'] = 'master-tools'
+        elif category == 'accessories':
+            if subcategory:
+                try:
+                    args['items'] = Accessories.objects.filter(link_category_id=subcategory)
+                    args['category'] = Category.objects.get(pk=subcategory)
+                except (ForMaster.DoesNotExist, Category.DoesNotExist):
+                    args['items'] = ForMaster.objects.all()
+                    args['category'] = 'Акссесуары и Комплектующие'
+            else:
+                args['items'] = Accessories.objects.all()
+                args['category'] = 'Акссесуары и Комплектующие'
+            args['subcategory'] = Category.objects.filter(variant=1)
+            args['cat'] = 'accessories'
         return render_to_response('items/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
