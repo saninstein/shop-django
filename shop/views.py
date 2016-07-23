@@ -17,7 +17,6 @@ def get_item(item_inv):
     return False
 
 
-
 def item(req, item=''):
     args = dict(item=get_item(item))
     if args['item']:
@@ -26,20 +25,18 @@ def item(req, item=''):
         return redirect('general')
 
 
-def phone_filter(req, filter_str=""):
+def tablet_filter(req, filter_str=""):
     if filter_str == "":
         args = dict()
-        args["items"] = Phone.objects.all()
+        args["items"] = Tablet.objects.all()
         return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
     filter_str = filter_str.split('-')
     filter_str.sort()
     filters = {
-        "d1": lambda: Q(diagonal__lte=4),
-        "d2": lambda: (Q(diagonal__gte=4.1) & Q(diagonal__lt=4.5)),
-        "d3": lambda: (Q(diagonal__gte=4.5) & Q(diagonal__lte=5)),
-        "d4": lambda: (Q(diagonal__gte=5.1) & Q(diagonal__lte=5.5)),
-        "d5": lambda: (Q(diagonal__gte=5.55) & Q(diagonal__lte=6)),
-        "d6": lambda: Q(diagonal__gte=6),
+        "d1": lambda: (Q(diagonal__gte=6) & Q(diagonal__lte=7.7)),
+        "d2": lambda: (Q(diagonal__gte=7.85) & Q(diagonal__lte=9.5)),
+        "d3": lambda: (Q(diagonal__gte=9.6) & Q(diagonal__lte=10.1)),
+        "d4": lambda: Q(diagonal__gt=10.1),
 
         "r1": lambda: Q(resolution__iexact="2560х1440"),
         "r2": lambda: Q(resolution__iexact="1920x1080"),
@@ -106,8 +103,170 @@ def phone_filter(req, filter_str=""):
     for f in q_l:
         q.add(f, Q.AND)
     args = dict()
+    args["items"] = Tablet.objects.filter(q)
+    return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
+
+
+def phone_filter(req, filter_str=""):
+    if filter_str == "":
+        args = dict()
+        args["items"] = Phone.objects.all()
+        return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
+    filter_str = filter_str.split('-')
+    filter_str.sort()
+    filters = {
+        "d1": lambda: (Q(diagonal__gte=9) & Q(diagonal__lte=12.5)),
+        "d2": lambda: Q(diagonal=13),
+        "d3": lambda: (Q(diagonal__gte=14) & Q(diagonal__lte=15.6)),
+        "d4": lambda: (Q(diagonal__gte=16) & Q(diagonal__lte=17)),
+
+        "r1": lambda: Q(resolution__iexact="1900x1080"),
+        "r2": lambda: Q(resolution__iexact="1366x768"),
+        "r3": lambda: Q(resolution__iexact="1600x900"),
+
+        "n1": lambda: Q(count_core__exact=1),
+        "n2": lambda: Q(count_core__exact=2),
+        "n3": lambda: Q(count_core__exact=4),
+        "n4": lambda: Q(count_core__exact=8),
+        "n5": lambda: Q(count_core__gt=8),
+
+        "m1": lambda: Q(ram__lt=4096),
+        "m2": lambda: (Q(ram__gte=4096) & Q(ram__lte=6144)),
+        "m3": lambda: (Q(ram__gte=8192) & Q(ram__lte=10240)),
+        "m4": lambda: Q(ram__gte=12288),
+
+        "c1": lambda: Q(gpu__icontains='amd'),
+        "c2": lambda: Q(gpu__icontains='nvidia'),
+
+        "w1": lambda: Q(core_other__icontains='amd'),
+        "w2": lambda: Q(core_other__icontains='intel'),
+
+        "f1": lambda: Q(availability__exact="is"),
+        "f2": lambda: Q(availability__exact="c"),
+
+        "p": lambda min_p, max_p: (Q(price__gte=min_p) & Q(price__lte=max_p)),
+    }
+
+    q_objs_d = Q()
+    q_objs_r = Q()
+    q_objs_n = Q()
+    q_objs_m = Q()
+    q_objs_c = Q()
+    q_objs_f = Q()
+    q_objs_p = Q()
+    q_objs_w = Q()
+    filters_keys = list(filters.keys())
+
+    for f in filter_str:
+        if f[0] == 'p':
+            s = f[1:]
+            s = s.split('p')
+            q_objs_p.add(filters['p'](int(s[0]), int(s[1]) + 1), Q.OR)
+        if f in filters_keys:
+            if f[0] == 'd':
+                q_objs_d.add(filters[f](), Q.OR)
+            elif f[0] == 'r':
+                q_objs_r.add(filters[f](), Q.OR)
+            elif f[0] == 'n':
+                q_objs_n.add(filters[f](), Q.OR)
+            elif f[0] == 'm':
+                q_objs_m.add(filters[f](), Q.OR)
+            elif f[0] == 'c':
+                q_objs_c.add(filters[f](), Q.OR)
+            elif f[0] == 'f':
+                q_objs_f.add(filters[f](), Q.OR)
+            elif f[0] == 'w':
+                q_objs_w.add(filters[f](), Q.OR)
+    q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f, q_objs_p, q_objs_w]
+    q = Q()
+    for f in q_l:
+        q.add(f, Q.AND)
+    args = dict()
     args["items"] = Phone.objects.filter(q)
     return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
+
+
+def note_filter(req, filter_str=""):
+    if filter_str == "":
+        args = dict()
+        args["items"] = Notebook.objects.all()
+        return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
+    filter_str = filter_str.split('-')
+    filter_str.sort()
+    filters = {
+        "d1": lambda: (Q(diagonal__gte=6) & Q(diagonal__lte=7.7)),
+        "d2": lambda: (Q(diagonal__gte=7.85) & Q(diagonal__lte=9.5)),
+        "d3": lambda: (Q(diagonal__gte=9.6) & Q(diagonal__lte=10.1)),
+        "d4": lambda: Q(diagonal__gt=10.1),
+
+        "r1": lambda: Q(resolution__iexact="2560х1440"),
+        "r2": lambda: Q(resolution__iexact="1920x1080"),
+        "r3": lambda: Q(resolution__iexact="800х400"),
+        "r4": lambda: Q(resolution__iexact="1280x720"),
+        "r5": lambda: Q(resolution__iexact="1136x640"),
+        "r6": lambda: Q(resolution__iexact="960x540"),
+        "r7": lambda: Q(resolution__iexact="854х480"),
+        "r8": lambda: Q(resolution__iexact="3840x2160"),
+
+        "n1": lambda: Q(count_core__exact=1),
+        "n2": lambda: Q(count_core__exact=2),
+        "n3": lambda: Q(count_core__exact=4),
+        "n4": lambda: Q(count_core__exact=8),
+        "n5": lambda: Q(count_core__gt=8),
+
+        "m1": lambda: Q(ram__lt=1024),
+        "m2": lambda: (Q(ram__gte=1024) & Q(ram__lt=2048)),
+        "m3": lambda: Q(ram__exact=2048),
+        "m4": lambda: Q(ram__exact=3072),
+        "m5": lambda: Q(ram__exact=4096),
+        "m6": lambda: Q(ram__gt=4096),
+
+        "c1": lambda: Q(camera__lte=2),
+        "c2": lambda: (Q(camera__gt=2) & Q(camera__lte=7)),
+        "c3": lambda: (Q(camera__gte=8) & Q(camera__lte=12)),
+        "c4": lambda: Q(camera__gte=13),
+
+        "f1": lambda: Q(availability__exact="is"),
+        "f2": lambda: Q(availability__exact="c"),
+
+        "p": lambda min_p, max_p: (Q(price__gte=min_p) & Q(price__lte=max_p)),
+    }
+
+    q_objs_d = Q()
+    q_objs_r = Q()
+    q_objs_n = Q()
+    q_objs_m = Q()
+    q_objs_c = Q()
+    q_objs_f = Q()
+    q_objs_p = Q()
+    filters_keys = list(filters.keys())
+
+    for f in filter_str:
+        if f[0] == 'p':
+            s = f[1:]
+            s = s.split('p')
+            q_objs_p.add(filters['p'](int(s[0]), int(s[1]) + 1), Q.OR)
+        if f in filters_keys:
+            if f[0] == 'd':
+                q_objs_d.add(filters[f](), Q.OR)
+            elif f[0] == 'r':
+                q_objs_r.add(filters[f](), Q.OR)
+            elif f[0] == 'n':
+                q_objs_n.add(filters[f](), Q.OR)
+            elif f[0] == 'm':
+                q_objs_m.add(filters[f](), Q.OR)
+            elif f[0] == 'c':
+                q_objs_c.add(filters[f](), Q.OR)
+            elif f[0] == 'f':
+                q_objs_f.add(filters[f](), Q.OR)
+    q_l = [q_objs_d, q_objs_r, q_objs_n, q_objs_m, q_objs_c, q_objs_f, q_objs_p]
+    q = Q()
+    for f in q_l:
+        q.add(f, Q.AND)
+    args = dict()
+    args["items"] = Notebook.objects.filter(q)
+    return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
+
 
 
 def search(req, search_str=""):
@@ -115,12 +274,15 @@ def search(req, search_str=""):
     args['phones'] = Phone.objects.filter(name__icontains=search_str)
     args['tablets'] = Tablet.objects.filter(name__icontains=search_str)
     args['note'] = Notebook.objects.filter(name__icontains=search_str)
+    args['acs'] = Accessories.objects.filter(name__icontains=search_str)
+    args['home'] = ForHome.objects.filter(name__icontains=search_str)
+    args['master'] = ForMaster.objects.filter(name__icontains=search_str)
     return render_to_response("search/index.html", args, context_instance=RequestContext(req))
 
 
 def all_search(req, search_str=""):
     args = dict()
-    l = [list(x.objects.filter(name__icontains=search_str)) for x in (Phone, Tablet, Notebook)]
+    l = [list(x.objects.filter(name__icontains=search_str)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Accessories)]
     res = list()
     for x in l:
         res += x
@@ -207,7 +369,6 @@ def phones(req):
     args = dict()
     a = Phone.objects.aggregate(Max('price'), Min('price'))
     args['items'] = Phone.objects.all()
-    args['category'] = 1
     try:
         args['price_max'] = int(a['price__max'])
         args['price_min'] = int(a['price__min'])
@@ -221,14 +382,26 @@ def tablets(req):
     args = dict()
     a = Tablet.objects.aggregate(Max('price'), Min('price'))
     args['items'] = Tablet.objects.all()
-    args['category'] = 2
     try:
         args['price_max'] = int(a['price__max'])
         args['price_min'] = int(a['price__min'])
     except TypeError:
         args['price_max'] = 0
         args['price_min'] = 0
-    return render_to_response("phones/index.html", args, context_instance=RequestContext(req))
+    return render_to_response("tablets/index.html", args, context_instance=RequestContext(req))
+
+
+def notes(req):
+    args = dict()
+    a = Notebook.objects.aggregate(Max('price'), Min('price'))
+    args['items'] = Notebook.objects.all()
+    try:
+        args['price_max'] = int(a['price__max'])
+        args['price_min'] = int(a['price__min'])
+    except TypeError:
+        args['price_max'] = 0
+        args['price_min'] = 0
+    return render_to_response("notes/index.html", args, context_instance=RequestContext(req))
 
 
 def item_phone(req, item='1'):
