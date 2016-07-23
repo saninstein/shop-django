@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^ajax_phone_filter/$', views.phone_filter),
     url(r'^ajax_like/(?P<item>\d+)/$', views.like),
     url(r'^ajax_addbasket/$', views.add_basket),
+    url(r'^other/(?P<category>[\w\-]+)/$', views.other_category, name='other_category'),
 
 ]

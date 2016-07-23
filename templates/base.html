@@ -51,17 +51,17 @@
 			<li data-pd="#pd1">
 				<a href="{% url 'phones' %}">Смартфоны</a>
 			</li>
-			<li data-pd="#pd2">
-				<a href="#">Ноутбуки</a>
-			</li>
-			<li data-pd="#pd3">
+            <li data-pd="#pd2">
 				<a href="{% url 'tablets' %}">Планшеты</a>
 			</li>
+			<li data-pd="#pd3">
+				<a href="#">Ноутбуки</a>
+			</li>
             <li data-pd="#pd4">
-				<a href="{% url 'tablets' %}">Бытовая Техника</a>
+				<a href="{% url 'other_category' 'appliances' %}">Бытовая Техника</a>
 			</li>
             <li data-pd="#pd5">
-				<a href="{% url 'tablets' %}">Всё для Мастера</a>
+				<a href="{% url 'other_category' 'master-tools' %}">Всё для Мастера</a>
 			</li>
 		</ul>
 	</div>

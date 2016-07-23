@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect, Re
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
-from shop.models import Slide, Phone, Tablet, Notebook, Items
+from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category
 
 
 def get_item(item_inv):
@@ -128,6 +128,22 @@ def all_search(req, search_str=""):
     args["items"] = res
     args["search_str"] = search_str
     return render_to_response("items/index.html", args, context_instance=RequestContext(req))
+
+
+def other_category(req, category=''):
+    args = dict()
+    if category:
+        if category == 'appliances':
+            args['items'] = ForHome.objects.all()
+            args['category'] = 'Бытовая техника'
+            args['subcategory'] = Category.objects.filter(variant=3)
+        elif category == 'master-tools':
+            args['items'] = ForMaster.objects.all()
+            args['category'] = 'Всё для мастера'
+            args['subcategory'] = Category.objects.filter(variant=2)
+        return render_to_response('items/index.html', args, context_instance=RequestContext(req))
+    else:
+        return redirect('general')
 
 
 def phones_search(req, search_str=""):
