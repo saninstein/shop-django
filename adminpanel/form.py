@@ -1,5 +1,89 @@
 from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput
-from shop.models import Phone, Tablet, Notebook, Slide
+from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster
+
+
+class ForMasterForm(ModelForm):
+    class Meta:
+        model = ForMaster
+        exclude = []
+        widgets = {
+            'name': TextInput(attrs={
+                'placeholder': 'Например: Дрель',
+                'class': 'new-cont-textinput',
+            }),
+            'video': TextInput(attrs={
+                'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
+                'class': 'new-cont-textinput',
+            }),
+            'description': Textarea(attrs={
+                'placeholder': 'Описание...',
+                'class': 'new-cont-textarea',
+            }),
+            'price': NumberInput(attrs={
+                'placeholder': '150',
+                'class': 'new-cont-textinput',
+            }),
+            'price_opt': NumberInput(attrs={
+                'placeholder': '0',
+                'class': 'new-cont-textinput',
+            }),
+        }
+
+
+class ForHomeForm(ModelForm):
+    class Meta:
+        model = ForHome
+        exclude = []
+        widgets = {
+            'name': TextInput(attrs={
+                'placeholder': 'Например: Чайник',
+                'class': 'new-cont-textinput',
+            }),
+            'video': TextInput(attrs={
+                'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
+                'class': 'new-cont-textinput',
+            }),
+            'description': Textarea(attrs={
+                'placeholder': 'Описание...',
+                'class': 'new-cont-textarea',
+            }),
+            'price': NumberInput(attrs={
+                'placeholder': '150',
+                'class': 'new-cont-textinput',
+            }),
+            'price_opt': NumberInput(attrs={
+                'placeholder': '0',
+                'class': 'new-cont-textinput',
+            }),
+        }
+
+
+class AccessoriesForm(ModelForm):
+    class Meta:
+        model = Accessories
+        exclude = []
+        widgets = {
+            'name': TextInput(attrs={
+                'placeholder': 'Например: Ремешок',
+                'class': 'new-cont-textinput',
+            }),
+            'video': TextInput(attrs={
+                'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
+                'class': 'new-cont-textinput',
+            }),
+            'description': Textarea(attrs={
+                'placeholder': 'Описание...',
+                'class': 'new-cont-textarea',
+            }),
+            'price': NumberInput(attrs={
+                'placeholder': '150',
+                'class': 'new-cont-textinput',
+            }),
+            'price_opt': NumberInput(attrs={
+                'placeholder': '0',
+                'class': 'new-cont-textinput',
+            }),
+        }
 
 
 class SlideForm(ModelForm):
@@ -121,7 +205,7 @@ class TabletForm(ModelForm):
         exclude = ['link_category', 'link_items']
         widgets = {
             'name': TextInput(attrs={
-                'placeholder': 'Например: IPhone 5',
+                'placeholder': 'Например: iPad Pro',
                 'class': 'new-cont-textinput',
             }),
             'video': TextInput(attrs={
@@ -225,7 +309,7 @@ class NotebookForm(ModelForm):
         exclude = ['link_category', 'link_items']
         widgets = {
             'name': TextInput(attrs={
-                'placeholder': 'Например: IPhone 5',
+                'placeholder': 'Например: MacBook Air',
                 'class': 'new-cont-textinput',
             }),
             'video': TextInput(attrs={

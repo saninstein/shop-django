@@ -253,7 +253,7 @@ class Notebook(Item):
 
 
 class Accessories(Other):
-    link_category = models.ForeignKey(Category, limit_choices_to={'variant': 1})
+    link_category = models.ForeignKey(Category, limit_choices_to={'variant': 1}, verbose_name='Категория')
 
 
 class ForMaster(Other):

@@ -2,12 +2,12 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect, Re
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
-from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category
+from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories
 
 
 def get_item(item_inv):
     if item_inv.isdigit:
-        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook)]
+        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome)]
         item = list()
         for x in l:
             item += x

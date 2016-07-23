@@ -5,8 +5,8 @@ from django.contrib import auth
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
-from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm
-from shop.models import Slide, Phone, Tablet, Notebook
+from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm
+from shop.models import Slide, Phone, Tablet, Notebook, Accessories, ForMaster, ForHome
 
 
 def is_su(user):
@@ -63,6 +63,39 @@ def new_item(req, category='', inv=''):
                 args['url'] = reverse('new_item', kwargs={'category': 'tablet', 'inv': item_inv})
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'tablet'})
+        elif category == 'accessories':
+            args['category'] = 'Аксессуар/Комплектующие'
+            form = AccessoriesForm(req.POST, req.FILES, instance=item or None)
+            if form.is_valid():
+                item = form.save(commit=False)
+                form.save()
+                return redirect(item.get_item())
+            if item_inv:
+                args['url'] = reverse('new_item', kwargs={'category': 'accessories', 'inv': item_inv})
+            else:
+                args['url'] = reverse('add_item', kwargs={'category': 'accessories'})
+        elif category == 'appliances':
+            args['category'] = 'Бытовая Техника'
+            form = ForHomeForm(req.POST, req.FILES, instance=item or None)
+            if form.is_valid():
+                item = form.save(commit=False)
+                form.save()
+                return redirect(item.get_item())
+            if item_inv:
+                args['url'] = reverse('new_item', kwargs={'category': 'appliances', 'inv': item_inv})
+            else:
+                args['url'] = reverse('add_item', kwargs={'category': 'appliances'})
+        elif category == 'master-tools':
+            args['category'] = 'Для Мастера'
+            form = ForMasterForm(req.POST, req.FILES, instance=item or None)
+            if form.is_valid():
+                item = form.save(commit=False)
+                form.save()
+                return redirect(item.get_item())
+            if item_inv:
+                args['url'] = reverse('new_item', kwargs={'category': 'master-tools', 'inv': item_inv})
+            else:
+                args['url'] = reverse('add_item', kwargs={'category': 'master-tools'})
         args['form'] = form
         return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
     else:
@@ -91,6 +124,27 @@ def new_item(req, category='', inv=''):
                 args['url'] = reverse('new_item', kwargs={'category': 'tablet', 'inv': item_inv})
             else:
                 args['url'] = reverse('add_item', kwargs={'category': 'tablet'})
+        elif category == 'accessories' or catg in [4, 5, 6]:
+            args['form'] = AccessoriesForm(instance=item or None)
+            args['category'] = 'Аксессуар/Комплектующие'
+            if item_inv:
+                args['url'] = reverse('new_item', kwargs={'category': 'accessories', 'inv': item_inv})
+            else:
+                args['url'] = reverse('add_item', kwargs={'category': 'accessories'})
+        elif category == 'master-tools' or catg in [7, 8, 9]:
+            args['form'] = ForMasterForm(instance=item or None)
+            args['category'] = 'Для Мастера'
+            if item_inv:
+                args['url'] = reverse('new_item', kwargs={'category': 'master-tools', 'inv': item_inv})
+            else:
+                args['url'] = reverse('add_item', kwargs={'category': 'master-tools'})
+        elif category == 'appliances' or catg in [10, 11, 12, 13]:
+            args['form'] = ForHomeForm(instance=item or None)
+            args['category'] = 'Бытовая Техника'
+            if item_inv:
+                args['url'] = reverse('new_item', kwargs={'category': 'appliances', 'inv': item_inv})
+            else:
+                args['url'] = reverse('add_item', kwargs={'category': 'appliances'})
     return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
 
 
@@ -133,6 +187,12 @@ def show_items(req, category=''):
         args['items'] = Tablet.objects.all()
     elif category == 'notebook':
         args['items'] = Notebook.objects.all()
+    elif category == 'accessories':
+        args['items'] = Accessories.objects.all()
+    elif category == 'appliances':
+        args['items'] = ForHome.objects.all()
+    elif category == 'master-tools':
+        args['items'] = ForMaster.objects.all()
     else:
         return redirect('admingeneral')
 
