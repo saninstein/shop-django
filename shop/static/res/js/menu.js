@@ -11,7 +11,7 @@ $(document).ready(function () {
                 $('#pd4 .in-list ul li').css({'visibility': 'hidden'});
             }
         } else{
-            $('#body').mouseenter(function () {
+            $('#pod-menu').mouseleave(function () {
                 $('#pod-menu').hide();
             });
         }

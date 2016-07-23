@@ -20,7 +20,9 @@
         {% if category %}
             <div class="sub-cat">
                 <ul>
-                    <li><a href="{{  }}"></a></li>
+                    {% for sub in subcategory %}
+                        <li><a href="{% url 'other_subcategory' category=cat subcategory=sub.id %}">{{ sub.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         {% endif %}

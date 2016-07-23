@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^ajax_like/(?P<item>\d+)/$', views.like),
     url(r'^ajax_addbasket/$', views.add_basket),
     url(r'^other/(?P<category>[\w\-]+)/$', views.other_category, name='other_category'),
+    url(r'^other/(?P<category>[\w\-]+)/(?P<subcategory>\d+)$', views.other_category, name='other_subcategory'),
 
 ]
