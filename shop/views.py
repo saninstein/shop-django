@@ -144,7 +144,7 @@ def other_category(req, category='', subcategory=''):
             else:
                 args['items'] = ForHome.objects.all()
                 args['category'] = 'Бытовая техника'
-                args['cat'] = 'appliances'
+            args['cat'] = 'appliances'
             args['subcategory'] = Category.objects.filter(variant=3)
         elif category == 'master-tools':
             if subcategory:
