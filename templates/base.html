@@ -12,7 +12,7 @@
     <script src="{% static "res/js/jquery.cookie.js" %}"></script>
   	<script src="{% static "res/js/jquery.slides.min.js" %}"></script>
     <script src="{% static "res/js/basket.js" %}"></script>
-
+    <script src="{% static "res/js/menu.js" %}"></script>
 	<title>ElektroSwit - Интернет-магазин современных гаджетов</title>
 </head>
 <body>
@@ -57,8 +57,57 @@
 			<li>
 				<a href="{% url 'tablets' %}">Планшеты</a>
 			</li>
+            <li>
+				<a href="{% url 'tablets' %}">Бытовая Техника</a>
+			</li>
+            <li>
+				<a href="{% url 'tablets' %}">Всё для Мастера</a>
+			</li>
 		</ul>
 	</div>
+</div>
+<div id="pod-menu">
+    <ul>
+        <li>
+            <a href="">Акссесуары для Смартфонов</a>
+        </li>
+        <li>
+            <a href="">Акссесуары для Планшетов</a>
+        </li>
+        <li>
+            <a href="">Акссесуары для Ноутбуков</a>
+        </li>
+        <li>
+            <div class="in-list">
+                <ul>
+                    <li>
+                        <a href="">Пылесосы</a>
+                    </li>
+                    <li>
+                        <a href="">Электрочайники</a>
+                    </li>
+                    <li>
+                        <a href="">Прочее</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li>
+            <div class="in-list">
+                <ul>
+                    <li>
+                        <a href="">Паяльные станции</a>
+                    </li>
+                    <li>
+                        <a href="">Электроинструменты</a>
+                    </li>
+                    <li>
+                        <a href="">Прочее</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
 </div>
 {% block content %}{% endblock %}
 
