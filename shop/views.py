@@ -107,10 +107,10 @@ def tablet_filter(req, filter_str=""):
     return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
 
 
-def phone_filter(req, filter_str=""):
+def note_filter(req, filter_str=""):
     if filter_str == "":
         args = dict()
-        args["items"] = Phone.objects.all()
+        args["items"] = Notebook.objects.all()
         return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
     filter_str = filter_str.split('-')
     filter_str.sort()
@@ -182,14 +182,14 @@ def phone_filter(req, filter_str=""):
     for f in q_l:
         q.add(f, Q.AND)
     args = dict()
-    args["items"] = Phone.objects.filter(q)
+    args["items"] = Notebook.objects.filter(q)
     return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
 
 
-def note_filter(req, filter_str=""):
+def phone_filter(req, filter_str=""):
     if filter_str == "":
         args = dict()
-        args["items"] = Notebook.objects.all()
+        args["items"] = Phone.objects.all()
         return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
     filter_str = filter_str.split('-')
     filter_str.sort()
@@ -264,7 +264,7 @@ def note_filter(req, filter_str=""):
     for f in q_l:
         q.add(f, Q.AND)
     args = dict()
-    args["items"] = Notebook.objects.filter(q)
+    args["items"] = Phone.objects.filter(q)
     return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
 
 
