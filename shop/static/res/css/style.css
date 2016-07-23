@@ -1048,6 +1048,7 @@ html{
 }
 
 #pod-menu{
+	display: none;
 	position: absolute;
 	z-index: 10;
 	width: 90%;
@@ -1077,6 +1078,11 @@ html{
 
 }
 
+#pod-menu ul li:hover{
+	background-color: #f5bf16;
+}
+
+
 #pod-menu a {
 	display: block;
 	width: 80%;
@@ -1095,12 +1101,19 @@ html{
 
 .in-list ul li{
 	display: block !important;
-	width: 90% !important;
+	width: 100% !important;
 	box-shadow: none !important;
 	-webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
+	height: 3rem;
 	border-top: 0.1px solid #BD9D00;
+	margin-left: -5%;
+}
+
+.in-list ul li a{
+	margin: 0 auto !important;
+	height: 4rem;
 }
 
 .in-list ul li:first-of-type{
