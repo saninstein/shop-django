@@ -225,13 +225,11 @@ def delete_item(req):
                 if not item:
                     raise Share.DoesNotExist
             item.delete()
-        except (Share.DoesNotExist):
+        except Share.DoesNotExist:
             return HttpResponse()
         else:
             return HttpResponse('OK')
     return HttpResponse()
-
-
 
 
 def login(req):
@@ -251,11 +249,13 @@ def login(req):
         return render_to_response('login/index.html', args, context_instance=RequestContext(req))
 
 
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def logout(req):
     auth.logout(req)
     return redirect('/')
 
 
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def add_share(req):
     args = dict()
     args.update(csrf(req))
@@ -273,6 +273,7 @@ def add_share(req):
         return render_to_response('share_form/index.html', args, context_instance=RequestContext(req))
 
 
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def ajax_search(req, search_str=""):
     args = dict()
     l = [list(x.objects.filter(name__icontains=search_str).only('name', 'inv')) for x in
