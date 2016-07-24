@@ -51,6 +51,15 @@
                 {% else %}
                     <h3 id="custom">Под заказ <i class="fa fa-truck" aria-hidden="true"></i></h3>
                 {% endif %}
+                {% if shares %}
+                    <ul id="shares">
+                        <h4>Акционные предложения:</h4><br>
+                            (скидка на второй товар)
+                        {% for share in shares %}
+                            <li><a href="{{ share.sec_item.get_item }}">{{ share.sec_item.name }} </a><span>-{{ share.discount }}%</span></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
 			</div>
 			<div class="descript">
 				<div>

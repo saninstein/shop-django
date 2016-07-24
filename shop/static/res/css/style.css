@@ -1212,3 +1212,45 @@ html{
 	font-family: RobotoCondensedR;
 	font-size: 1.5rem;
 }
+
+#shares{
+	display: block;
+	width: 80%;
+	margin: 5px auto;
+	font-family: RobotoCondensedR;
+	text-align: center;
+}
+
+#shares li{
+	text-align: center;
+	list-style-type: none;
+	font-family: RobotoCondensedR;
+	color: black;
+	font-size: 1.4rem;
+	display: block;
+	width: 80%;
+	margin: 5px auto;
+	border-top: 0.5px solid #EDEDED;
+}
+
+#shares span{
+	font-size: 1rem;
+	display: inline-block;
+	border: 3px solid #ffd506;
+	background-color: #ffd506;
+	margin-top: 1px;
+	margin-right: auto;
+	float: right;
+	border-radius: 25px;
+	height: 1.1rem;
+	width: 2rem;
+}
+
+#shares a{
+	text-decoration: none;
+	color: black;
+}
+
+#shares a:hover{
+	text-decoration: underline;
+}

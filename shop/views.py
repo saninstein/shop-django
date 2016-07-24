@@ -20,13 +20,12 @@ def get_item(item_inv):
 def item(req, item=''):
     args = dict(item=get_item(item))
     if args['item']:
-        shares = Share.objects.filter(gen_item__exact=args['item'].inv)
-        shares = shares.only('sec_item', 'discount').values()
+        shares = Share.objects.filter(gen_item__exact=args['item'].inv).only('sec_item', 'discount').values()
         if shares:
             args['shares'] = list()
             for obj in shares:
-                args['shares'].append(dict(sec_item=get_item(str(obj['sec_item'])), discount=obj['discount']),
-                                      inv=obj['inv'])
+                args['shares'].append(dict(sec_item=get_item(str(obj['sec_item'])), discount=obj['discount'],
+                                      inv=obj['inv']))
         return render_to_response('item_phone/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
