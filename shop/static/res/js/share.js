@@ -32,7 +32,9 @@ $(document).ready(function () {
                     $.cookie('message', 'Скидка добавлена');
                     $.cookie('message_type', 'good');
                     $(document).trigger('message');
-                    document.location.replace('/adminpanel/');
+                    setTimeout(function () {
+                        document.location.replace('/adminpanel/');
+                    }, 1000);
                 } else{
                     $.cookie('message', 'Данные некорректны');
                     $.cookie('message_type', 'bad');

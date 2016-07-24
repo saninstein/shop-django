@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect, RequestContext
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from shop.views import get_item
 from django.contrib import auth
@@ -6,7 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm
-from shop.models import Slide, Phone, Tablet, Notebook, Accessories, ForMaster, ForHome
+from shop.models import Slide, Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Share
 
 
 def is_su(user):
@@ -237,7 +238,15 @@ def add_share(req):
     args = dict()
     args.update(csrf(req))
     if req.method == 'POST':
-        pass
+        item = Share(gen_item=req.POST['first'], sec_item=req.POST['second'], discount=req.POST['discount'])
+        try:
+            item.full_clean()
+        except ValidationError:
+            return HttpResponse()
+        else:
+            item.save()
+            return HttpResponse('OK')
+
     else:
         return render_to_response('share_form/index.html', args, context_instance=RequestContext(req))
 

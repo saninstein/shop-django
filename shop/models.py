@@ -3,6 +3,7 @@ import random
 import string
 from os import remove, path, listdir, rmdir
 from django.db import models
+from django.core.exceptions import ValidationError
 from elektroswit.settings import ERROR_LOG, MEDIA_ROOT
 from django.db.models import Max
 
@@ -292,6 +293,13 @@ class Share(models.Model):
     gen_item = models.IntegerField(blank=False)
     sec_item = models.IntegerField(blank=False)
     discount = models.IntegerField(blank=False)
+
+    def clean(self):
+        if self.gen_item == self.sec_item:
+            raise ValidationError('Первый и второй не могут быть равны')
+
+    def __str__(self):
+        return 'Первый: ' + str(self.gen_item) + ' Второй: ' + str(self.sec_item) + ' Скидка: ' + str(self.discount)
 
 
 
