@@ -5,7 +5,7 @@ from os import remove, path, listdir, rmdir
 from django.db import models
 from django.core.exceptions import ValidationError
 from elektroswit.settings import ERROR_LOG, MEDIA_ROOT
-from django.db.models import Max
+from django.db.models import Max, Q
 
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
@@ -55,7 +55,8 @@ def upload_path(instance, filename):
 
 
 def get_inv():
-    a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects, ForMaster.objects, ForHome.objects]
+    a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects, ForMaster.objects, ForHome.objects,
+         Share.objects]
     num = []
     for i in a:
         agr = i.aggregate(max=Max('inv'))
@@ -114,6 +115,11 @@ class Other(models.Model):
         return thumb_url
 
     def delete(self, *args, **kwargs):
+        shares = Share.objects.filter((Q(gen_item__exact=self.inv) | Q(sec_item__exact=self.inv)))
+        if shares:
+            for share in shares:
+                share.delete()
+
         path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
         print(path)
         try:
@@ -199,6 +205,10 @@ class Item(models.Model):
         return thumb_url
 
     def delete(self, *args, **kwargs):
+        shares = Share.objects.filter((Q(gen_item__exact=self.inv) | Q(sec_item__exact=self.inv)))
+        if shares:
+            for share in shares:
+                share.delete()
         path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
         print(path)
         try:
@@ -290,6 +300,7 @@ class Slide(models.Model):
 
 
 class Share(models.Model):
+    inv = models.IntegerField(editable=False, null=False, default=get_inv, primary_key=True, unique=True)
     gen_item = models.IntegerField(blank=False)
     sec_item = models.IntegerField(blank=False)
     discount = models.IntegerField(blank=False)

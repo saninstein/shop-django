@@ -200,7 +200,7 @@ def show_items(req, category=''):
         args['items'] = list()
         for obj in objs:
             args['items'].append(dict(gen_item=get_item(str(obj['gen_item'])).name, sec_item=get_item(str(obj['sec_item'])).name,
-                                      id=obj['id'], discount=obj['discount']))
+                                      inv=obj['inv'], discount=obj['discount']))
     else:
         return redirect('admingeneral')
 
@@ -218,12 +218,9 @@ def show_items(req, category=''):
 def delete_item(req):
     if req.method == 'POST':
         try:
-            if req.POST.get('share', False):
-                item = Share.objects.get(pk=req.POST.get('item', ''))
-            else:
-                item = get_item(req.POST.get('item', ''))
-                if not item:
-                    raise Share.DoesNotExist
+            item = get_item(req.POST.get('item', ''))
+            if not item:
+                raise Share.DoesNotExist
             item.delete()
         except Share.DoesNotExist:
             return HttpResponse()

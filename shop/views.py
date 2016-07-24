@@ -2,12 +2,12 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect, Re
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
-from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories
+from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share
 
 
 def get_item(item_inv):
     if item_inv.isdigit:
-        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome)]
+        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Share)]
         item = list()
         for x in l:
             item += x
@@ -20,6 +20,13 @@ def get_item(item_inv):
 def item(req, item=''):
     args = dict(item=get_item(item))
     if args['item']:
+        shares = Share.objects.filter(gen_item__exact=args['item'].inv)
+        shares = shares.only('sec_item', 'discount').values()
+        if shares:
+            args['shares'] = list()
+            for obj in shares:
+                args['shares'].append(dict(sec_item=get_item(str(obj['sec_item'])), discount=obj['discount']),
+                                      inv=obj['inv'])
         return render_to_response('item_phone/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')

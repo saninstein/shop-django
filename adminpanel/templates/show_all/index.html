@@ -34,7 +34,7 @@
                                 <td>{{ item.price }}</td>
                                 <td>{% if item.price_opt %} {{ item.price_opt }} {% else %} - {% endif %}</td>
                             {% endif %}
-                            <td><i {% if share %}data-share="share"{% endif %}data-item="{% if share %}{{ item.id }}{% else %}{{ item.inv }}{% endif %}" class="fa fa-times" aria-hidden="true"></i>{% if not share %}<a href="{% url 'edit_item' item.inv %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>{% endif %}</td>
+                            <td><i data-item="{{ item.inv }}" class="fa fa-times" aria-hidden="true"></i>{% if not share %}<a href="{% url 'edit_item' item.inv %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>{% endif %}</td>
                         </tr>
                     {% endfor %}
 
