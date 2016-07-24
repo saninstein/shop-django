@@ -16,7 +16,19 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: csrf
             },
             function(data){
-                location.reload(true);
+                if(data){
+                    $.cookie('message', 'Успешно удалено');
+                    $.cookie('message_type', 'good');
+                    $(document).trigger('message');
+                    setTimeout(function(){
+                        location.reload(true);
+                    }, 1000);
+                } else {
+                    $.cookie('message', 'Ошибка удаления');
+                    $.cookie('message_type', 'bad');
+                    $(document).trigger('message');
+                }
+
             }
 
         );

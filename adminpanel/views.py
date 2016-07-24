@@ -217,13 +217,21 @@ def show_items(req, category=''):
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def delete_item(req):
     if req.method == 'POST':
-        print(req.POST['share'])
-        if req.POST['share'] == 'share':
-            item = Share.objects.get(pk=req.POST['item'])
+        try:
+            if req.POST.get('share', False):
+                item = Share.objects.get(pk=req.POST.get('item', ''))
+            else:
+                item = get_item(req.POST.get('item', ''))
+                if not item:
+                    raise Share.DoesNotExist
+            item.delete()
+        except (Share.DoesNotExist):
+            return HttpResponse()
         else:
-            item = get_item(req.POST['item'])
-        item.delete()
+            return HttpResponse('OK')
     return HttpResponse()
+
+
 
 
 def login(req):
