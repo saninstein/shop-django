@@ -1061,6 +1061,8 @@ html{
 
 #pod-menu ul{
 	width: 100%;
+	overflow:visible;
+	height: 1px;
 }
 
 
