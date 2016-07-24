@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^show/(?P<category>[\w\-]+)/$', views.show_items, name='show'),
     url(r'^ajax_delete/$', views.delete_item),
     url(r'^add_share/$', views.add_share, name='add_share'),
+    url(r'^ajax_adm_search/(?P<search_str>[\w\-]+)/$', views.ajax_search),
 ]

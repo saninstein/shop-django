@@ -271,12 +271,12 @@ def phone_filter(req, filter_str=""):
 
 def search(req, search_str=""):
     args = dict()
-    args['phones'] = Phone.objects.filter(name__icontains=search_str)
-    args['tablets'] = Tablet.objects.filter(name__icontains=search_str)
-    args['note'] = Notebook.objects.filter(name__icontains=search_str)
-    args['acs'] = Accessories.objects.filter(name__icontains=search_str)
-    args['home'] = ForHome.objects.filter(name__icontains=search_str)
-    args['master'] = ForMaster.objects.filter(name__icontains=search_str)
+    args['phones'] = Phone.objects.filter(name__icontains=search_str).only('name', 'inv')
+    args['tablets'] = Tablet.objects.filter(name__icontains=search_str).only('name', 'inv')
+    args['note'] = Notebook.objects.filter(name__icontains=search_str).only('name', 'inv')
+    args['acs'] = Accessories.objects.filter(name__icontains=search_str).only('name', 'inv')
+    args['home'] = ForHome.objects.filter(name__icontains=search_str).only('name', 'inv')
+    args['master'] = ForMaster.objects.filter(name__icontains=search_str).only('name', 'inv')
     return render_to_response("search/index.html", args, context_instance=RequestContext(req))
 
 

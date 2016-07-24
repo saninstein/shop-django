@@ -240,3 +240,15 @@ def add_share(req):
         pass
     else:
         return render_to_response('share_form/index.html', args, context_instance=RequestContext(req))
+
+
+def ajax_search(req, search_str=""):
+    args = dict()
+    l = [list(x.objects.filter(name__icontains=search_str).only('name', 'inv')) for x in
+         (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Accessories)]
+    res = list()
+    for x in l:
+        res += x
+    del l
+    args["items"] = res
+    return render_to_response("adm_search/index.html", args, context_instance=RequestContext(req))
