@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput
+from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput, Form, IntegerField
 from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster
 
 

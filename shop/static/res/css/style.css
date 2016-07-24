@@ -1167,9 +1167,24 @@ html{
 	text-decoration: underline;
 }
 
+.choice_item{
+	position: absolute;
+	display: block;
+	width: 50% !important;
+	left: 15%;
+	background-color: white;
+	text-align: center;
+
+}
 
 
 
+#ci1{
+	top:192px;
+	display: none
+}
 
-
-
+#ci2{
+	top:72px;
+	display: none
+}

@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'edit_slide/(?P<num>\d+)/$', views.slide_edit, name='slide_edit'),
     url(r'^show/(?P<category>[\w\-]+)/$', views.show_items, name='show'),
     url(r'^ajax_delete/$', views.delete_item),
+    url(r'^add_share/$', views.add_share, name='add_share'),
 ]

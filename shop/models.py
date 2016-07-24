@@ -264,8 +264,6 @@ class ForHome(Other):
     link_category = models.ForeignKey(Category, limit_choices_to={'variant': 3})
 
 
-
-
 class Slide(models.Model):
     img = models.ImageField(upload_to=get_uniq_name, blank=True, verbose_name='Изображение слайда')
     link = models.URLField(verbose_name='Ссылка', blank=True, default='', help_text='Если ссылка не нужна оставить пустым')
@@ -288,4 +286,12 @@ class Slide(models.Model):
     def delete(self, *args, **kwargs):
         remove(self.img.path)
         super(Slide, self).delete(*args, **kwargs)
+
+
+class Share(models.Model):
+    gen_item = models.IntegerField(blank=False)
+    sec_item = models.IntegerField(blank=False)
+    discount = models.IntegerField(blank=False)
+
+
 

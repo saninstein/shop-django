@@ -231,3 +231,12 @@ def login(req):
 def logout(req):
     auth.logout(req)
     return redirect('/')
+
+
+def add_share(req):
+    args = dict()
+    args.update(csrf(req))
+    if req.method == 'POST':
+        pass
+    else:
+        return render_to_response('share_form/index.html', args, context_instance=RequestContext(req))
