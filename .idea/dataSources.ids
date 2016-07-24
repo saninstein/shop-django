@@ -265,6 +265,15 @@
       <index name="shop_phone_5df945f7" unique="true" columns="link_items_id"/>
       <index name="shop_phone_4953c7df" unique="true" columns="link_category_id"/>
     </table>
+    <table name="shop_share" schema="" catalog="" type="TABLE">
+      <column name="inv" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="gen_item" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="sec_item" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="discount" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="name" sqlType="VARCHAR(600)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="price" sqlType="DECIMAL" precision="0" scale="-1" nullable="false" jdbcType="6"/>
+      <primary-key columns="inv"/>
+    </table>
     <table name="shop_slide" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="img" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>

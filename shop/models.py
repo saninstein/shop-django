@@ -12,6 +12,17 @@ cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
 modes = ((0, 'Гаджеты'), (1, 'Акссесуары'), (2, 'Для Мастера'), (3, 'Для Дома'))
 
 
+def get_item(item_inv):
+    l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories,
+                                                        ForMaster, ForHome, Share)]
+    item = list()
+    for x in l:
+        item += x
+    if item:
+        return item[0]
+    return False
+
+
 def get_linked_items(class_name, pk=1, count=''):
     q = class_name.objects.get(pk=pk)
     links = [rel.get_accessor_name() for rel in q._meta.get_fields() if type(rel) == models.ManyToOneRel]
@@ -300,6 +311,8 @@ class Slide(models.Model):
 
 
 class Share(models.Model):
+    name = models.CharField(default='', editable=False, max_length=600)
+    price = models.DecimalField(default=0, max_digits=20, decimal_places=2, editable=False)
     inv = models.IntegerField(editable=False, null=False, default=get_inv, primary_key=True, unique=True)
     gen_item = models.IntegerField(blank=False)
     sec_item = models.IntegerField(blank=False)
@@ -309,8 +322,14 @@ class Share(models.Model):
         if self.gen_item == self.sec_item:
             raise ValidationError('Первый и второй не могут быть равны')
 
-    def __str__(self):
-        return 'Первый: ' + str(self.gen_item) + ' Второй: ' + str(self.sec_item) + ' Скидка: ' + str(self.discount)
+    def save(self, *args, **kwargs):
+        gen_item = get_item(self.gen_item)
+        sec_item = get_item(self.sec_item)
+        self.name = '{0} + {1} (скидка: -{2}%)'.format(gen_item.name, sec_item.name, str(self.discount))
+        self.price = gen_item.price + (sec_item.price - (sec_item.price / 100 * self.discount))
+        super(Share, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
 
 
