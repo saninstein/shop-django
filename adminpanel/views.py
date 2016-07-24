@@ -194,20 +194,34 @@ def show_items(req, category=''):
         args['items'] = ForHome.objects.all()
     elif category == 'master-tools':
         args['items'] = ForMaster.objects.all()
+    elif category == 'share':
+        args['share'] = True
+        objs = Share.objects.all().values()
+        args['items'] = list()
+        for obj in objs:
+            args['items'].append(dict(gen_item=get_item(str(obj['gen_item'])).name, sec_item=get_item(str(obj['sec_item'])).name,
+                                      id=obj['id'], discount=obj['discount']))
     else:
         return redirect('admingeneral')
 
     if not args['items']:
         return redirect('admingeneral')
     else:
-        args['category'] = args['items'][0].link_category.name
+        if 'share' in args:
+            args['category'] = 'Акции'
+        else:
+            args['category'] = args['items'][0].link_category.name
     return render_to_response('show_all/index.html', args, context_instance=RequestContext(req))
 
 
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def delete_item(req):
     if req.method == 'POST':
-        item = get_item(req.POST['item'])
+        print(req.POST['share'])
+        if req.POST['share'] == 'share':
+            item = Share.objects.get(pk=req.POST['item'])
+        else:
+            item = get_item(req.POST['item'])
         item.delete()
     return HttpResponse()
 
