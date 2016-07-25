@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
 from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share
@@ -448,3 +449,16 @@ def add_basket(req):
         print(req.session['basket'])
         print(req.session['item_count'])
     return HttpResponse()
+
+
+def show_basket(req):
+    args = dict()
+    args.update(csrf(req))
+    if 'basket' in req.session:
+        items = req.session.get('basket', '')
+        counts = req.session.get('item_count', '')
+        args['items'] = list()
+        for sale_item, count in zip(items, counts):
+            print(sale_item, count)
+            args['items'].append([get_item(str(sale_item)), count])
+        print(args['items'])

@@ -46,7 +46,7 @@
 		<div id="basket">
 			<img id="basket-full" src="{% static "res/img/shopping-cart-full.png" %}" width="50px">
             <img id="basket-empty" src="{% static "res/img/shopping-cart.png" %}" width="50px">
-			<a href="#">Заказ <strong><u></u></strong></a>
+			<a href="{% url 'show_basket' %}">Заказ <strong><u></u></strong></a>
 		</div>
 	</div>
 	<div id="menu">

@@ -50,6 +50,11 @@ $(document).ready(function(){
            {
                item: $('#buy').data('item'),
                count: count
+           },
+           function(){
+               $.cookie('message', 'Товар добавлен в корзину');
+               $.cookie('message_type', 'good');
+               $(document).trigger('message');
            }
        );
    });
