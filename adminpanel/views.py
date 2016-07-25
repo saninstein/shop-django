@@ -236,6 +236,7 @@ def login(req):
         username = req.POST.get('username', '')
         password = req.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
+        print(username, password)
         if user is not None:
             auth.login(req, user)
             return redirect('/adminpanel/')

@@ -429,8 +429,29 @@ def like(req, item=''):
 
 
 @csrf_exempt
-def add_basket(req):
+def add_basket(req, remove=''):
     if req.method == 'POST':
+        if remove:
+            item = int(req.POST['item'])
+            if 'basket' in req.session:
+                print(req.session['basket'])
+                print(req.session['item_count'])
+                basket = req.session['basket']
+                basket = list(basket)
+                try:
+                    pos = basket.index(item)
+                    basket.pop(pos)
+                    req.session['basket'] = tuple(basket)
+                    count = req.session['item_count']
+                    count = list(count)
+                    count.pop(pos)
+                    req.session['item_count'] = tuple(count)
+                    if not len(req.session['basket']):
+                        del req.session['basket']
+                        del req.session['item_count']
+                except ValueError:
+                    pass
+            return HttpResponse()
         new_item = int(req.POST['item'])
         item_count = int(req.POST['count'])
         print(new_item, item_count)
@@ -455,10 +476,13 @@ def show_basket(req):
     args = dict()
     args.update(csrf(req))
     if 'basket' in req.session:
+        print(req.session.get('basket', ''))
         items = req.session.get('basket', '')
         counts = req.session.get('item_count', '')
         args['items'] = list()
         for sale_item, count in zip(items, counts):
             print(sale_item, count)
             args['items'].append([get_item(str(sale_item)), count])
-        print(args['items'])
+        return render_to_response('show_basket/index.html', args, context_instance=RequestContext(req))
+    else:
+        return redirect('general')

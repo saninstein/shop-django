@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^ajax_notes_filter/$', views.note_filter),
     url(r'^ajax_like/(?P<item>\d+)/$', views.like),
     url(r'^ajax_addbasket/$', views.add_basket),
+    url(r'^ajax_remove_from_basket/$', views.add_basket, {'remove': True}),
     url(r'^other/(?P<category>[\w\-]+)/(?P<subcategory>\d+)/$', views.other_category, name='other_subcategory'),
     url(r'^other/(?P<category>[\w\-]+)/$', views.other_category, name='other_category'),
     url(r'^show_basket/$', views.show_basket, name='show_basket'),

@@ -3,7 +3,7 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'res/css/table-style.css' %}">
-    <script src="{% static 'res/js/delete_item.js' %}"></script>
+    <script src="{% static 'res/js/delete_basket_item.js' %}"></script>
     <div id="body">
         <div class="a-cont">
             <div id="a-cont-first" class="a-cont-tittle">{{ category }}</div>
@@ -17,9 +17,8 @@
                     {% for item, count in items %}
                         <tr data-item="{{ item.inv }}">
                             <td><a href="{{ item.get_item }}">{{ item.name }}</a></td>
-                            <td>{% if count == 1 %}{{ item.price_opt }}{% else %}{{ item.price }}{% endif %}</td>
+                            <td>{% if count > 1 and item.price_opt %}{{ item.price_opt }}{% else %}{{ item.price }}{% endif %}</td>
                             <td>{{ count }}</td>
-                            <td>{% if item.price_opt %} {{ item.price_opt }} {% else %} - {% endif %}</td>
                             <td><i data-item="{{ item.inv }}" class="fa fa-times" aria-hidden="true"></i></td>
                         </tr>
                     {% endfor %}
