@@ -126,3 +126,12 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ERROR_LOG = BASE_DIR + '\error.log'
 MEDIA_URL = '/media/'
+
+#MAIL
+
+EMAIL_HOST_USER = 'elekto-swit'
+EMAIL_HOST_PASSWORD = 'AAKfajaPHAadasPF2___2392719'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+

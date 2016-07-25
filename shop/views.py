@@ -1,4 +1,5 @@
 import json
+from django.core.mail import send_mail
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
@@ -507,6 +508,7 @@ def add_order(req):
             order = form.save(commit=False)
             order.items = items
             order.save()
+            send_mail('Заголовок', 'Куплено', 'elekto-swit@yandex.ru', ['saninstein@yandex.ua'], fail_silently=False)
             del req.session['basket']
             del req.session['item_count']
 
