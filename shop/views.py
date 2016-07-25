@@ -1,4 +1,4 @@
-import pickle
+import json
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
@@ -501,13 +501,17 @@ def add_order(req):
         items_inv = req.session.get('basket')
         counts = req.session.get('item_count')
         items = [x for x in zip(items_inv, counts)]
-        items = pickle.dumps(items)
-        form = OrderForm(items, req.POST)
+        items = json.dumps(items)
+        form = OrderForm(req.POST)
         if form.is_valid():
+            order = form.save(commit=False)
+            order.items = items
+            order.save()
             del req.session['basket']
             del req.session['item_count']
-            form.save()
+
             return redirect('general')
         else:
+            print(form.errors)
             return show_basket(req, form)
 

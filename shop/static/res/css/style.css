@@ -370,6 +370,7 @@ html{
 	height: 50px;
 	border-radius: 25px;
 	border: 3px solid #ffd506;
+	font-family: RobotoCondensedR;
 	
 }
 
@@ -432,6 +433,8 @@ html{
 	-webkit-box-shadow: inset 0px 6px 24px -9px rgba(105,105,105,1);
 	-moz-box-shadow: inset 0px 6px 24px -9px rgba(105,105,105,1);
 	box-shadow: inset 0px 6px 24px -9px rgba(105,105,105,1);
+	position: relative;
+	z-index: 20;
 }
 
 .row1{
@@ -1252,4 +1255,8 @@ html{
 
 #shares a:hover{
 	text-decoration: underline;
+}
+
+.hidden{
+	visibility: hidden;
 }

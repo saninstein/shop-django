@@ -24,9 +24,9 @@
                     {% endfor %}
                 </table>
                 <div class="a-cont">
-                    <form enctype="multipart/form-data" action="" method="post">
+                    <form action="{% url 'add_order' %}" method="post">
                         {% csrf_token %}
-                        {% for field in form %}
+                        {% for field in form.visible_fields %}
                             <div class="form">
                                 <div class="field">
                                     <div class="field-l">
@@ -42,11 +42,13 @@
 
                             </div>
                         {% endfor %}
+                        <br>
+                        <input class="btns" type="submit" value="Оформить">
 
-                        <input class="btns" type="submit" value="Сохранить">
                     </form>
+                <br>
                 </div>
-                <div style="height: 200px"></div>
+
 
         </div>
     </div>

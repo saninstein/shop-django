@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^other/(?P<category>[\w\-]+)/(?P<subcategory>\d+)/$', views.other_category, name='other_subcategory'),
     url(r'^other/(?P<category>[\w\-]+)/$', views.other_category, name='other_category'),
     url(r'^show_basket/$', views.show_basket, name='show_basket'),
+    url(r'^add_order/$', views.add_order, name='add_order'),
 ]
