@@ -333,3 +333,10 @@ class Share(models.Model):
         return self.name
 
 
+class Order(models.Model):
+    email = models.EmailField(verbose_name='e-mail', help_text='Обязательное поле')
+    phone = models.CharField(verbose_name='Номер телефона', max_length=30, blank=True)
+    items = models.BinaryField()
+    message = models.TextField(verbose_name='Сообщение', blank=True)
+
+

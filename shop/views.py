@@ -1,9 +1,11 @@
+import pickle
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
-from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share
+from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share, Order
+from shop.forms import OrderForm
 
 
 def get_item(item_inv):
@@ -472,7 +474,7 @@ def add_basket(req, remove=''):
     return HttpResponse()
 
 
-def show_basket(req):
+def show_basket(req, form=''):
     args = dict()
     args.update(csrf(req))
     if 'basket' in req.session:
@@ -483,6 +485,29 @@ def show_basket(req):
         for sale_item, count in zip(items, counts):
             print(sale_item, count)
             args['items'].append([get_item(str(sale_item)), count])
+        if form:
+            args['form'] = form
+        else:
+            args['form'] = OrderForm()
         return render_to_response('show_basket/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
+
+
+def add_order(req):
+    if req.method == 'POST':
+        if 'basket' not in req.session:
+            return redirect('general')
+        items_inv = req.session.get('basket')
+        counts = req.session.get('item_count')
+        items = [x for x in zip(items_inv, counts)]
+        items = pickle.dumps(items)
+        form = OrderForm(items, req.POST)
+        if form.is_valid():
+            del req.session['basket']
+            del req.session['item_count']
+            form.save()
+            return redirect('general')
+        else:
+            return show_basket(req, form)
+
