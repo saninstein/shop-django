@@ -210,13 +210,15 @@ def show_items(req, category=''):
             for item, count in items:
                 item = get_item(str(item))
                 if item:
-                    order['items'] += '<a href="{2}">{0}({1})</a> '.format(item.name, count, item.get_item())
+                    order['items'] += '{1}x<a href="{2}">{0}</a><br>'.format(item.name, count, item.get_item())
+                    if item.price_opt and count > 1:
+                        order.update(price=item.price_opt * count)
+                    else:
+                        order.update(price=item.price * count)
                 else:
-                    order['items'] += 'Данный товар отсутсвует '
-        print(orders)
-
-
-        return HttpResponse()
+                    order['items'] += 'Данный товар отсутсвует<br>'
+        args['orders'] = orders
+        return render_to_response('show_orders/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('admingeneral')
 
