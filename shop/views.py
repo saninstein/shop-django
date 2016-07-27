@@ -531,3 +531,9 @@ def add_order(req):
             print(form.errors)
             return show_basket(req, form)
 
+
+def info_basket(req):
+    if 'basket' in req.session:
+        return HttpResponse('OK')
+    else:
+        return HttpResponse()

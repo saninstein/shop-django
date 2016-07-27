@@ -25,7 +25,6 @@ $(document).ready(function(){
         } else {
             $('#basket-full').hide();
             $('#basket-empty').show();
-            newprice = String(newprice) + ' грн.';
             $('#basket a').css({'visibility': 'hidden'});
         }
 
