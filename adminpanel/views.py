@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm
-from shop.models import Slide, Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Share
+from shop.models import Slide, Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Share, Order
+import pickle
 
 
 def is_su(user):
@@ -201,6 +202,9 @@ def show_items(req, category=''):
         for obj in objs:
             args['items'].append(dict(gen_item=get_item(str(obj['gen_item'])).name, sec_item=get_item(str(obj['sec_item'])).name,
                                       inv=obj['inv'], discount=obj['discount']))
+    elif category == 'order':
+        args['items'] = Order.objects.all().values()
+
     else:
         return redirect('admingeneral')
 

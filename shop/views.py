@@ -509,14 +509,15 @@ def add_order(req):
             items = [x for x in zip(items_inv, counts)]
             for item, count in items:
                 l.append([get_item(str(item)), count])
-            #items = pickle.dumps(items)
+            items = pickle.dumps(items)
             context = dict()
             context['items'] = l
             print(l)
             order = form.save(commit=False)
-            #order.items = items
-            #order.save()
-
+            order.items = items
+            order.save()
+            del req.session['basket']
+            del req.session['item_count']
             send_mail(
                 'ELEKTROSWIT: Спасибо за покупку!',
                 ' ',
@@ -525,9 +526,6 @@ def add_order(req):
                 fail_silently=True,
                 html_message=get_template('mail_order_usr/index.html').render(context)
             )
-            del req.session['basket']
-            del req.session['item_count']
-
             return redirect('general')
         else:
             print(form.errors)
