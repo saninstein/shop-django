@@ -203,8 +203,20 @@ def show_items(req, category=''):
             args['items'].append(dict(gen_item=get_item(str(obj['gen_item'])).name, sec_item=get_item(str(obj['sec_item'])).name,
                                       inv=obj['inv'], discount=obj['discount']))
     elif category == 'order':
-        args['items'] = Order.objects.all().values()
+        orders = Order.objects.values()
+        for order in orders:
+            items = pickle.loads(order['items'])
+            order['items'] = ''
+            for item, count in items:
+                item = get_item(str(item))
+                if item:
+                    order['items'] += '<a href="{2}">{0}({1})</a> '.format(item.name, count, item.get_item())
+                else:
+                    order['items'] += 'Данный товар отсутсвует '
+        print(orders)
 
+
+        return HttpResponse()
     else:
         return redirect('admingeneral')
 

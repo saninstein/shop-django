@@ -339,7 +339,6 @@ class Order(models.Model):
     items = models.BinaryField(default=b'none', editable=False)
     message = models.TextField(verbose_name='Сообщение', blank=True)
 
-    def __str__(self):
-        return self.items
+
 
 
