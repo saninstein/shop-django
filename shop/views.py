@@ -1,6 +1,6 @@
 import pickle
 from django.core.mail import send_mail
-from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
+from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext, render
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.http import HttpResponse
@@ -11,7 +11,8 @@ from shop.forms import OrderForm
 
 def get_item(item_inv):
     if item_inv.isdigit:
-        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Share)]
+        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster,
+                                                            ForHome, Share)]
         item = list()
         for x in l:
             item += x
@@ -499,22 +500,29 @@ def add_order(req):
     if req.method == 'POST':
         if 'basket' not in req.session:
             return redirect('general')
-        items_inv = req.session.get('basket')
-        counts = req.session.get('item_count')
-        items = [x for x in zip(items_inv, counts)]
-        items = pickle.dumps(items)
         form = OrderForm(req.POST)
         if form.is_valid():
+            items_inv = req.session.get('basket')
+            counts = req.session.get('item_count')
+            l = []
+            items = [x for x in zip(items_inv, counts)]
+            for item, count in items:
+                l.append([get_item(str(item)), count])
+            #items = pickle.dumps(items)
+            context = dict()
+            context['items'] = l
+            print(l)
             order = form.save(commit=False)
-            order.items = items
-            order.save()
+            #order.items = items
+            #order.save()
+
             send_mail(
-                'Спасибо за покупку',
+                'РЕКВИЗИТЫ',
                 '',
-                'Элекетро-свит',
-                ['saninstein@yandex.ua'],
+                'СВIТ ЕЛЕКТРОНIКИ',
+                [order.email],
                 fail_silently=True,
-                html_message=render_to_response()
+                html_message=render(req, 'mail_order_usr/index.html', context)
             )
             del req.session['basket']
             del req.session['item_count']
