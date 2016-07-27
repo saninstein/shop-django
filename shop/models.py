@@ -336,12 +336,11 @@ class Share(models.Model):
 class Order(models.Model):
     class Meta:
         ordering = ['-id']
-    email = models.EmailField(verbose_name='e-mail', help_text='Обязательное поле')
+    email = models.EmailField(verbose_name='e-mail', help_text='На ваш e-mail будут отправлены реквизиты')
     phone = models.CharField(verbose_name='Номер телефона', max_length=30, blank=True)
     items = models.BinaryField(default=b'none', editable=False)
     message = models.TextField(verbose_name='Сообщение', blank=True)
     date = models.DateField(auto_now_add=True)
-
 
 
 
