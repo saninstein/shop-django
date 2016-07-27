@@ -1,4 +1,4 @@
-import json
+import pickle
 from django.core.mail import send_mail
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext
 from django.views.decorators.csrf import csrf_exempt
@@ -502,13 +502,20 @@ def add_order(req):
         items_inv = req.session.get('basket')
         counts = req.session.get('item_count')
         items = [x for x in zip(items_inv, counts)]
-        items = json.dumps(items)
+        items = pickle.dumps(items)
         form = OrderForm(req.POST)
         if form.is_valid():
             order = form.save(commit=False)
             order.items = items
             order.save()
-            send_mail('Заголовок', 'Куплено', 'elekto-swit@yandex.ru', ['saninstein@yandex.ua'], fail_silently=False)
+            send_mail(
+                'Спасибо за покупку',
+                '',
+                'Элекетро-свит',
+                ['saninstein@yandex.ua'],
+                fail_silently=True,
+                html_message=render_to_response()
+            )
             del req.session['basket']
             del req.session['item_count']
 
