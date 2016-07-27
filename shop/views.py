@@ -1,4 +1,5 @@
 import pickle
+from django.template.loader import get_template
 from django.core.mail import send_mail
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext, render
 from django.views.decorators.csrf import csrf_exempt
@@ -517,12 +518,12 @@ def add_order(req):
             #order.save()
 
             send_mail(
-                'РЕКВИЗИТЫ',
-                '',
-                'СВIТ ЕЛЕКТРОНIКИ',
+                'ELEKTROSWIT: Спасибо за покупку!',
+                ' ',
+                'elekto-swit@yandex.ru',
                 [order.email],
                 fail_silently=True,
-                html_message=render(req, 'mail_order_usr/index.html', context)
+                html_message=get_template('mail_order_usr/index.html').render(context)
             )
             del req.session['basket']
             del req.session['item_count']
