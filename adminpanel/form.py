@@ -1,5 +1,6 @@
 from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput, Form, IntegerField
 from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster
+from ckeditor.widgets import CKEditorWidget
 
 
 class ForMasterForm(ModelForm):
@@ -15,10 +16,7 @@ class ForMasterForm(ModelForm):
                 'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
                 'class': 'new-cont-textinput',
             }),
-            'description': Textarea(attrs={
-                'placeholder': 'Описание...',
-                'class': 'new-cont-textarea',
-            }),
+            'description':CKEditorWidget(config_name='default'),
             'price': NumberInput(attrs={
                 'placeholder': '150',
                 'class': 'new-cont-textinput',
@@ -43,10 +41,7 @@ class ForHomeForm(ModelForm):
                 'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
                 'class': 'new-cont-textinput',
             }),
-            'description': Textarea(attrs={
-                'placeholder': 'Описание...',
-                'class': 'new-cont-textarea',
-            }),
+            'description': CKEditorWidget(config_name='default'),
             'price': NumberInput(attrs={
                 'placeholder': '150',
                 'class': 'new-cont-textinput',
@@ -71,14 +66,7 @@ class AccessoriesForm(ModelForm):
                 'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
                 'class': 'new-cont-textinput',
             }),
-            'description': Textarea(attrs={
-                'placeholder': 'Описание...',
-                'class': 'new-cont-textarea',
-            }),
-            'price': NumberInput(attrs={
-                'placeholder': '150',
-                'class': 'new-cont-textinput',
-            }),
+            'description': CKEditorWidget(config_name='default'),
             'price_opt': NumberInput(attrs={
                 'placeholder': '0',
                 'class': 'new-cont-textinput',
@@ -111,10 +99,7 @@ class PhoneForm(ModelForm):
                 'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
                 'class': 'new-cont-textinput',
             }),
-            'description': Textarea(attrs={
-                'placeholder': 'Описание...',
-                'class': 'new-cont-textarea',
-            }),
+            'description': CKEditorWidget(config_name='default'),
             'price': NumberInput(attrs={
                 'placeholder': '3500',
                 'class': 'new-cont-textinput',
@@ -212,10 +197,7 @@ class TabletForm(ModelForm):
                 'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
                 'class': 'new-cont-textinput',
             }),
-            'description': Textarea(attrs={
-                'placeholder': 'Описание...',
-                'class': 'new-cont-textarea',
-            }),
+            'description': CKEditorWidget(config_name='default'),
             'price': NumberInput(attrs={
                 'placeholder': '3500',
                 'class': 'new-cont-textinput',
@@ -316,10 +298,7 @@ class NotebookForm(ModelForm):
                 'placeholder': 'Например: https://youtu.be/lMlqg5lkWzw',
                 'class': 'new-cont-textinput',
             }),
-            'description': Textarea(attrs={
-                'placeholder': 'Описание...',
-                'class': 'new-cont-textarea',
-            }),
+            'description': CKEditorWidget(config_name='default'),
             'price': NumberInput(attrs={
                 'placeholder': '3500',
                 'class': 'new-cont-textinput',
