@@ -24,6 +24,15 @@ html{
 	padding: 0;
 }
 
+p, a, h1, h2, h3, h4{
+	font-family: RobotoCondensedR;
+
+}
+
+p{
+	font-size: 1.2rem;
+}
+
 #header{
 	width: 100%;
 	height: 140px;
