@@ -1,6 +1,15 @@
 from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput, Form, IntegerField
-from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster
+from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster, Info
 from ckeditor.widgets import CKEditorWidget
+
+
+class InfoForm(ModelForm):
+    class Meta:
+        model = Info
+        exclude = []
+        widgets = {
+            'text': CKEditorWidget(config_name='default')
+        }
 
 
 class ForMasterForm(ModelForm):

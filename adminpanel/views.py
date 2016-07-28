@@ -5,7 +5,8 @@ from django.contrib import auth
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
-from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm
+from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm, \
+    InfoForm
 from shop.models import *
 from shop.views import get_item
 import pickle
@@ -308,6 +309,49 @@ def ajax_search(req, search_str=""):
     del l
     args["items"] = res
     return render_to_response("adm_search/index.html", args, context_instance=RequestContext(req))
+
+
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
+def info_edit(req, page=''):
+    args = dict()
+    if req.method == 'POST':
+        if page == 'payment':
+            args['category'] = "Оплата"
+            form = InfoForm(req.POST, instance=Info.objects.get(pk=2))
+        elif page == 'delivery':
+            args['category'] = "Доставка"
+            form = InfoForm(req.POST, instance=Info.objects.get(pk=3))
+        elif page == 'about':
+            form = InfoForm(req.POST, instance=Info.objects.get(pk=1))
+            args['category'] = "О магазине"
+        else:
+            return redirect('admingeneral')
+        if form.is_valid():
+            form.save()
+            return redirect('admingeneral')
+        else:
+            args['form'] = form
+            args['url'] = reverse('info_edit', kwargs={'page': page})
+            return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
+    else:
+        if page == 'payment':
+            args['category'] = "Оплата"
+            form = InfoForm(instance=Info.objects.get(pk=2))
+        elif page == 'delivery':
+            args['category'] = "Доставка"
+            form = InfoForm(instance=Info.objects.get(pk=3))
+        elif page == 'about':
+            form = InfoForm(instance=Info.objects.get(pk=1))
+            args['category'] = "О магазине"
+        else:
+            return redirect('admingeneral')
+        args['form'] = form
+        args['url'] = reverse('info_edit', kwargs={'page': page})
+        return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
+
+
+
+
 
 
 

@@ -359,6 +359,7 @@ def phones_search(req, search_str=""):
 
 def general(req):
     args = dict()
+    args['about'] = Info.objects.get(pk=1)
     args['slides'] = Slide.objects.all()
     l = [list(x.objects.order_by('-date')[:4]) for x in (Phone, Tablet, Notebook)]
     news = list()
