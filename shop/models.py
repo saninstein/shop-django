@@ -1,5 +1,6 @@
 import PIL
 import random
+import random
 import string
 from os import remove, path, listdir, rmdir
 from django.db import models
@@ -13,7 +14,7 @@ modes = ((0, 'Гаджеты'), (1, 'Акссесуары'), (2, 'Для Мас�
 
 
 def get_item(item_inv):
-    l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories,
+    l = [list(x.objects.filter(pk=item_inv)) for x in (Phone, Tablet, Notebook, Accessories,
                                                         ForMaster, ForHome, Share)]
     item = list()
     for x in l:
@@ -66,17 +67,17 @@ def upload_path(instance, filename):
 
 
 def get_inv():
-    a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects, ForMaster.objects, ForHome.objects,
-         Share.objects]
+    random.seed()
     num = []
-    for i in a:
-        agr = i.aggregate(max=Max('inv'))
-        if agr['max'] != None:
-            num.append(agr['max'])
-    if len(num):
-        return max(num) + 1
-    else:
-        return 1
+    while True:
+        inv = random.randint(0, 99999999999)
+        a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects, ForMaster.objects, ForHome.objects,
+             Share.objects]
+        for i in a:
+            agr = i.filter(inv=inv).count()
+            num.append(agr)
+        if max(num) == 0:
+            return inv
 
 
 class Items(models.Model):
@@ -113,7 +114,7 @@ class Other(models.Model):
     price = models.DecimalField(verbose_name='Цена в розницу', max_digits=20, decimal_places=2,
                                 help_text='Обязательное поле')
     price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2, default=0, help_text='Если не надо - оставить нулём')
-    inv = models.IntegerField(editable=False, default=get_inv)
+    inv = models.IntegerField(editable=False, default=get_inv, primary_key=True)
     likes = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
@@ -203,7 +204,7 @@ class Item(models.Model):
 
     other = models.CharField(verbose_name='Дополнительно', max_length=200, blank=True)
     link_items = models.ForeignKey(Items, default=1, editable=False)
-    inv = models.IntegerField(editable=False, default=get_inv)
+    inv = models.IntegerField(editable=False, default=get_inv, primary_key=True)
     likes = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
@@ -261,7 +262,7 @@ class Phone(Item):
 
 
 class Tablet(Item):
-    standards = models.CharField(verbose_name='Стандарты и техгологии', max_length=100, blank=True)
+    standards = models.CharField(verbose_name='Стандарты и технологии', max_length=100, blank=True)
     front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
     sim_count = models.IntegerField(verbose_name='Количество сим', default=0, blank=True)

@@ -11,8 +11,7 @@ from shop.forms import OrderForm
 
 
 def get_item(item_inv):
-    if item_inv.isdigit:
-        l = [list(x.objects.filter(inv=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster,
+        l = [list(x.objects.filter(pk=item_inv)) for x in (Phone, Tablet, Notebook, Accessories, ForMaster,
                                                             ForHome, Share)]
         item = list()
         for x in l:
@@ -20,12 +19,12 @@ def get_item(item_inv):
         if item:
             return item[0]
         return False
-    return False
 
 
 def item(req, item=''):
     args = dict(item=get_item(item))
     if args['item']:
+        print(args['item'].link_category)
         shares = Share.objects.filter(gen_item__exact=args['item'].inv).only('sec_item', 'discount').values()
         if shares:
             args['shares'] = list()
@@ -278,7 +277,6 @@ def phone_filter(req, filter_str=""):
     args = dict()
     args["items"] = Phone.objects.filter(q)
     return render_to_response("filter_items/index.html", args, context_instance=RequestContext(req))
-
 
 
 def search(req, search_str=""):

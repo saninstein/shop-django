@@ -117,6 +117,26 @@
                             <div class="chark-value">{{ item.interfaces }}</div>
                         </div>
                     {% endif %}
+                    {% if item.link_category_id == 1 or item.link_category_id == 2 %}
+                        {% if item.standards != '' %}
+                            <div>
+                                <div class="chark-name">Стандарты</div>
+                                <div class="chark-value">{{ item.standards }} МП</div>
+                            </div>
+                        {% endif %}
+                        {% if item.front_camera %}
+                            <div>
+                                <div class="chark-name">Размер фронтальной камеры</div>
+                                <div class="chark-value">{{ item.front_camera }} МП</div>
+                            </div>
+                        {% endif %}
+                        {% if item.front_camera_other != '' %}
+                            <div>
+                                <div class="chark-name">Камера дополнительно</div>
+                                <div class="chark-value">{{ item.front_camera_other }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
                     {% if item.camera %}
                         <div>
                             <div class="chark-name">Размер камеры</div>
