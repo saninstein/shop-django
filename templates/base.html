@@ -25,9 +25,9 @@
 <div id="header">
 	<div id="header-menu">
 		<ul>
-			<li><a href="">Оплата</a></li>
-			<li><a href="">Доставка</a></li>
-			<li><a href="">Гарантия</a></li>
+			<li><a href="{% url 'info' 'payment' %}">Оплата</a></li>
+			<li><a href="{% url 'info' 'delivery' %}">Доставка</a></li>
+			<li><a href="{% url 'info' 'guarantee' %}">Гарантия</a></li>
             {% if request.user.is_superuser %}
                 <li><a href="/adminpanel/"><u>Админка</u></a></li>
             {% endif %}
@@ -138,18 +138,20 @@
 		<div>
 			<h3>Каталог</h3>
 			<br>
-			<a href="">Планшеты</a><br>
-			<a href="">Ноутбуки</a><br>
-			<a href="">Смартфоны</a>
+			<a href="{% url 'tablets' %}">Планшеты</a><br>
+			<a href="{% url 'notes' %}">Ноутбуки</a><br>
+			<a href="{% url 'phones' %}">Смартфоны</a><br>
+			<a href="{% url 'other_category' 'appliances' %}">Бытовая техника</a><br>
+			<a href="{% url 'other_category' 'master-tools' %}">Всё для мастера</a>
 		</div>
 	</div>
 	<div class="row2">
 		<div>
 			<h3>Клиентам</h3>
 			<br>
-			<a href="">Оплата и доставка</a><br>
-			<a href="">Контактная информация</a><br>
-			<a href="">Гарантия</a>
+			<a href="{% url 'info' 'payment' %}">Оплата</a><br>
+			<a href="{% url 'info' 'delivery' %}">Доставка</a><br>
+			<a href="{% url 'info' 'guarantee' %}">Гарантия</a>
 		</div>
 	</div>
 	<div class="row1">

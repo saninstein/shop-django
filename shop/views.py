@@ -573,5 +573,7 @@ def register_user(req):
     return render_to_response('register/index.html', args, content_type=RequestContext(req))
 
 
-def info(req):
+def info(req, category=""):
+    if category == 'pay':
+        pass
     return render_to_response('info/index.html')

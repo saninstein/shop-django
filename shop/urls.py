@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^show_basket/$', views.show_basket, name='show_basket'),
     url(r'^add_order/$', views.add_order, name='add_order'),
     url(r'^register/$', views.register_user, name='register'),
+    url(r'^info/(?P<category>[\w\-]+)/$', views.info, name='info'),
 ]

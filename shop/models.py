@@ -344,6 +344,7 @@ class Order(models.Model):
     message = models.TextField(verbose_name='Сообщение', blank=True)
     date = models.DateField(auto_now_add=True)
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     activation_key = models.CharField(max_length=40, blank=True)
@@ -354,3 +355,7 @@ class UserProfile(models.Model):
 
     class Meta:
         verbose_name_plural = 'User profiles'
+
+
+class Info(models.Model):
+    text = models.TextField(blank=False, default='')
