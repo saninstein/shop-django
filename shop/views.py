@@ -581,6 +581,14 @@ def register_user(req):
 
 
 def info(req, category=""):
-    if category == 'pay':
-        pass
-    return render_to_response('info/index.html')
+    args = dict()
+    if category == 'payment':
+        args['info'] = Info.objects.get(pk=2)
+        args['title'] = "Оплата"
+    elif category == 'delivery':
+        args['info'] = Info.objects.get(pk=3)
+        args['title'] = "Доставка"
+    elif category == 'guarantee':
+        args['info'] = Info.objects.get(pk=4)
+        args['title'] = "Гарантия"
+    return render_to_response('info/index.html', args, context_instance=RequestContext(req))

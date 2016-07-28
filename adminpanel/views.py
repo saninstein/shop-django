@@ -180,7 +180,7 @@ def slide_edit(req, num=''):
 
 
 @user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
-def show_items(req, category=''):
+def show_items(req, category='', client=''):
     args = dict()
     args.update(csrf(req))
     if category == 'phone':
@@ -203,7 +203,10 @@ def show_items(req, category=''):
             args['items'].append(dict(gen_item=get_item(str(obj['gen_item'])).name, sec_item=get_item(str(obj['sec_item'])).name,
                                       inv=obj['inv'], discount=obj['discount']))
     elif category == 'order':
-        orders = Order.objects.values()
+        if client:
+            orders = Order.objects.filter(link_client=client).values()
+        else:
+            orders = Order.objects.values()
         for order in orders:
             items = pickle.loads(order['items'])
             order['items'] = ''
@@ -219,6 +222,10 @@ def show_items(req, category=''):
                     order['items'] += 'Данный товар отсутсвует<br>'
         args['orders'] = orders
         return render_to_response('show_orders/index.html', args, context_instance=RequestContext(req))
+    elif category == 'clients':
+        args = dict()
+        args['clients'] = Client.objects.all()
+        return render_to_response('show_clients/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('admingeneral')
 
@@ -303,6 +310,6 @@ def ajax_search(req, search_str=""):
     return render_to_response("adm_search/index.html", args, context_instance=RequestContext(req))
 
 
-def show_clients(req):
-    args['clients'] = Client.objects.all()
-    return render_to_response()
+
+
+

@@ -173,6 +173,7 @@ html{
 
 #body{
 	min-width: 900px;
+	min-height: 500px;
 	position: relative;
 	z-index: 1;
 }

@@ -337,6 +337,7 @@ class Share(models.Model):
 
 class Client(models.Model):
     email = models.EmailField(unique=True)
+    discount = models.IntegerField(default=0)
 
 
 class Order(models.Model):

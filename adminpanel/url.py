@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^logout/', views.logout, name='logout'),
     url(r'edit_slide/(?P<num>\d+)/$', views.slide_edit, name='slide_edit'),
     url(r'^show/(?P<category>[\w\-]+)/$', views.show_items, name='show'),
+    url(r'^show/order/(?P<client>\d+)/$', views.show_items, {'category': 'order'}, name='show_client_orders'),
     url(r'^ajax_delete/$', views.delete_item),
     url(r'^add_share/$', views.add_share, name='add_share'),
     url(r'^ajax_adm_search/(?P<search_str>[\w\-]+)/$', views.ajax_search),
