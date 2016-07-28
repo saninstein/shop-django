@@ -1,13 +1,13 @@
 from django.shortcuts import render, render_to_response, redirect, RequestContext
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
-from shop.views import get_item
 from django.contrib import auth
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm
-from shop.models import Slide, Phone, Tablet, Notebook, Accessories, ForMaster, ForHome, Share, Order
+from shop.models import *
+from shop.views import get_item
 import pickle
 
 
@@ -301,3 +301,8 @@ def ajax_search(req, search_str=""):
     del l
     args["items"] = res
     return render_to_response("adm_search/index.html", args, context_instance=RequestContext(req))
+
+
+def show_clients(req):
+    args['clients'] = Client.objects.all()
+    return render_to_response()

@@ -33,7 +33,7 @@ class RegistrationForm(UserCreationForm):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        exclude = ['items']
+        exclude = ['items', 'link_client']
         widgets = {
             'email': EmailInput(attrs={
                 'placeholder': 'Введите адрес',

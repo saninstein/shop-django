@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
-from shop.models import UserProfile, Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share, Order
+from shop.models import *
 from shop.forms import OrderForm, RegistrationForm
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -514,6 +514,13 @@ def add_order(req):
             context['items'] = l
             print(l)
             order = form.save(commit=False)
+            try:
+                client = Client.objects.get(email=order.email)
+            except Client.DoesNotExist:
+                client = Client(email=order.email)
+                client.save()
+            finally:
+                order.link_client = client
             order.items = items
             order.save()
             del req.session['basket']

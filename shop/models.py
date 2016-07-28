@@ -335,6 +335,10 @@ class Share(models.Model):
         return self.name
 
 
+class Client(models.Model):
+    email = models.EmailField(unique=True)
+
+
 class Order(models.Model):
     class Meta:
         ordering = ['-id']
@@ -343,6 +347,7 @@ class Order(models.Model):
     items = models.BinaryField(default=b'none', editable=False)
     message = models.TextField(verbose_name='Сообщение', blank=True)
     date = models.DateField(auto_now_add=True)
+    link_client = models.ForeignKey(Client, blank=True)
 
 
 class UserProfile(models.Model):
