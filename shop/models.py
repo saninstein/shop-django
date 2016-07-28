@@ -1,5 +1,5 @@
 import PIL
-import random
+import datetime
 import random
 import string
 from os import remove, path, listdir, rmdir
@@ -7,6 +7,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from elektroswit.settings import ERROR_LOG, MEDIA_ROOT
 from django.db.models import Max, Q
+from django.contrib.auth.models import User
 
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
@@ -343,5 +344,13 @@ class Order(models.Model):
     message = models.TextField(verbose_name='Сообщение', blank=True)
     date = models.DateField(auto_now_add=True)
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    activation_key = models.CharField(max_length=40, blank=True)
+    key_expires = models.DateTimeField(default=datetime.date.today())
 
+    def __str__(self):
+        return self.user.username
 
+    class Meta:
+        verbose_name_plural = 'User profiles'

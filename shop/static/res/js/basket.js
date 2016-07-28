@@ -2,15 +2,27 @@
  * Created by шаша on 19.07.2016.
  */
 $(document).ready(function(){
-    if($.cookie('basket-price')){
-        updateBasketPrice();
+    if($('#basket').data('basket') == 'EMPTY'){
+        $.cookie('basket-price', '',{
+               expire: 30,
+               path: '/'
+           });
+        $(document).trigger('cookieUpdate');
     }
 
+    updateBasketPrice();
     $(document).on('cookieUpdate', function(){
         updateBasketPrice();
+        alert('!');
     });
 
     function updateBasketPrice(){
+        if($.cookie('basket-price') == ''){
+            $('#basket-full').hide();
+            $('#basket-empty').show();
+            $('#basket a').css({'visibility': 'hidden'});
+            return false;
+        }
         var basket = JSON.parse($.cookie('basket-price'));
         var newprice = 0;
         for(var i in basket.item){
@@ -27,6 +39,6 @@ $(document).ready(function(){
             $('#basket-empty').show();
             $('#basket a').css({'visibility': 'hidden'});
         }
-
+        return false;
     }
 });

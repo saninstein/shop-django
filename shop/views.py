@@ -1,4 +1,4 @@
-import pickle
+import pickle, hashlib, datetime, random
 from django.template.loader import get_template
 from django.core.mail import send_mail
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext, render
@@ -6,8 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
 from django.http import HttpResponse
 from django.db.models import Q, Max, Min
-from shop.models import Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share, Order
-from shop.forms import OrderForm
+from shop.models import UserProfile, Slide, Phone, Tablet, Notebook, Items, ForHome, ForMaster, Category, Accessories, Share, Order
+from shop.forms import OrderForm, RegistrationForm
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 def get_item(item_inv):
@@ -535,3 +537,41 @@ def info_basket(req):
         return HttpResponse('OK')
     else:
         return HttpResponse()
+
+
+def register_user(req):
+    args = dict()
+    args.update(csrf(req))
+    if req.method == 'POST':
+        form = RegistrationForm(req.POST)
+        args['form'] = form
+        if form.is_valid():
+            form.save()
+
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
+            activation_key = hashlib.sha1(salt+email).hexdigest()
+            key_expires = datetime.datetime.today() + datetime.timedelta(2)
+
+            user = User.objects.get(username=username)
+
+            new_profile = UserProfile(user=user, activation_key=activation_key,
+                                      key_expires=key_expires)
+            new_profile.save()
+
+            send_mail(
+                'Подтверждение регистрации',
+                'Спасибо за регистрацию. Активируйте свой аккаунт в течении 48 часов http://127.0.0.1:8000/confirm_mail/%s' % (activation_key),
+                'elekto-swit@yandex.ru',
+                [email],
+                fail_silently=True
+            )
+            return render_to_response()
+    else:
+        args['form'] = RegistrationForm()
+    return render_to_response('register/index.html', args, content_type=RequestContext(req))
+
+
+def info(req):
+    return render_to_response('info/index.html')

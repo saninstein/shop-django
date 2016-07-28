@@ -30,8 +30,16 @@
 			<li><a href="">Гарантия</a></li>
             {% if request.user.is_superuser %}
                 <li><a href="/adminpanel/"><u>Админка</u></a></li>
-                <li><a href={% url 'logout' %}><u>Выйти</u></a></li>
             {% endif %}
+
+            {% if request.user.is_authenticated %}
+                <li><a href={% url 'logout' %}><u>Выйти</u></a></li>
+            {% else %}
+                <li><a href={% url 'login' %}>Войти</a></li>
+                <li><a href={% url 'register' %}>Регистрация</a></li>
+            {% endif %}
+
+
 
 		</ul>
 	</div>
@@ -43,7 +51,7 @@
 			<span><a>Хочеш техніку купить - заходи в Elektroswit!</a></span>
 			<input id="search" type="text" placeholder="HP Compaq 43..." name="">
 		</div>
-		<div id="basket">
+		<div id="basket" data-basket="{% if 'basket' in request.session %}FULL{% else %}EMPTY{% endif %}">
 			<img id="basket-full" src="{% static "res/img/shopping-cart-full.png" %}" width="50px">
             <img id="basket-empty" src="{% static "res/img/shopping-cart.png" %}" width="50px">
 			<a href="{% url 'show_basket' %}">Заказ <strong><u></u></strong></a>

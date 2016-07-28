@@ -254,10 +254,12 @@ def login(req):
         username = req.POST.get('username', '')
         password = req.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
-        print(username, password)
         if user is not None:
             auth.login(req, user)
-            return redirect('/adminpanel/')
+            if user.is_superuser:
+                return redirect('/adminpanel/')
+            else:
+                return redirect('/')
         else:
             args['login_error'] = "Пользователь не найден"
             return render_to_response('login/index.html', args, context_instance=RequestContext(req))
@@ -265,7 +267,6 @@ def login(req):
         return render_to_response('login/index.html', args, context_instance=RequestContext(req))
 
 
-@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
 def logout(req):
     auth.logout(req)
     return redirect('/')
