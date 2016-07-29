@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect, RequestContext
+from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from django.contrib import auth
@@ -6,7 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, AccessoriesForm, ForHomeForm, ForMasterForm, \
-    InfoForm
+    InfoForm, ClientForm
 from shop.models import *
 from shop.views import get_item
 import pickle
@@ -324,6 +325,9 @@ def info_edit(req, page=''):
         elif page == 'about':
             form = InfoForm(req.POST, instance=Info.objects.get(pk=1))
             args['category'] = "О магазине"
+        elif page == 'rmail':
+            form = InfoForm(req.POST, instance=Info.objects.get(pk=4))
+            args['category'] = "Реквизиты(для сообщений)"
         else:
             return redirect('admingeneral')
         if form.is_valid():
@@ -343,6 +347,9 @@ def info_edit(req, page=''):
         elif page == 'about':
             form = InfoForm(instance=Info.objects.get(pk=1))
             args['category'] = "О магазине"
+        elif page == 'rmail':
+            form = InfoForm(instance=Info.objects.get(pk=4))
+            args['category'] = "Реквизиты(для сообщений)"
         else:
             return redirect('admingeneral')
         args['form'] = form
@@ -350,10 +357,36 @@ def info_edit(req, page=''):
         return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
 
 
-
-
-
-
-
-
+@user_passes_test(is_su, login_url='/adminpanel/login/', redirect_field_name='')
+def client_edit(req, client_id=''):
+    args = dict()
+    args.update(csrf(req))
+    if client_id:
+        try:
+            client = Client.objects.get(id=client_id)
+            args['category'] = 'Клиент ' + client.email
+        except Client.DoesNotExist:
+            return redirect('admingeneral')
+        if req.method == 'POST':
+            form = ClientForm(req.POST, instance=client)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.save()
+                if obj.discount > 0:
+                    send_mail(
+                        'ELEKTROSWIT: Вам предоставляется скидка!',
+                        'Поздравляем! При оформлении заказа по вашему e-mail вам будет предоставлена {0}% скидка!'.format(
+                            obj.discount
+                        ),
+                        'elekto-swit@yandex.ru',
+                        [obj.email],
+                        fail_silently=True,
+                    )
+                return redirect('show', 'clients')
+            else:
+                args['form'] = form
+        else:
+            args['form'] = ClientForm(instance=client)
+        return render_to_response('new_item/index.html', args, context_instance=RequestContext(req))
+    return redirect('admingeneral')
 

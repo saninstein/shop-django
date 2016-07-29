@@ -19,7 +19,7 @@
                             <td>{{ client.email }}</td>
                             <td><a href="{% url 'show_client_orders' client.id %}">Посмотреть</a></td>
                             <td>{{ client.discount }}</td>
-                            <td><a href="">Изменить</a></td>
+                            <td><a href="{% url 'client_edit' client.id %}">Изменить</a></td>
                         </tr>
                     {% endfor %}
 

@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'^add_share/$', views.add_share, name='add_share'),
     url(r'^ajax_adm_search/(?P<search_str>[\w\-]+)/$', views.ajax_search),
     url(r'^info/(?P<page>[\w\-]+)/$', views.info_edit, name='info_edit'),
-
+    url(r'^discount/(?P<client_id>\d+)/$', views.client_edit, name='client_edit'),
 ]

@@ -1,6 +1,17 @@
 from django.forms import ModelForm, TextInput, Textarea, URLField, NumberInput, Form, IntegerField
-from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster, Info
+from shop.models import Phone, Tablet, Notebook, Slide, Accessories, ForHome, ForMaster, Info, Client
 from ckeditor.widgets import CKEditorWidget
+
+
+class ClientForm(ModelForm):
+    class Meta:
+        model = Client
+        exclude = ['email']
+        widgets = {
+            'discount': NumberInput(attrs={
+                'class': 'new-cont-textinput'
+            })
+        }
 
 
 class InfoForm(ModelForm):

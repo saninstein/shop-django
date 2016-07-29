@@ -508,9 +508,15 @@ def add_order(req):
             items_inv = req.session.get('basket')
             counts = req.session.get('item_count')
             l = []
+            s = 0
             items = [x for x in zip(items_inv, counts)]
             for item, count in items:
-                l.append([get_item(str(item)), count])
+                i = get_item(str(item))
+                l.append([i, count])
+                if i.price_opt and count > 1:
+                    s += i.price_opt * count
+                else:
+                    s += i.price * count
             items = pickle.dumps(items)
             context = dict()
             context['items'] = l
@@ -523,6 +529,12 @@ def add_order(req):
                 client.save()
             finally:
                 order.link_client = client
+            context['pay'] = s
+            tmp = None
+            if client.discount > 0:
+                tmp = client.discount
+                tmp = s * tmp / 100
+                context['pay'] = str(s) + '- {0}% = '.format(client.discount) + str(round(s - tmp, 2))
             order.items = items
             order.save()
             del req.session['basket']
@@ -532,6 +544,18 @@ def add_order(req):
                 ' ',
                 'elekto-swit@yandex.ru',
                 [order.email],
+                fail_silently=True,
+                html_message=get_template('mail_order_usr/index.html').render(context)
+            )
+            context['to_admin'] = True
+            context['email'] = order.email
+            context['message'] = order.message
+            context['phone'] = order.phone
+            send_mail(
+                'ELEKTROSWIT: Поступил новый заказ!',
+                ' ',
+                'elekto-swit@yandex.ru',
+                ['saninstein@yandex.ua'],
                 fail_silently=True,
                 html_message=get_template('mail_order_usr/index.html').render(context)
             )

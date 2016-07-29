@@ -337,7 +337,7 @@ class Share(models.Model):
 
 class Client(models.Model):
     email = models.EmailField(unique=True)
-    discount = models.IntegerField(default=0)
+    discount = models.IntegerField(default=0, verbose_name='Скидка')
 
 
 class Order(models.Model):
