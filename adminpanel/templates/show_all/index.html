@@ -15,6 +15,8 @@
                         {% if not share %}
                             <th>Цена</th>
                             <th>Цена оптом</th>
+                        {% else %}
+                            <th>Скидка на второй %</th>
                         {% endif %}
                         <th>Удалить{% if not share %}/редактировать{% endif %}</th>
 
@@ -28,6 +30,7 @@
                             {% if share %}
                                 <td>{{ item.gen_item }}</td>
                                 <td>{{ item.sec_item }}</td>
+                                <td>{{ item.discount }}</td>
                             {% else %}
                                 <td><a href="{{ item.get_item }}">{{ item.name }}</a></td>
                                 <td>{{ item.inv }}</td>

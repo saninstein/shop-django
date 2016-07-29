@@ -56,7 +56,7 @@
                         <h4>Акционные предложения:</h4><br>
                             (скидка на второй товар)
                         {% for share in shares %}
-                            <li><div class='btn'>КУПИТЬ</div><a href="{{ share.sec_item.get_item }}">{{ share.sec_item.name }} </a><span>-{{ share.discount }}%</span></li>
+                            <li><div class='btn' data-price="{{ share.price }}" data-item="{{ share.inv }}" >КУПИТЬ</div><a href="{{ share.sec_item.get_item }}">{{ share.sec_item.name }} </a><span>-{{ share.discount }}%</span></li>
                         {% endfor %}
                     </ul>
                 {% endif %}
