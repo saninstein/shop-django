@@ -27,7 +27,6 @@
 		<ul>
 			<li><a href="{% url 'info' 'payment' %}">Оплата</a></li>
 			<li><a href="{% url 'info' 'delivery' %}">Доставка</a></li>
-			<li><a href="{% url 'info' 'guarantee' %}">Гарантия</a></li>
             {% if request.user.is_superuser %}
                 <li><a href="/adminpanel/"><u>Админка</u></a></li>
             {% endif %}

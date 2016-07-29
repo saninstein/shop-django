@@ -15,7 +15,7 @@ $(document).ready(function(){
     });
 
     function updateBasketPrice(){
-        if($.cookie('basket-price') == ''){
+        if($.cookie('basket-price') == '' || !$.cookie('basket-price')){
             $('#basket-full').hide();
             $('#basket-empty').show();
             $('#basket a').css({'visibility': 'hidden'});
