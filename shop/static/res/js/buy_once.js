@@ -18,7 +18,6 @@ $(document).ready(function(){
                 basket.price.push(price);
             }
             $.cookie('basket-price', JSON.stringify(basket),{
-                expire: 30,
                 path: '/'
             });
         } else{
@@ -28,7 +27,6 @@ $(document).ready(function(){
                 price: [price]
             };
             $.cookie('basket-price', JSON.stringify(basket),{
-                expire: 30,
                 path: '/'
             });
         }

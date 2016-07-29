@@ -32,7 +32,8 @@ def item(req, item=''):
             args['shares'] = list()
             for obj in shares:
                 args['shares'].append(dict(sec_item=get_item(str(obj['sec_item'])), discount=obj['discount'],
-                                      inv=obj['inv']))
+                                      inv=obj['inv'], price=obj['price']))
+                print(obj['price'])
         return render_to_response('item_phone/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
@@ -518,7 +519,9 @@ def add_order(req):
             for item, count in items:
                 i = get_item(str(item))
                 l.append([i, count])
-                if i.price_opt and count > 1:
+                if type(i) == Share:
+                    s += i.price * count
+                elif i.price_opt and count > 1:
                     s += i.price_opt * count
                 else:
                     s += i.price * count

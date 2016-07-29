@@ -4,7 +4,6 @@
 $(document).ready(function(){
     if($('#basket').data('basket') == 'EMPTY'){
         $.cookie('basket-price', '',{
-               expire: 30,
                path: '/'
            });
         $(document).trigger('cookieUpdate');
