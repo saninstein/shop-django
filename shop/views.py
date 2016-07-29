@@ -537,6 +537,7 @@ def add_order(req):
                 context['pay'] = str(s) + '- {0}% = '.format(client.discount) + str(round(s - tmp, 2))
             order.items = items
             order.save()
+            context['payment'] = Info.objects.get(pk=4)
             del req.session['basket']
             del req.session['item_count']
             send_mail(

@@ -26,7 +26,7 @@
         <p style="font-family:Arial, Helvetica, sans-serif">{{ email }} {{ phone }}</p>
     {% else %}
         <h3 style="font-family:Arial, Helvetica, sans-serif">РЕКВИЗИТЫ:</h3>
-
+        {{ payment.text }}
         <h3>С Уважением,<br><a href="">Администрация ElektroSwit</a></h3>
         <p>Это автоматическое письмо. На него не надо отвечать.</p>
     {% endif %}
