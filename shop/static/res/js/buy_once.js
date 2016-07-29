@@ -36,8 +36,8 @@ $(document).ready(function(){
         $.post(
            '/ajax_addbasket/',
            {
-               item: $('#buy').data('item'),
-               count: count
+               item: item,
+               count: 1
            },
            function(){
                $.cookie('message', 'Товар добавлен в корзину');

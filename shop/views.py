@@ -438,7 +438,7 @@ def like(req, item=''):
 def add_basket(req, remove=''):
     if req.method == 'POST':
         if remove:
-            item = int(req.POST['item'])
+            item = int(req.POST.get('item', ''))
             if 'basket' in req.session:
                 print(req.session['basket'])
                 print(req.session['item_count'])
@@ -452,19 +452,20 @@ def add_basket(req, remove=''):
                     count = list(count)
                     count.pop(pos)
                     req.session['item_count'] = tuple(count)
-                    if not len(req.session['basket']):
+                    if not len(req.session.get('basket')):
                         del req.session['basket']
                         del req.session['item_count']
                 except ValueError:
                     pass
             return HttpResponse()
-        new_item = int(req.POST['item'])
-        item_count = int(req.POST['count'])
+        print(req.POST.get('item'))
+        new_item = int(req.POST.get('item'))
+        item_count = int(req.POST.get('count'))
         print(new_item, item_count)
         if not ('basket' in req.session):
             req.session['basket'] = ()
             req.session['item_count'] = ()
-        if new_item not in req.session['basket']:
+        if new_item not in req.session.get('basket'):
             req.session['basket'] += (new_item,)
             req.session['item_count'] += (item_count,)
         else:
