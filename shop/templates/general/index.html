@@ -40,7 +40,7 @@
                                 <div class="price">
                                     <a href="{{ new_item.get_item }}">{{ new_item.price }} <span>грн.</span></a>
                                 </div>
-                                <div class="btn">
+                                <div class="btn"  data-item="{{ new_item.inv }}" data-price="{{ new_item.price }}" data-price_opt="{{ new_item.price_opt }}">
                                     <a href="#">Купить</a>
                                 </div>
                           </div>
@@ -67,7 +67,7 @@
                                 <div class="price">
                                     <a href="{{ new_item.get_item }}">{{ new_item.price }} <span>грн.</span></a>
                                 </div>
-                                <div class="btn">
+                                <div class="btn" data-item="{{ new_item.inv }}" data-price="{{ new_item.price }}" data-price_opt="{{ new_item.price_opt }}">
                                     <a href="#">Купить</a>
                                 </div>
                           </div>

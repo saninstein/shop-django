@@ -121,7 +121,13 @@
                         {% if item.standards != '' %}
                             <div>
                                 <div class="chark-name">Стандарты</div>
-                                <div class="chark-value">{{ item.standards }} МП</div>
+                                <div class="chark-value">{{ item.standards }}</div>
+                            </div>
+                        {% endif %}
+                        {% if   item.sim_count %}
+                            <div>
+                                <div class="chark-name">Кол-во sim-карт</div>
+                                <div class="chark-value">{{ item.sim_count }}</div>
                             </div>
                         {% endif %}
                         {% if item.front_camera %}
@@ -132,7 +138,7 @@
                         {% endif %}
                         {% if item.front_camera_other != '' %}
                             <div>
-                                <div class="chark-name">Камера дополнительно</div>
+                                <div class="chark-name">Фронтальнаяя камера дополнительно</div>
                                 <div class="chark-value">{{ item.front_camera_other }}</div>
                             </div>
                         {% endif %}
@@ -163,7 +169,7 @@
                     {% endif %}
                     {% if item.count_core %}
                         <div>
-                            <div class="chark-name">Количесво ядер</div>
+                            <div class="chark-name">Кол-во ядер</div>
                             <div class="chark-value">{{ item.count_core }}</div>
                         </div>
                     {% endif %}

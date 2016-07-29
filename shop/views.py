@@ -361,7 +361,7 @@ def general(req):
     args = dict()
     args['about'] = Info.objects.get(pk=1)
     args['slides'] = Slide.objects.all()
-    l = [list(x.objects.order_by('-date')[:4]) for x in (Phone, Tablet, Notebook)]
+    l = [list(x.objects.order_by('-date')[:4]) for x in (Phone, Tablet, Notebook, Accessories, ForHome, ForMaster)]
     news = list()
     for x in l:
         news += x

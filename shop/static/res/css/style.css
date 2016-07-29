@@ -883,6 +883,10 @@ p{
 	text-align: left;
 }
 
+li{
+	list-style-position: inside;
+}
+
 .fa-heart{
 	color: #BBBBBB;
 }
