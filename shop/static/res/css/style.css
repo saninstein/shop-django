@@ -1271,6 +1271,15 @@ li{
 	text-decoration: underline;
 }
 
+#shares div{
+	height: 100% !important;
+	width: 30% !important;
+	font-size: 1rem;
+	margin-right: 20px;
+	margin-left: auto;
+	cursor: pointer;
+}
+
 .hidden{
 	visibility: hidden;
 }

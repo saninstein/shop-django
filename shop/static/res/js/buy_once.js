@@ -2,7 +2,7 @@
  * Created by шаша on 29.07.2016.
  */
 $(document).ready(function(){
-    $('.btn').click(function(){
+    $(document).on('click', '.btn',function(){
         var price = parseFloat($(this).data('price'));
         var item = parseInt($(this).data('item'));
         var basket = $.cookie('basket-price');
@@ -47,4 +47,6 @@ $(document).ready(function(){
        );
 
     });
+
+
 });

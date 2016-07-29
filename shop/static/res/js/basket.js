@@ -13,7 +13,6 @@ $(document).ready(function(){
     updateBasketPrice();
     $(document).on('cookieUpdate', function(){
         updateBasketPrice();
-        alert('!');
     });
 
     function updateBasketPrice(){

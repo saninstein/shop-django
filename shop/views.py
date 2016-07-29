@@ -459,8 +459,13 @@ def add_basket(req, remove=''):
                     pass
             return HttpResponse()
         print(req.POST.get('item'))
-        new_item = int(req.POST.get('item'))
-        item_count = int(req.POST.get('count'))
+        new_item = req.POST.get('item')
+        item_count = req.POST.get('count')
+        if new_item.isdigit() and item_count.isdigit():
+            new_item = int(new_item)
+            item_count = int(item_count)
+        else:
+            return HttpResponse()
         print(new_item, item_count)
         if not ('basket' in req.session):
             req.session['basket'] = ()
