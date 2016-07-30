@@ -39,7 +39,8 @@ def new_item(req, category='', inv=''):
             form = PhoneForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                form.save()
+                item.link_items = Category.objects.get(pk=1)
+                item.save()
                 return redirect(item.get_item())
             if item_inv:
                 args['url'] = reverse('new_item', kwargs={'category': 'phone', 'inv': item_inv})
@@ -50,7 +51,8 @@ def new_item(req, category='', inv=''):
             form = NotebookForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                form.save()
+                item.link_items = Category.objects.get(pk=3)
+                item.save()
                 return redirect(item.get_item())
             if item_inv:
                 args['url'] = reverse('new_item', kwargs={'category': 'notebook', 'inv': item_inv})
@@ -61,7 +63,8 @@ def new_item(req, category='', inv=''):
             form = TabletForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                form.save()
+                item.link_items = Category.objects.get(pk=2)
+                item.save()
                 return redirect(item.get_item())
             if item_inv:
                 args['url'] = reverse('new_item', kwargs={'category': 'tablet', 'inv': item_inv})

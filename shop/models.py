@@ -5,7 +5,7 @@ import string
 from os import remove, path, listdir, rmdir
 from django.db import models
 from django.core.exceptions import ValidationError
-from elektroswit.settings import ERROR_LOG, MEDIA_ROOT
+from elektroswit.settings import MEDIA_ROOT
 from django.db.models import Max, Q
 from django.contrib.auth.models import User
 
@@ -71,7 +71,7 @@ def get_inv():
     random.seed()
     num = []
     while True:
-        inv = random.randint(0, 99999999999)
+        inv = random.randint(0, 2111111111)
         a = [Phone.objects, Tablet.objects, Notebook.objects, Accessories.objects, ForMaster.objects, ForHome.objects,
              Share.objects]
         for i in a:
@@ -221,7 +221,6 @@ class Item(models.Model):
             for share in shares:
                 share.delete()
         path = '{0}/{1}/{2}/'.format(MEDIA_ROOT, self.link_category_id, self.name)
-        print(path)
         try:
             for file in listdir(path):
                 remove(path + file)
@@ -255,7 +254,7 @@ class Phone(Item):
     front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True, help_text='Размер камеры в МП')
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
     sim_count = models.IntegerField(verbose_name='Количество сим', default=1, blank=True)
-    link_category = models.ForeignKey(Category, default=1, editable=False)
+    link_category = models.ForeignKey(Category, blank=True, editable=False)
 
 
 class Tablet(Item):
@@ -263,13 +262,13 @@ class Tablet(Item):
     front_camera = models.IntegerField(verbose_name='Размер фронтальной камеры', default=0, blank=True)
     front_camera_other = models.CharField(verbose_name='Камера фронтальная дополнительно', max_length=100, blank=True)
     sim_count = models.IntegerField(verbose_name='Количество сим', default=0, blank=True)
-    link_category = models.ForeignKey(Category, default=2, editable=False)
+    link_category = models.ForeignKey(Category, blank=True, editable=False)
 
 
 class Notebook(Item):
     gpu = models.CharField(verbose_name='Видеокарта', max_length=300, blank=True, default='')
     optical_privod = models.CharField(verbose_name='Оптический привод', max_length=300, blank=True, default='')
-    link_category = models.ForeignKey(Category, default=3, editable=False)
+    link_category = models.ForeignKey(Category, blank=True, editable=False)
 
 
 class Accessories(Other):
