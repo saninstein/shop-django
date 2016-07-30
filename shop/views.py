@@ -9,8 +9,6 @@ from django.db.models import Q, Max, Min
 from shop.models import *
 from shop.forms import OrderForm, RegistrationForm
 from django.contrib.auth.models import User
-from django.utils import timezone
-from datetime  import timedelta
 
 
 def get_item(item_inv):
@@ -27,14 +25,12 @@ def get_item(item_inv):
 def item(req, item=''):
     args = dict(item=get_item(item))
     if args['item']:
-        print(args['item'].link_category)
         shares = Share.objects.filter(gen_item__exact=args['item'].inv).only('sec_item', 'discount').values()
         if shares:
             args['shares'] = list()
             for obj in shares:
                 args['shares'].append(dict(sec_item=get_item(str(obj['sec_item'])), discount=obj['discount'],
                                       inv=obj['inv'], price=obj['price']))
-                print(obj['price'])
         return render_to_response('item_phone/index.html', args, context_instance=RequestContext(req))
     else:
         return redirect('general')
@@ -442,8 +438,6 @@ def add_basket(req, remove=''):
         if remove:
             item = int(req.POST.get('item', ''))
             if 'basket' in req.session:
-                print(req.session['basket'])
-                print(req.session['item_count'])
                 basket = req.session['basket']
                 basket = list(basket)
                 try:
@@ -460,7 +454,6 @@ def add_basket(req, remove=''):
                 except ValueError:
                     pass
             return HttpResponse()
-        print(req.POST.get('item'))
         new_item = req.POST.get('item')
         item_count = req.POST.get('count')
         if new_item.isdigit() and item_count.isdigit():
@@ -468,24 +461,24 @@ def add_basket(req, remove=''):
             item_count = int(item_count)
         else:
             return HttpResponse()
-        print(new_item, item_count)
         if not ('basket' in req.session):
             req.session['basket'] = ()
+            req.session.set_expiry(0)
             req.session['item_count'] = ()
             req.session.set_expiry(0)
         if new_item not in req.session.get('basket'):
             req.session['basket'] += (new_item,)
+            req.session.set_expiry(0)
             req.session['item_count'] += (item_count,)
             req.session.set_expiry(0)
         else:
             pos = req.session['basket'].index(new_item)
             a = req.session['item_count']
+            req.session.set_expiry(0)
             a = list(a)
             a[pos] = item_count
             req.session['item_count'] = tuple(a)
             req.session.set_expiry(0)
-        print(req.session['basket'])
-        print(req.session['item_count'])
     return HttpResponse()
 
 
@@ -493,12 +486,10 @@ def show_basket(req, form=''):
     args = dict()
     args.update(csrf(req))
     if 'basket' in req.session:
-        print(req.session.get('basket', ''))
         items = req.session.get('basket', '')
         counts = req.session.get('item_count', '')
         args['items'] = list()
         for sale_item, count in zip(items, counts):
-            print(sale_item, count)
             args['items'].append([get_item(str(sale_item)), count])
         if form:
             args['form'] = form
@@ -532,7 +523,6 @@ def add_order(req):
             items = pickle.dumps(items)
             context = dict()
             context['items'] = l
-            print(l)
             order = form.save(commit=False)
             try:
                 client = Client.objects.get(email=order.email)
@@ -574,7 +564,6 @@ def add_order(req):
             )
             return redirect('general')
         else:
-            print(form.errors)
             return show_basket(req, form)
 
 
