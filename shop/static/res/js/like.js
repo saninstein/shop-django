@@ -17,7 +17,9 @@ $(document).ready(function(){
     });
     $('.fa-heart').click(function(){
         if(!$.cookie('liked')){
-            $.cookie('liked', "true");
+            $.cookie('liked', "true", {
+                expires: 100
+            });
             $.get('/ajax_like/' + $('#buy').data('item') + '/');
         }
 

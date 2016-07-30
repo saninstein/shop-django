@@ -10,6 +10,7 @@ from shop.models import *
 from shop.forms import OrderForm, RegistrationForm
 from django.contrib.auth.models import User
 from django.utils import timezone
+from datetime  import timedelta
 
 
 def get_item(item_inv):
@@ -429,7 +430,7 @@ def like(req, item=''):
         item = get_item(item)
         item.likes += 1
         item.save()
-        req.session.set_expiry(100)
+        req.session.set_expiry(8640000)
         req.session['like'] = True
         return HttpResponse(True)
     return HttpResponse(False)
@@ -471,15 +472,18 @@ def add_basket(req, remove=''):
         if not ('basket' in req.session):
             req.session['basket'] = ()
             req.session['item_count'] = ()
+            req.session.set_expiry(0)
         if new_item not in req.session.get('basket'):
             req.session['basket'] += (new_item,)
             req.session['item_count'] += (item_count,)
+            req.session.set_expiry(0)
         else:
             pos = req.session['basket'].index(new_item)
             a = req.session['item_count']
             a = list(a)
             a[pos] = item_count
             req.session['item_count'] = tuple(a)
+            req.session.set_expiry(0)
         print(req.session['basket'])
         print(req.session['item_count'])
     return HttpResponse()
