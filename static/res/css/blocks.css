@@ -1,7 +1,0 @@
-.wrp:nth-child(5n){
-    border-left: 3px solid white;
-}
-
-.wrp:first-child{
-    border-left: 3px solid white;
-}

@@ -4,6 +4,7 @@
 var first;
 var second;
 var discount;
+var val;
 $(document).ready(function () {
     $('input[type=submit]').click(function(){
         discount = $('#discount').val();
@@ -52,8 +53,9 @@ $(document).ready(function () {
             $('#ci1').load(search_str, function(){
                 $(this).show();
                 $('#ci1 li').click(function(){
-                    $('#first-item').val($('#ci1 li').data('name'));
-                    first = $('#ci1 li').data('inv');
+                    first = $(this).data('inv');
+                    val = $(this).data('name');
+                    $('#first-item').val(val);
                     console.log(first)
                 });
                 $('#first-item').focusout(function(){
@@ -76,8 +78,9 @@ $(document).ready(function () {
             $('#ci2').load(search_str, function(){
                 $(this).show();
                 $('#ci2 li').click(function(){
-                    $('#second-item').val($('#ci2 li').data('name'));
-                    second = $('#ci2 li').data('inv');
+                    second = $(this).data('inv');
+                    val = $(this).data('name');
+                    $('#second-item').val(val);
                     console.log(second)
                 });
                 $('#second-item').focusout(function(){
