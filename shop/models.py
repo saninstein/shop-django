@@ -64,7 +64,7 @@ def get_uniq_name(instance, filename):
 
 
 def upload_path(instance, filename):
-    return '{0}/{1}/{2}'.format(instance.link_category.id, instance.name, get_uniq_name(instance, filename))
+    return '{0}/{1}/{2}'.format(instance.link_category.id, instance.inv, get_uniq_name(instance, filename))
 
 
 def get_inv():
