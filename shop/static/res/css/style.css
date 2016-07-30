@@ -434,6 +434,11 @@ p{
 	margin: 0 auto;
 }
 
+#about p, #about u, #about b{
+	font-family: RobotoCondensedL;
+	font-size: 1.2rem;
+}
+
 #footer{
 	min-width: 900px;
 	overflow: hidden;

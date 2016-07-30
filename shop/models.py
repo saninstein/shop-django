@@ -97,9 +97,6 @@ class Category(models.Model):
 
 
 class Other(models.Model):
-    class Meta:
-        abstract = True
-        ordering = ["-date"]
     name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
     availability = models.CharField(max_length=100, verbose_name='Наличие', choices=available, default=available[0])
     photo = models.ImageField(verbose_name='Главное фото', upload_to=upload_path, blank=False,
@@ -117,6 +114,10 @@ class Other(models.Model):
     price_opt = models.DecimalField(verbose_name='Цена оптом', max_digits=20, decimal_places=2, default=0, help_text='Если не надо - оставить нулём')
     inv = models.IntegerField(editable=False, default=get_inv, primary_key=True)
     likes = models.IntegerField(editable=False, default=0)
+
+    class Meta:
+        abstract = True
+        ordering = ["-date"]
 
     def __str__(self):
         return self.name
@@ -164,9 +165,6 @@ class Other(models.Model):
 
 
 class Item(models.Model):
-    class Meta:
-        abstract = True
-        ordering = ["-date"]
     name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
     availability = models.CharField(max_length=100, verbose_name='Наличие', choices=available, default=available[0])
     photo = models.ImageField(verbose_name='Главное фото', upload_to=upload_path, blank=False, help_text='Обязательное поле')
@@ -202,10 +200,12 @@ class Item(models.Model):
     memory_other = models.CharField(verbose_name='Память дополнительно', max_length=200, blank=True)
 
     other = models.CharField(verbose_name='Дополнительно', max_length=200, blank=True)
-    link_items = models.ForeignKey(Items, default=1, editable=False)
     inv = models.IntegerField(editable=False, default=get_inv, primary_key=True)
     likes = models.IntegerField(editable=False, default=0)
 
+    class Meta:
+        abstract = True
+        ordering = ["-date"]
     def __str__(self):
         return self.name
 

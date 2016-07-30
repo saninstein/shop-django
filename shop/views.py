@@ -367,7 +367,7 @@ def general(req):
     news.sort(key=lambda i: i.date, reverse=True)
     args['new_items'] = news
     del news
-    l = [list(x.objects.order_by('-likes')[:4]) for x in (Phone, Tablet, Notebook)]
+    l = [list(x.objects.order_by('-likes')[:4]) for x in (Phone, Tablet, Notebook, Accessories, ForHome, ForMaster)]
     populars = list()
     for x in l:
         populars += x
