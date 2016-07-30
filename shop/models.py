@@ -155,9 +155,7 @@ class Other(models.Model):
                 if photo != '':
                     compress_img(photo.path, (800, 600))
         except BaseException as e:
-            f = open(ERROR_LOG, 'a')
-            f.write(e)
-            f.close()
+            pass
         finally:
             pass
 
@@ -244,9 +242,7 @@ class Item(models.Model):
                 if photo != '':
                     compress_img(photo.path, (800, 600))
         except BaseException as e:
-            f = open(ERROR_LOG, 'a')
-            f.write(e)
-            f.close()
+            pass
         finally:
             pass
 
