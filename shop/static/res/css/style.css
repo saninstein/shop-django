@@ -429,8 +429,9 @@ p{
 #about{
 	font-family: RobotoCondensedL;
 	font-size: 1.2rem;
-	margin: 0 300px;
-	text-align: left;
+	display: block;
+	width: 80%;
+	margin: 0 auto;
 }
 
 #footer{
@@ -1283,3 +1284,4 @@ li{
 .hidden{
 	visibility: hidden;
 }
+
