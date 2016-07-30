@@ -39,7 +39,7 @@ def new_item(req, category='', inv=''):
             form = PhoneForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                item.link_items = Category.objects.get(pk=1)
+                item.link_category = Category.objects.get(pk=1)
                 item.save()
                 return redirect(item.get_item())
             if item_inv:
@@ -51,7 +51,7 @@ def new_item(req, category='', inv=''):
             form = NotebookForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                item.link_items = Category.objects.get(pk=3)
+                item.link_category = Category.objects.get(pk=3)
                 item.save()
                 return redirect(item.get_item())
             if item_inv:
@@ -63,7 +63,7 @@ def new_item(req, category='', inv=''):
             form = TabletForm(req.POST, req.FILES, instance=item or None)
             if form.is_valid():
                 item = form.save(commit=False)
-                item.link_items = Category.objects.get(pk=2)
+                item.link_category = Category.objects.get(pk=2)
                 item.save()
                 return redirect(item.get_item())
             if item_inv:
