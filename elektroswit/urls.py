@@ -17,9 +17,16 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from shop.models import ShopSitemap, StaticSitemap
+
+sitemaps = {
+    'posts': ShopSitemap,
+    'static': StaticSitemap,
+}
 
 urlpatterns = [
     url(r'^adminpanel/', include('adminpanel.url')),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('shop.urls')),
 ]

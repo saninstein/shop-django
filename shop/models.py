@@ -8,7 +8,8 @@ from django.core.exceptions import ValidationError
 from elektroswit.settings import MEDIA_ROOT
 from django.db.models import Max, Q
 from django.contrib.auth.models import User
-
+from django.contrib.sitemaps import Sitemap
+from django.core.urlresolvers import reverse
 available = (('is', "В наличии"), ('c', "Под заказ"))
 cores = ((1, '1'), (2, '2'), (3, '3'), (4, '4'), (6, '6'), (8, '8'), (12, '12'))
 modes = ((0, 'Гаджеты'), (1, 'Акссесуары'), (2, 'Для Мастера'), (3, 'Для Дома'))
@@ -163,6 +164,9 @@ class Other(models.Model):
     def get_item(self):
         return '/item/' + str(self.inv)
 
+    def get_absolute_url(self):
+        return '/item/' + str(self.inv)
+
 
 class Item(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название', help_text='Введите название', default='')
@@ -206,6 +210,7 @@ class Item(models.Model):
     class Meta:
         abstract = True
         ordering = ["-date"]
+
     def __str__(self):
         return self.name
 
@@ -246,6 +251,9 @@ class Item(models.Model):
             pass
 
     def get_item(self):
+        return '/item/' + str(self.inv)
+
+    def get_absolute_url(self):
         return '/item/' + str(self.inv)
 
 
@@ -360,3 +368,32 @@ class UserProfile(models.Model):
 
 class Info(models.Model):
     text = models.TextField(blank=False, default='')
+
+
+class ShopSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.5
+
+    def items(self):
+        itms = [x.objects.all() for x in (Phone, Tablet, Notebook, Accessories, ForMaster, ForHome)]
+        l = []
+        for itm in itms:
+            l += list(itm)
+            del itm
+        return l
+
+class StaticSitemap(Sitemap):
+    changefreq = "yearly"
+    priority = 0.5
+
+    def items(self):
+        return ['general', 'info_d', 'info_p']
+
+    def location(self, item):
+        if item == 'general':
+            return reverse('general')
+        elif item[-1] == 'd':
+            return reverse('info', kwargs={'category': 'delivery'})
+        else:
+            return reverse('info', kwargs={'category': 'payment'})
+
