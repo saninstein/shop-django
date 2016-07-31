@@ -1,6 +1,6 @@
 import pickle, hashlib, datetime, random
 from django.template.loader import get_template
-from django.core.mail import send_mail
+from django.core import mail
 from django.shortcuts import render_to_response, get_object_or_404, redirect, RequestContext, render
 from django.views.decorators.csrf import csrf_exempt
 from django.core.context_processors import csrf
@@ -542,26 +542,47 @@ def add_order(req):
             context['payment'] = Info.objects.get(pk=4)
             del req.session['basket']
             del req.session['item_count']
-            send_mail(
+            connection = mail.get_connection()
+            email1 = mail.EmailMessage(
                 'ELEKTROSWIT: Спасибо за покупку!',
-                ' ',
-                'elekto-swit@yandex.ru',
+                ''.join(str(get_template('mail_order_usr/index.html').render(context))),
+                'elektro-swit@yandex.ru',
                 [order.email],
-                fail_silently=True,
-                html_message=get_template('mail_order_usr/index.html').render(context)
+                connection=connection
             )
             context['to_admin'] = True
             context['email'] = order.email
             context['message'] = order.message
             context['phone'] = order.phone
-            send_mail(
+            email2 = mail.EmailMessage(
                 'ELEKTROSWIT: Поступил новый заказ!',
-                ' ',
-                'elekto-swit@yandex.ru',
+                ''.join(str(get_template('mail_order_usr/index.html').render(context))),
+                'elektro-swit@yandex.ru',
                 ['saninstein@yandex.ua'],
-                fail_silently=True,
-                html_message=get_template('mail_order_usr/index.html').render(context)
+                connection=connection
             )
+            email1.content_subtype = 'html'
+            email2.content_subtype = 'html'
+            email1.send(fail_silently=True)
+            email2.send(fail_silently=True)
+            connection.close()
+            # send_mail(
+            #     'ELEKTROSWIT: Спасибо за покупку!',
+            #     ' ',
+            #     'elekto-swit@yandex.ru',
+            #     [order.email],
+            #     fail_silently=True,
+            #     html_message=get_template('mail_order_usr/index.html').render(context)
+            # )
+
+            # send_mail(
+            #     'ELEKTROSWIT: Поступил новый заказ!',
+            #     ' ',
+            #     'elekto-swit@yandex.ru',
+            #     ['saninstein@yandex.ua'],
+            #     fail_silently=True,
+            #     html_message=get_template('mail_order_usr/index.html').render(context)
+            # )
             return redirect('general')
         else:
             return show_basket(req, form)
