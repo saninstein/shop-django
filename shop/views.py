@@ -636,3 +636,7 @@ def info(req, category=""):
         args['info'] = Info.objects.get(pk=4)
         args['title'] = "Гарантия"
     return render_to_response('info/index.html', args, context_instance=RequestContext(req))
+
+
+def robots(req):
+    return render_to_response('robots.txt', content_type='text/plain')

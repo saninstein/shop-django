@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from shop import views
 
+
 urlpatterns = [
     url(r'^$', views.general, name='general'),
     url(r'^item/(?P<item>\d+)/$', views.item, name='item_phone'),
@@ -26,4 +27,5 @@ urlpatterns = [
     url(r'^add_order/$', views.add_order, name='add_order'),
     url(r'^register/$', views.register_user, name='register'),
     url(r'^info/(?P<category>[\w\-]+)/$', views.info, name='info'),
+    url(r'^robots\.txt$', views.robots),
 ]
