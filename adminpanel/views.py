@@ -10,6 +10,7 @@ from adminpanel.form import PhoneForm, TabletForm, NotebookForm, SlideForm, Acce
     InfoForm, ClientForm
 from shop.models import *
 from shop.views import get_item
+from elektroswit.settings import EMAIL_HOST_USER
 import pickle
 
 
@@ -218,8 +219,12 @@ def show_items(req, category='', client=''):
             for item, count in items:
                 item = get_item(str(item))
                 if item:
-                    order['items'] += '{1}x<a href="{2}">{0}</a><br>'.format(item.name, count, item.get_item())
-                    if item.price_opt and count > 1:
+                    if type(item) == Share:
+                        link = ''
+                    else:
+                        link = item.get_item()
+                    order['items'] += '{1}x<a href="{2}">{0}</a><br>'.format(item.name, count, link)
+                    if type(item) != Share and item.price_opt and count > 1:
                         order.update(price=item.price_opt * count)
                     else:
                         order.update(price=item.price * count)
@@ -381,7 +386,7 @@ def client_edit(req, client_id=''):
                         'Поздравляем! При оформлении заказа по вашему e-mail вам будет предоставлена {0}% скидка!'.format(
                             obj.discount
                         ),
-                        'elekto-swit@yandex.ru',
+                        EMAIL_HOST_USER,
                         [obj.email],
                         fail_silently=True,
                     )

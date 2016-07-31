@@ -9,6 +9,7 @@ from django.db.models import Q, Max, Min
 from shop.models import *
 from shop.forms import OrderForm, RegistrationForm
 from django.contrib.auth.models import User
+from elektroswit.settings import EMAIL_HOST_USER
 
 
 def get_item(item_inv):
@@ -546,7 +547,7 @@ def add_order(req):
             email1 = mail.EmailMessage(
                 'ELEKTROSWIT: Спасибо за покупку!',
                 ''.join(str(get_template('mail_order_usr/index.html').render(context))),
-                'elektro-swit@yandex.ru',
+                EMAIL_HOST_USER,
                 [order.email],
                 connection=connection
             )
@@ -557,7 +558,7 @@ def add_order(req):
             email2 = mail.EmailMessage(
                 'ELEKTROSWIT: Поступил новый заказ!',
                 ''.join(str(get_template('mail_order_usr/index.html').render(context))),
-                'elektro-swit@yandex.ru',
+                EMAIL_HOST_USER,
                 ['saninstein@yandex.ua'],
                 connection=connection
             )
@@ -616,13 +617,7 @@ def register_user(req):
                                       key_expires=key_expires)
             new_profile.save()
 
-            send_mail(
-                'Подтверждение регистрации',
-                'Спасибо за регистрацию. Активируйте свой аккаунт в течении 48 часов http://127.0.0.1:8000/confirm_mail/%s' % (activation_key),
-                'elekto-swit@yandex.ru',
-                [email],
-                fail_silently=True
-            )
+
             return render_to_response()
     else:
         args['form'] = RegistrationForm()
